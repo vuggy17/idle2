@@ -1,0 +1,10 @@
+{
+  "name": "@types/idle__env",
+  "private": true,
+  "types": "./__all.d.ts",
+  "type": "module",
+  "dependencies": {
+    "@idle/env": "workspace:*"
+  },
+  "version": "0.0.0"
+}

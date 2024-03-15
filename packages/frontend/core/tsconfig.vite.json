@@ -1,0 +1,19 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "verbatimModuleSyntax": false,
+    "resolveJsonModule": true,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./lib/.vite"
+  },
+  "include": ["vite.config.ts"],
+  "references": [
+    {
+      "path": "../../common/env"
+    }
+  ]
+}

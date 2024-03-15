@@ -1,0 +1,28 @@
+// For format details, see https://aka.ms/devcontainer.json.
+{
+  "name": "Debian",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    },
+    "ghcr.io/joshuanianji/devcontainer-features/mount-pnpm-store:1": {}
+  },
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-playwright.playwright",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+        "nrwl.angular-console"
+      ]
+    },
+  },
+  "remoteUser": "root",
+  "updateContentCommand": "bash ./.devcontainer/build.sh",
+  "postCreateCommand": "git config --global --add safe.directory /workspaces/idle2 && bash ./.devcontainer/setup-user.sh",
+  "postAttachCommand": "pnpm dev:web"
+}
