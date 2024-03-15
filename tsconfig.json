@@ -1,0 +1,72 @@
+{
+  "compilerOptions": {
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "exactOptionalPropertyTypes": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
+    "useUnknownInCatchVariables": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "types": ["idle__env"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "allowJs": false,
+    "checkJs": false,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "composite": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@idle/component": ["./packages/frontend/component/src/index"],
+      "@idle/component/*": [
+        "./packages/frontend/component/src/components/*/index",
+        "./packages/frontend/component/src/components/*"
+      ],
+      "@idle/core/*": ["./packages/frontend/core/*"],
+      "@idle/env": ["./packages/common/env/src"],
+      "@idle/env/*": ["./packages/common/env/src/*"],
+      "@idle/http": ["./packages/frontend/http/src/index"],
+      "@idle/model/*": ["./packages/common/model/src/index"],
+      "@idle/server/*": ["./packages/backend/server/src/*"]
+    }
+  },
+  "include": [],
+  "references": [
+    {
+      "path": "./packages/backend/server"
+    },
+    {
+      "path": "./packages/frontend/core"
+    },
+    {
+      "path": "./packages/frontend/component"
+    },
+    {
+      "path": "./packages/frontend/http"
+    },
+    {
+      "path": "./packages/common/env"
+    },
+  ],
+  "files": [],
+  "exclude": ["node_modules", "lib"]
+}
