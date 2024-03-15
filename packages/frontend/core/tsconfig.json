@@ -1,0 +1,26 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "typeRoots": ["../../../node_modules", "../../../node_modules/@types"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
+  "exclude": ["node_modules"],
+  "references": [
+    {
+      "path": "../../frontend/component"
+    },
+    {
+      "path": "../../frontend/http"
+    },
+    {
+      "path": "../../common/model"
+    },
+    {
+      "path": "../../common/env"
+    },
+    {
+      "path": "./tsconfig.vite.json"
+    }
+  ]
+}
