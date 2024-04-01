@@ -1,5 +1,5 @@
 import { fetcher } from '@idle/http';
-import { Account } from 'appwrite';
+import { Account, type Models } from 'appwrite';
 import { useCallback } from 'react';
 
 import { AppWriteClient } from '../../../providers/appwrite-client';
@@ -10,7 +10,11 @@ class AuthGateway {
   foo = 'this do nothing';
 
   async createAnonymousSession() {
-    return this.accountGateway.createAnonymousSession();
+    this.accountGateway.createAnonymousSession();
+  }
+
+  async getCurrentLoggedInUser() {
+    return this.accountGateway.get();
   }
 
   async requestJwt() {
@@ -18,7 +22,7 @@ class AuthGateway {
   }
 }
 
-export const authGateway = new AuthGateway(new Account(AppWriteClient));
+const authGateway = new AuthGateway(new Account(AppWriteClient));
 
 async function createAnonymousSession() {
   return authGateway.createAnonymousSession();
@@ -26,16 +30,16 @@ async function createAnonymousSession() {
 
 export function useAuth() {
   const anonymousSignIn = useCallback(async () => {
-    // const session = await createAnonymousSession();
+    // try {
+    //   await authGateway.getCurrentLoggedInUser();
+    // } catch (error) {
+    //   await authGateway.createAnonymousSession();
+    // }
     // const token = await authGateway.requestJwt();
-
     const token = {
-      jwt: 'fake-token',
+      jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI2NjBhZDhkMjQ0MWEzNDgwN2U3YSIsInNlc3Npb25JZCI6IjY2MGFkOGQyNTM4MDA3ZWY3Mzk4IiwiZXhwIjoxNzExOTg4MTMxfQ.DFqz75_J6IMoBRuIpxA7eX7rvMOXf-CQPI0Xoqg3HHQ',
     };
-    const session = {
-      userId: 'user_0',
-    };
-    await fetcher.auth.handshake(token.jwt, session.userId);
+    await fetcher.auth.authenticate(token.jwt);
   }, []);
 
   return { anonymousSignIn };

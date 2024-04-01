@@ -9,14 +9,12 @@ const rooms = Array.from({ length: 6 }, (_, index) => ({
 
 export function RoomList() {
   return (
-    <div>
-      <List
-        split
-        dataSource={rooms}
-        renderItem={(room) => (
-          <Room key={room.id} id={room.id} name={room.name} />
-        )}
-      />
-    </div>
+    <List
+      split={false}
+      dataSource={rooms}
+      renderItem={(room) => (
+        <Room key={room.id} id={room.id} name={room.name} />
+      )}
+    />
   );
 }

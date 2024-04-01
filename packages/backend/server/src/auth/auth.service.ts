@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -9,8 +10,10 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
+import { Account, Client, Users } from 'node-appwrite';
 
 import { SecurityConfig } from '../common/configs/config.interface';
+import { APPWRITE_CLIENT } from '../common/configs/injection-token';
 import { assertExists } from '../utils/assert-exist';
 import { SignupInput } from './dto/signup.input';
 import { Token } from './models/token.model';
@@ -23,6 +26,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
     private readonly configService: ConfigService,
+    @Inject(APPWRITE_CLIENT) private readonly appwriteClient: Client,
   ) {}
 
   async createUser(payload: SignupInput): Promise<Token> {
@@ -74,10 +78,18 @@ export class AuthService {
     });
   }
 
-  async validateUser(userId: string): Promise<User> {
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
-    assertExists(user);
-    return user;
+  async validateUser(userId: string): Promise<User | null> {
+    try {
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      assertExists(user);
+      return user;
+    } catch (error) {
+      // check if whether they are guest
+      // const sdk = new Users(this.appwriteClient);
+      // const user = await sdk.get(userId);
+      // return (user as unknown as User) || null;
+      return null;
+    }
   }
 
   async getUserFromToken(token: string): Promise<User> {
@@ -121,7 +133,13 @@ export class AuthService {
     }
   }
 
-  async validateToken(token: string, userId: string) {
-    return true;
+  async validateToken(token: string) {
+    try {
+      const auth = new Account(this.appwriteClient.setJWT(token));
+      const user = await auth.get();
+      return user;
+    } catch (error) {
+      return false;
+    }
   }
 }

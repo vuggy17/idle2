@@ -41,3 +41,5 @@ lib
 Thumbs.db
 
 .nx/cache
+
+.env

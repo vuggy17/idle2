@@ -25,6 +25,11 @@ const config: Config = {
     refreshIn: '7d',
     bcryptSaltOrRound: 10,
   },
+  appwrite: {
+    host: process.env.APPWRITE_PROJECT_HOST || '',
+    projectId: process.env.APPWRITE_PROJECT_ID || '',
+    apiKey: process.env.APPWRITE_API_KEY || '',
+  },
 };
 
 export default (): Config => config;

@@ -1,4 +1,5 @@
-import { Avatar, Flex, List, Typography } from 'antd';
+import { Avatar, ConfigProvider, Flex, List, Typography } from 'antd';
+import { useContext } from 'react';
 
 import { roomTitleStyle, wrapper } from './room.css';
 
@@ -8,8 +9,14 @@ type RoomProps = {
 };
 
 export function Room({ name, id }: RoomProps) {
+  const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
+
+  const parentPrefix = getPrefixCls('list');
+  const activeItemPrefix = `${parentPrefix}-item--active`;
+
+  const isActive = id === '2';
   return (
-    <List.Item className={wrapper}>
+    <List.Item className={`${wrapper} ${isActive ? activeItemPrefix : ''}`}>
       <Flex gap={16}>
         <Avatar size={46} src="https://source.unsplash.com/random" />
         <div>

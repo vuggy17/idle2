@@ -10,9 +10,7 @@ export function SignIn({ onSignedIn }: AuthPanelProps) {
   const { anonymousSignIn } = useAuth();
   const { reload } = useSession();
   const onAnonymousSigningClick = async () => {
-    const session = await anonymousSignIn();
-    console.log('🚀 ~ onAnonymousSigningClick ~ session:', session);
-
+    await anonymousSignIn();
     await reload();
     onSignedIn?.();
   };

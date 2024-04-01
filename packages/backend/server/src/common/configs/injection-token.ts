@@ -1,0 +1,1 @@
+export const APPWRITE_CLIENT = 'APPWRITE';

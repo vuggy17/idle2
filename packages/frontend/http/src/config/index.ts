@@ -13,20 +13,9 @@ const accountProvider = new Account(appwrite);
 const API_PREFIX = '/api';
 const axiosClient = axios.create({
   baseURL: API_PREFIX,
-  // withCredentials: true,
+  withCredentials: false,
 });
 
-axiosClient.interceptors.request.use((config) => {
-  const tokenOrNull = localStorage.getItem('jwt') ?? '';
-  const userIdOrNull = localStorage.getItem('user_id') ?? '';
-  if (tokenOrNull) {
-    config.headers.setAuthorization(`Bearer ${JSON.parse(tokenOrNull)}`);
-  }
-  if (userIdOrNull) {
-    config.headers.set('x-user-id', JSON.stringify(userIdOrNull));
-  }
-  return config;
-});
 axiosClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -56,7 +45,7 @@ export class APICollection {
     readonly client = axiosClient,
   ) {}
 
-  createUrl(path: string) {
+  getUrl(path: string) {
     return `${this.collectionPrefix}/${path}`;
   }
 }

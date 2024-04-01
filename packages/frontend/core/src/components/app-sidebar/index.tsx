@@ -1,13 +1,13 @@
 import type { PropsWithChildren } from 'react';
 
-import { wrapper } from './index.css';
+import { inner, wrapper } from './index.css';
 import { SidebarHeader } from './sidebar-header';
 
 export function AppSidebar({ children }: PropsWithChildren) {
   return (
     <div className={wrapper}>
       <SidebarHeader />
-      {children}
+      <div className={inner}>{children}</div>
     </div>
   );
 }

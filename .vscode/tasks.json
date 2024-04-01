@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start dev client",
+      "type": "npm",
+      "script": "dev:web",
+      "detail": "nx dev @idle/core",
+      "problemMatcher": []
+    },
+    {
+      "label": "Start dev server",
+      "type": "npm",
+      "script": "dev:server",
+      "detail": "nx dev @idle/server",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Start dev db",
+      "type": "npm",
+      "script": "dev:db",
+      "detail": "nx docker:db @idle/server",
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "Start dev",
+      "detail": "Start both dev client and server",
+      "type": "shell",
+      "dependsOn": [
+        "Start dev server",
+        "Start dev client"
+      ],
+      "problemMatcher": [],
+    }
+  ],
+}

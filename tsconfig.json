@@ -45,7 +45,7 @@
       "@idle/env": ["./packages/common/env/src"],
       "@idle/env/*": ["./packages/common/env/src/*"],
       "@idle/http": ["./packages/frontend/http/src/index"],
-      "@idle/model/*": ["./packages/common/model/src/index"],
+      "@idle/model": ["./packages/common/model/src/index"],
       "@idle/server/*": ["./packages/backend/server/src/*"]
     }
   },
@@ -66,6 +66,9 @@
     {
       "path": "./packages/common/env"
     },
+    {
+      "path": "./packages/common/model"
+    }
   ],
   "files": [],
   "exclude": ["node_modules", "lib"]

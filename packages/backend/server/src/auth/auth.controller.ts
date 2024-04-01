@@ -8,6 +8,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
+import { Public } from '../common/decorators/public-route.decorator';
 import { AuthService } from './auth.service';
 import { HandshakeInput } from './dto/handshake.input';
 
@@ -16,25 +17,25 @@ import { HandshakeInput } from './dto/handshake.input';
 export class AuthController {
   constructor(readonly authService: AuthService) {}
 
+  @Public()
   @Post('handshake')
   async handshake(
     @Res({ passthrough: true }) res: Response,
-    @Body() { token, userId }: HandshakeInput,
+    @Body() { token }: HandshakeInput,
   ) {
     // validate token
-    const isValid = await this.authService.validateToken(token, userId);
+    const user = await this.authService.validateToken(token);
 
-    if (isValid) {
-      res.cookie('access_token', token, {
+    if (user) {
+      const tokens = this.authService.generateTokens({ userId: user.$id });
+      res.cookie('access_token', tokens.accessToken, {
         sameSite: 'lax',
         httpOnly: true,
       });
-      res.cookie('user_id', userId, {
+      res.cookie('refresh_token', tokens.refreshToken, {
         sameSite: 'lax',
         httpOnly: true,
       });
-    }
-    return 1;
-    throw new BadRequestException('Token invalid');
+    } else throw new BadRequestException('Token invalid');
   }
 }

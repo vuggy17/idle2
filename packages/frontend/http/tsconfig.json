@@ -1,15 +1,22 @@
 {
   "extends": "../../../tsconfig.json",
-  "include": ["src/**/*.ts"],
+  "include": [
+    "src/**/*.ts"
+  ],
   "compilerOptions": {
-    "composite": true,
-    "noEmit": false,
+    // "composite": true,
+    // "noEmit": false,
     "outDir": "lib"
   },
   "references": [
     {
       "path": "../../common/env"
+    },
+    {
+      "path": "../../common/model"
     }
   ],
-  "exclude": ["lib"]
+  "exclude": [
+    "lib", "node_modules"
+  ]
 }
