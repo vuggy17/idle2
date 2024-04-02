@@ -10,7 +10,7 @@ import { Response } from 'express';
 
 import { Public } from '../common/decorators/public-route.decorator';
 import { AuthService } from './auth.service';
-import { HandshakeInput } from './dto/handshake.input';
+import { AuthenticateInput } from './dto/authenticate.input';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -18,10 +18,10 @@ export class AuthController {
   constructor(readonly authService: AuthService) {}
 
   @Public()
-  @Post('handshake')
-  async handshake(
+  @Post('authenticate')
+  async generateTokens(
     @Res({ passthrough: true }) res: Response,
-    @Body() { token }: HandshakeInput,
+    @Body() { token }: AuthenticateInput,
   ) {
     // validate token
     const user = await this.authService.validateToken(token);

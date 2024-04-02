@@ -23,7 +23,7 @@ const anonymousUser: UserDTO = {
 const isCurrentUserAGuest = async () => {
   try {
     const accountSdk = new Account(AppWriteClient);
-    await accountSdk.get();
+    await accountSdk.getSession('current');
     return true;
   } catch (error) {
     return false;
@@ -31,15 +31,26 @@ const isCurrentUserAGuest = async () => {
 };
 
 const fetchMe = async () => {
-  const { user, success } = await fetcher.user.getMe(isCurrentUserAGuest);
+  const { user, success } = await fetcher.user.getMe();
+
   if (success) {
-    return user || anonymousUser;
+    return user;
+  }
+
+  const isGuest = await isCurrentUserAGuest();
+  if (isGuest) {
+    return anonymousUser;
   }
   return null;
 };
 
 export function useSession(): AuthSessionWithReload {
-  const { data, isLoading, mutate } = useSWR('session', fetchMe);
+  const { data, isLoading, mutate } = useSWR('session', fetchMe, {
+    errorRetryCount: 3,
+    errorRetryInterval: 500,
+    shouldRetryOnError: true,
+    suspense: false,
+  });
 
   return {
     user: data,

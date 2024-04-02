@@ -7,6 +7,6 @@ export type AuthAtom = {
 };
 
 export const authAtom = atom<AuthAtom>({
-  openModal: true,
+  openModal: false,
   state: 'signIn',
 });

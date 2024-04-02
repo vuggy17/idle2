@@ -7,7 +7,7 @@ class AuthCollection extends APICollection {
    * @param userId
    */
   authenticate(token: string) {
-    return this.client.post(this.getUrl('handshake'), {
+    return this.client.post(this.getUrl('authenticate'), {
       token,
     });
   }

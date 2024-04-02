@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class HandshakeInput {
+export class AuthenticateInput {
   @IsNotEmpty()
   @IsString()
   token: string;
