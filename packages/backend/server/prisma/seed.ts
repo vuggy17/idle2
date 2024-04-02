@@ -26,7 +26,20 @@ async function main() {
     },
   });
 
-  console.log({ user1, user2 });
+  const user3 = await prisma.user.create({
+    data: {
+      id: '660bcb59206e15104ba3',
+      createdAt: '2024-04-02T14:18:21.890Z',
+      updatedAt: '2024-04-02T14:17:31.193Z',
+      email: 'nutriboost17z@gmail.com',
+      password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm',
+      firstname: 'Duy',
+      lastname: 'Vu Dang Khuong',
+      role: 'ADMIN',
+    },
+  });
+
+  console.log({ user1, user2, user3 });
 }
 
 main()

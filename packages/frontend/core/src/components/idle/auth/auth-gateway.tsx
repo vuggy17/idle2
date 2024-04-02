@@ -20,7 +20,7 @@ class AuthGateway {
   }
 
   async sendMagicUrl(email: string) {
-    const PLATFORM_VERIFY_URL = `${window.location.origin}/auth/verify`;
+    const PLATFORM_VERIFY_URL = `${window.location.origin}/auth/verify-email`;
 
     return this.accountGateway.createMagicURLSession(
       ID.unique(),

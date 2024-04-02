@@ -1,6 +1,8 @@
 import { Avatar, Button, Form, Input, Space, Typography } from 'antd';
 
 import logo from '../../../assets/logo.png';
+import { useCurrentLoginStatus } from '../../../hooks/use-current-login-status';
+import useNavigateHelper from '../../../hooks/use-navigate-helper';
 import { useSession } from '../../../hooks/use-session';
 import type { AuthPanelProps } from './panel';
 import {
@@ -19,7 +21,9 @@ export function SignInWithEmail({
   setAuthEmail,
 }: AuthPanelProps) {
   const { anonymousSignIn, magicUrlSignIn } = useAuth();
-  const { reload } = useSession();
+  const loginStatus = useCurrentLoginStatus();
+  const { reload, user } = useSession();
+  const { jumpToIndex } = useNavigateHelper();
 
   const onAnonymousSigningClick = async () => {
     await anonymousSignIn();
@@ -29,6 +33,13 @@ export function SignInWithEmail({
 
   const onLoginWithEmail = async ({ email }: { email: string }) => {
     setAuthEmail(email);
+
+    if (loginStatus === 'authenticated' && email === user?.email) {
+      onSignedIn?.();
+      jumpToIndex();
+      return;
+    }
+
     await magicUrlSignIn(email);
     setAuthState('afterSignInWithEmail');
   };

@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ConflictException,
   Inject,
   Injectable,
   NotFoundException,
@@ -8,13 +7,13 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Prisma, User } from '@prisma/client';
-import { PrismaService } from 'nestjs-prisma';
+import { User } from '@prisma/client';
 import { Account, Client } from 'node-appwrite';
 
 import { SecurityConfig } from '../common/configs/config.interface';
 import { APPWRITE_CLIENT } from '../common/configs/injection-token';
 import { assertExists } from '../utils/assert-exist';
+import { AuthRepository } from './auth.repository';
 import { SignupInput } from './dto/signup.input';
 import { Token } from './models/token.model';
 import { PasswordService } from './password.service';
@@ -23,9 +22,9 @@ import { PasswordService } from './password.service';
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
     private readonly configService: ConfigService,
+    private readonly repository: AuthRepository,
     @Inject(APPWRITE_CLIENT) private readonly appwriteClient: Client,
   ) {}
 
@@ -34,31 +33,18 @@ export class AuthService {
       payload.password,
     );
 
-    try {
-      const user = await this.prisma.user.create({
-        data: {
-          ...payload,
-          password: hashedPassword,
-          role: 'USER',
-        },
-      });
+    const user = await this.repository.createUser({
+      ...payload,
+      password: hashedPassword,
+    });
 
-      return this.generateTokens({
-        userId: user.id,
-      });
-    } catch (e) {
-      if (
-        e instanceof Prisma.PrismaClientKnownRequestError &&
-        e.code === 'P2002'
-      ) {
-        throw new ConflictException(`Email ${payload.email} already used.`);
-      }
-      throw new Error(e);
-    }
+    return this.generateTokens({
+      userId: user.id,
+    });
   }
 
   async login(email: string, password: string): Promise<Token> {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    const user = await this.repository.findByEmail(email);
 
     if (!user) {
       throw new NotFoundException(`No user found for email: ${email}`);
@@ -79,24 +65,14 @@ export class AuthService {
   }
 
   async validateUser(userId: string): Promise<User | null> {
-    try {
-      console.log('cccc');
-      const user = await this.prisma.user.findUnique({ where: { id: userId } });
-      assertExists(user);
-      return user;
-    } catch (error) {
-      // check if whether they are guest
-      // const sdk = new Users(this.appwriteClient);
-      // const user = await sdk.get(userId);
-      // return (user as unknown as User) || null;
-      return null;
-    }
+    const user = await this.repository.findById(userId);
+    return user;
   }
 
   async getUserFromToken(token: string): Promise<User> {
     const id = (this.jwtService.decode(token) as any).userId || '';
-    const user = await this.prisma.user.findUnique({ where: { id } });
-    assertExists(user);
+    const user = await this.repository.findById(id);
+    assertExists(user, 'No user found');
     return user;
   }
 
@@ -130,7 +106,6 @@ export class AuthService {
         userId,
       });
     } catch (e) {
-      console.log('ccccc');
       throw new UnauthorizedException();
     }
   }

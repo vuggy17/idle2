@@ -1,6 +1,6 @@
 import { type UserDTO } from '@idle/model';
 
-import { APICollection } from '../config';
+import { APICollection } from '../config/api-collection';
 
 class UserCollection extends APICollection {
   async getMe(): Promise<{

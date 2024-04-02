@@ -1,4 +1,4 @@
-import { APICollection } from '../config';
+import { APICollection } from '../config/api-collection';
 
 class AuthCollection extends APICollection {
   /**
@@ -10,10 +10,6 @@ class AuthCollection extends APICollection {
     return this.client.post(this.getUrl('authenticate'), {
       token,
     });
-  }
-
-  refresh() {
-    return this.client.post(this.getUrl('refresh'));
   }
 }
 

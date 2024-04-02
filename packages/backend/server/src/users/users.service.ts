@@ -4,21 +4,18 @@ import { PrismaService } from 'nestjs-prisma';
 import { PasswordService } from '../auth/password.service';
 import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
     private prisma: PrismaService,
     private passwordService: PasswordService,
+    private repository: UserRepository,
   ) {}
 
   updateUser(userId: string, newUserData: UpdateUserInput) {
-    return this.prisma.user.update({
-      data: newUserData,
-      where: {
-        id: userId,
-      },
-    });
+    return this.repository.updateUserData(userId, newUserData);
   }
 
   async changePassword(
@@ -39,11 +36,8 @@ export class UsersService {
       changePassword.newPassword,
     );
 
-    return this.prisma.user.update({
-      data: {
-        password: hashedPassword,
-      },
-      where: { id: userId },
+    return this.repository.updateUserData(userId, {
+      password: hashedPassword,
     });
   }
 }

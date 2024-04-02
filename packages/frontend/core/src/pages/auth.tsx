@@ -53,7 +53,6 @@ export function Component() {
   const loginStatus = useCurrentLoginStatus();
   const { jumpToExpired } = useNavigateHelper();
 
-  console.log('🚀 ~ Component ~ loginStatus:', loginStatus);
   if (loginStatus === 'unauthenticated') {
     jumpToExpired();
   }

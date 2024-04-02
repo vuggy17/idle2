@@ -18,6 +18,7 @@ export class UserController {
 
   @Get('me')
   async me(@AuthUser() user: User): Promise<User> {
+    console.log(user);
     return user;
   }
 

@@ -11,6 +11,7 @@ import {
 import { APPWRITE_CLIENT } from '../common/configs/injection-token';
 import { assertExists } from '../utils/assert-exist';
 import { AuthController } from './auth.controller';
+import { AuthRepository } from './auth.repository';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth-guard';
@@ -38,6 +39,7 @@ import { PasswordService } from './password.service';
     JwtStrategy,
     JwtAuthGuard,
     PasswordService,
+    AuthRepository,
     {
       provide: APPWRITE_CLIENT,
       useFactory: (configService: ConfigService) => {

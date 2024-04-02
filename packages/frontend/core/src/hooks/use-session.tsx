@@ -7,7 +7,7 @@ import { AppWriteClient } from '../providers/appwrite-client';
 
 export type AuthSession = {
   status: 'authenticated' | 'unauthenticated' | 'loading';
-  user: unknown | null;
+  user: UserDTO | null;
 };
 
 export type AuthSessionWithReload = AuthSession & {
@@ -17,6 +17,7 @@ export type AuthSessionWithReload = AuthSession & {
 const anonymousUser: UserDTO = {
   id: '0000',
   name: 'Guest',
+  email: '',
   avatar: '',
 };
 
@@ -37,8 +38,7 @@ const fetchMe = async () => {
     return user;
   }
 
-  // const isGuest = await isCurrentUserAGuest();
-  const isGuest = true;
+  const isGuest = await isCurrentUserAGuest();
   if (isGuest) {
     return anonymousUser;
   }
@@ -54,7 +54,7 @@ export function useSession(): AuthSessionWithReload {
   });
 
   return {
-    user: data,
+    user: data ?? null,
     // eslint-disable-next-line no-nested-ternary
     status: isLoading ? 'loading' : data ? 'authenticated' : 'unauthenticated',
     reload: async () => {
