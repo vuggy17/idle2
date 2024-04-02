@@ -1,6 +1,8 @@
 import { setupGlobal } from '@idle/env/global';
-import { Account, Client } from 'appwrite';
+import { Client } from 'appwrite';
 import axios, { AxiosError } from 'axios';
+
+import authApis from '../apis/auth';
 
 setupGlobal();
 
@@ -8,7 +10,6 @@ const appwrite = new Client();
 appwrite
   .setEndpoint(runtimeConfig.appwriteProjectHost)
   .setProject(runtimeConfig.appwriteProjectId);
-const accountProvider = new Account(appwrite);
 
 const API_PREFIX = '/api';
 const axiosClient = axios.create({
@@ -21,13 +22,14 @@ axiosClient.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config!;
     const { response } = error;
+    console.log(response);
     if (
       response?.status === 401 &&
-      (response?.data as any).type === 'user_jwt_invalid'
+      (response?.data as any).message === 'token_expired'
     ) {
-      // get new token
-      const token = await accountProvider.createJWT();
-      localStorage.setItem('jwt', JSON.stringify(token.jwt));
+      // refresh
+      await authApis.refresh();
+
       try {
         const retry = await axiosClient(originalRequest);
         return retry;

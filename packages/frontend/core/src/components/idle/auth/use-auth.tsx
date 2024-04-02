@@ -1,28 +1,7 @@
 import { fetcher } from '@idle/http';
-import { Account } from 'appwrite';
 import { useCallback } from 'react';
 
-import { AppWriteClient } from '../../../providers/appwrite-client';
-
-class AuthGateway {
-  constructor(private readonly accountGateway: Account) {}
-
-  foo = 'this do nothing';
-
-  async createAnonymousSession() {
-    this.accountGateway.createAnonymousSession();
-  }
-
-  async getCurrentSession() {
-    return this.accountGateway.getSession('current');
-  }
-
-  async requestJwt() {
-    return this.accountGateway.createJWT();
-  }
-}
-
-const authGateway = new AuthGateway(new Account(AppWriteClient));
+import { authGateway } from './auth-gateway';
 
 export function useAuth() {
   const anonymousSignIn = useCallback(async () => {
@@ -35,5 +14,18 @@ export function useAuth() {
     await fetcher.auth.authenticate(token.jwt);
   }, []);
 
-  return { anonymousSignIn };
+  const magicUrlSignIn = useCallback(async (email: string) => {
+    await authGateway.sendMagicUrl(email);
+  }, []);
+
+  return { anonymousSignIn, magicUrlSignIn };
+}
+
+export async function verifyMagicEmailSession(
+  userId: string,
+  sessionSecret: string,
+) {
+  await authGateway.verifyMagicEmailSession(userId, sessionSecret);
+  const token = await authGateway.requestJwt();
+  return fetcher.auth.authenticate(token.jwt);
 }

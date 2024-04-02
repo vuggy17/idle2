@@ -2,6 +2,16 @@ import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   padding: 8,
+  paddingBottom: 40,
+});
+
+export const formWrapper = style({
+  width: '100%',
+});
+
+export const formButtonGroup = style({
+  width: '100%',
+  justifyContent: 'flex-end',
 });
 
 export const subTitle = style({

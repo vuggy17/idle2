@@ -29,6 +29,7 @@ export function SignIn({ onSignedIn }: AuthPanelProps) {
             Idle chat
           </Typography.Text>
         </div>
+
         <Button onClick={onAnonymousSigningClick}>Continue as guest</Button>
       </Space>
     </div>

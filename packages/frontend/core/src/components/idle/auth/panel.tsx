@@ -1,14 +1,20 @@
 import { type FC, useMemo } from 'react';
 
+import AfterSignInWithEmail from './after-sign-in-email';
 import { SignIn } from './sign-in';
+import { SignInWithEmail } from './sign-in-with-email';
 
 export type AuthProps = {
-  state: 'signIn';
+  state: 'signIn' | 'signInWithEmail' | 'afterSignInWithEmail';
   setAuthState: (state: AuthProps['state']) => void;
+  setAuthEmail: (state: AuthProps['email']) => void;
+  email: string;
 };
 
 export type AuthPanelProps = {
+  email: string;
   setAuthState: AuthProps['setAuthState'];
+  setAuthEmail: AuthProps['setAuthEmail'];
   onSignedIn?: () => void;
 };
 
@@ -17,6 +23,8 @@ const config: {
   [k in AuthProps['state']]: FC<AuthPanelProps>;
 } = {
   signIn: SignIn,
+  signInWithEmail: SignInWithEmail,
+  afterSignInWithEmail: AfterSignInWithEmail,
 };
 // ====================================================
 
@@ -28,9 +36,10 @@ export function AuthPanel({
     return config[state];
   }, [state]);
 
-  // return null;
   return (
     <CurrentPanel
+      email={props.email}
+      setAuthEmail={props.setAuthEmail}
       setAuthState={props.setAuthState}
       onSignedIn={props.onSignedIn}
     />

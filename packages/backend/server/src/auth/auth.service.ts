@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
-import { Account, Client, Users } from 'node-appwrite';
+import { Account, Client } from 'node-appwrite';
 
 import { SecurityConfig } from '../common/configs/config.interface';
 import { APPWRITE_CLIENT } from '../common/configs/injection-token';
@@ -80,6 +80,7 @@ export class AuthService {
 
   async validateUser(userId: string): Promise<User | null> {
     try {
+      console.log('cccc');
       const user = await this.prisma.user.findUnique({ where: { id: userId } });
       assertExists(user);
       return user;
@@ -129,6 +130,7 @@ export class AuthService {
         userId,
       });
     } catch (e) {
+      console.log('ccccc');
       throw new UnauthorizedException();
     }
   }

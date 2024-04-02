@@ -37,7 +37,8 @@ const fetchMe = async () => {
     return user;
   }
 
-  const isGuest = await isCurrentUserAGuest();
+  // const isGuest = await isCurrentUserAGuest();
+  const isGuest = true;
   if (isGuest) {
     return anonymousUser;
   }

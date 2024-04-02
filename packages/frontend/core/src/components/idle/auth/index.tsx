@@ -10,8 +10,7 @@ type AuthModalProps = AuthProps & {
 };
 
 export function AuthModal(props: AuthModalBaseProps & AuthModalProps) {
-  const { state, setAuthState, open, setOpen } = props;
-
+  const { state, setAuthState, open, setOpen, email, setAuthEmail } = props;
   const onSignedIn = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
@@ -19,6 +18,8 @@ export function AuthModal(props: AuthModalBaseProps & AuthModalProps) {
   return (
     <AuthModalBase open={open} setOpen={setOpen}>
       <AuthPanel
+        email={email}
+        setAuthEmail={setAuthEmail}
         setAuthState={setAuthState}
         state={state}
         onSignedIn={onSignedIn}

@@ -10,12 +10,19 @@ const Auth = lazy(() =>
 );
 
 function AuthModal() {
-  const [{ openModal, state }, setAuthAtom] = useAtom(authAtom);
+  const [auth, setAuthAtom] = useAtom(authAtom);
 
   return (
     <Auth
-      open={openModal}
-      state={state}
+      open={auth.openModal}
+      state={auth.state}
+      email={auth.email || ''}
+      setAuthEmail={useCallback(
+        (email: string) => {
+          setAuthAtom((prev) => ({ ...prev, email }));
+        },
+        [setAuthAtom],
+      )}
       setOpen={useCallback(
         (open) => {
           setAuthAtom((prev) => ({ ...prev, openModal: open }));
@@ -24,7 +31,7 @@ function AuthModal() {
       )}
       setAuthState={useCallback(
         (authState) => {
-          setAuthAtom((prev) => ({ ...prev, authState }));
+          setAuthAtom((prev) => ({ ...prev, state: authState }));
         },
         [setAuthAtom],
       )}

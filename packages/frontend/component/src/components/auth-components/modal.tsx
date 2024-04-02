@@ -13,6 +13,7 @@ export function AuthModal({
 }: PropsWithChildren<AuthModalProps>) {
   return (
     <Modal
+      getContainer={document.getElementById('root')!}
       open={open}
       width={400}
       onCancel={useCallback(() => setOpen(false), [setOpen])}
