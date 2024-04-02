@@ -11,6 +11,10 @@ class AuthCollection extends APICollection {
       token,
     });
   }
+
+  refresh() {
+    return this.client.post(this.getUrl('refresh'));
+  }
 }
 
 const authApis = new AuthCollection('auth');
