@@ -25,22 +25,18 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
     @Body() { token }: AuthenticateInput,
   ) {
-    // validate token
-    const appwriteUser = await this.authService.validateAppwriteToken(token);
-
-    if (appwriteUser) {
-      const tokens = this.authService.generateTokens({
-        userId: appwriteUser.$id,
-      });
-      res.cookie('access_token', tokens.accessToken, {
-        sameSite: 'lax',
-        httpOnly: true,
-      });
-      res.cookie('refresh_token', tokens.refreshToken, {
-        sameSite: 'lax',
-        httpOnly: true,
-      });
-    } else throw new BadRequestException('Token invalid');
+    const user = await this.authService.createUserFromToken(token);
+    const tokens = this.authService.generateTokens({
+      userId: user.id,
+    });
+    res.cookie('access_token', tokens.accessToken, {
+      sameSite: 'lax',
+      httpOnly: true,
+    });
+    res.cookie('refresh_token', tokens.refreshToken, {
+      sameSite: 'lax',
+      httpOnly: true,
+    });
   }
 
   @Public()
@@ -61,10 +57,5 @@ export class AuthController {
         httpOnly: true,
       });
     } else throw new BadRequestException('Token invalid');
-  }
-
-  @Post('initialize')
-  async createNewUserOnVerification(@Cookies('access_token') token: string) {
-    return this.authService.createUserFromToken(token);
   }
 }

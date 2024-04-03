@@ -1,27 +1,6 @@
 import { Button, Space, Spin, Typography } from 'antd';
-import { useEffect, useState } from 'react';
 
-export function EmailVerified({
-  openApp,
-  createAccount,
-}: {
-  openApp: () => void;
-  createAccount: () => Promise<unknown>;
-}) {
-  const [accountCreated, setAccountCreated] = useState(false);
-
-  useEffect(() => {
-    if (!accountCreated) {
-      createAccount()
-        .then(() => {
-          setAccountCreated(true);
-        })
-        .catch(() => {
-          setAccountCreated(false);
-        });
-    }
-  }, []);
-
+export function EmailVerifiedLoading() {
   return (
     <Space
       direction="vertical"
@@ -32,25 +11,56 @@ export function EmailVerified({
         marginTop: 200,
       }}
     >
-      {!accountCreated ? (
-        <>
-          <Typography.Title level={3}>
-            Please wait while we verifying your account 🤖
-          </Typography.Title>
-          <Spin />
-        </>
-      ) : (
-        <>
-          <Typography.Title level={3}>You are verified 🎉</Typography.Title>
-          <Typography.Text>
-            Your account have been created successfully. You can continue to the
-            application
-          </Typography.Text>
-          <Button type="primary" onClick={openApp}>
-            Continue
-          </Button>
-        </>
-      )}
+      <Typography.Title level={3}>
+        Please wait while we verifying your account 🤖
+      </Typography.Title>
+      <Spin />
+    </Space>
+  );
+}
+
+export function EmailVerifiedError({ openApp }: { openApp: () => void }) {
+  return (
+    <Space
+      direction="vertical"
+      size="large"
+      align="center"
+      style={{
+        width: '100%',
+        marginTop: 200,
+      }}
+    >
+      <Typography.Title level={3}>
+        There was a problem verifying your account 😬
+      </Typography.Title>
+      <Typography.Text>
+        We can&apos;t verify your account at this moment, try again later
+      </Typography.Text>
+      <Button type="primary" onClick={openApp}>
+        Back to app
+      </Button>
+    </Space>
+  );
+}
+export function EmailVerified({ openApp }: { openApp: () => void }) {
+  return (
+    <Space
+      direction="vertical"
+      size="large"
+      align="center"
+      style={{
+        width: '100%',
+        marginTop: 200,
+      }}
+    >
+      <Typography.Title level={3}>You are verified 🎉</Typography.Title>
+      <Typography.Text>
+        Your account have been created successfully. You can continue to the
+        application
+      </Typography.Text>
+      <Button type="primary" onClick={openApp}>
+        Continue
+      </Button>
     </Space>
   );
 }

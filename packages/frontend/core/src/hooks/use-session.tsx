@@ -23,16 +23,19 @@ const anonymousUser: UserDTO = {
 
 const isCurrentUserAGuest = async () => {
   try {
-    // check if they are verified their email or phone or not, if not, they are a guest
-    // TODO: update implementation
     const accountSdk = new Account(AppWriteClient);
-    await accountSdk.getSession('current');
-    return true;
+    const user = await accountSdk.get();
+    return !user.phoneVerification || !user.emailVerification;
   } catch (error) {
     return false;
   }
 };
 
+/**
+ *
+ * @returns the current user if their access_token is not expired,
+ * otherwise, check if their appwrite session if they are an guest user, if not return null
+ */
 const fetchMe = async () => {
   const { user, success } = await fetcher.user.getMe();
 

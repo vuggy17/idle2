@@ -19,12 +19,10 @@ export function useAuth() {
   return { anonymousSignIn, magicUrlSignIn };
 }
 
-export async function verifyMagicEmailSession(
-  userId: string,
-  sessionSecret: string,
-) {
+export async function loginByMagicEmail(userId: string, sessionSecret: string) {
   await authGateway.verifyMagicEmailSession(userId, sessionSecret);
   const token = await authGateway.requestJwt();
-  // TODO: remove this api, authenticate and cookies can be done when they create their indentity in the database with POST /verify
-  return fetcher.auth.authenticate(token.jwt);
+  const credential = await fetcher.auth.login(token.jwt);
+  // console.log('🚀 ~ loginByMagicEmail ~ credential:', credential);
+  return credential;
 }

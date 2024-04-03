@@ -8,7 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { Account, Users } from 'node-appwrite';
+import { Account } from 'node-appwrite';
 
 import { SecurityConfig } from '../common/configs/config.interface';
 import { APPWRITE_CLIENT_FACTORY } from '../common/configs/injection-token';
@@ -78,15 +78,19 @@ export class AuthService {
     return user;
   }
 
+  private getUserFromAppwriteToken(token: string) {
+    const auth = new Account(this.appwriteClient().setJWT(token));
+    return auth.get();
+  }
+
   async createUserFromToken(token: string): Promise<User> {
-    const id = (this.jwtService.decode(token) as any).userId || '';
-    const user = await this.repository.findById(id);
+    const appwriteUser = await this.getUserFromAppwriteToken(token);
+
+    const user = await this.repository.findById(appwriteUser.$id);
     if (user) {
       return user;
     }
 
-    const sdk = new Users(this.appwriteClient());
-    const appwriteUser = await sdk.get(id);
     const newUser = await this.repository.createUser({
       id: appwriteUser.$id,
       email: appwriteUser.email,
@@ -128,16 +132,6 @@ export class AuthService {
       });
     } catch (e) {
       throw new UnauthorizedException();
-    }
-  }
-
-  async validateAppwriteToken(token: string) {
-    try {
-      const auth = new Account(this.appwriteClient().setJWT(token));
-      const user = await auth.get();
-      return user;
-    } catch (error) {
-      return false;
     }
   }
 }

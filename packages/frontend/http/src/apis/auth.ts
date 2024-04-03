@@ -2,18 +2,17 @@ import { APICollection } from '../config/axios';
 
 class AuthCollection extends APICollection {
   /**
-   * Handshake with server to set jwt token and userid to cookie
-   * @param token: jwt
-   * @param userId
+   * Create account from appwrite token,
+   *
+   * If account was not exist, create new one
+   *
+   * Also initialize access_token and refresh_token
+   * @param token: appwrite jwt
    */
-  authenticate(token: string) {
+  login(appwriteToken: string) {
     return this.client.post(this.getUrl('authenticate'), {
-      token,
+      token: appwriteToken,
     });
-  }
-
-  createAccount() {
-    return this.client.post(this.getUrl('initialize'));
   }
 }
 
