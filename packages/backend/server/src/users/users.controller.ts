@@ -19,7 +19,6 @@ export class UserController {
   @Get('me')
   async me(@AuthUser() user: User): Promise<User> {
     // TODO: handle case: user deleted from appwrite, but app still able to find them cus they got an active token
-    console.log(user);
     return user;
   }
 

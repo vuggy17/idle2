@@ -5,6 +5,12 @@
     "outDir": "lib",
     "noEmit": false
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "./src/**/*.json"],
-  "exclude": ["lib"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "./src/**/*.json"
+  ],
+  "exclude": [
+    "lib"
+  ]
 }

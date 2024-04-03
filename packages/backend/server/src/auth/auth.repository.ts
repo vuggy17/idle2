@@ -7,8 +7,9 @@ export class AuthRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createUser(data: {
+    id?: string;
     email: string;
-    password: string;
+    password?: string;
     firstname?: string;
     lastname?: string;
   }) {

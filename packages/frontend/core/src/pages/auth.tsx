@@ -1,4 +1,5 @@
 import { EmailVerified } from '@idle/component/auth-components';
+import { fetcher } from '@idle/http';
 import { useCallback } from 'react';
 import { type LoaderFunction, redirect, useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -17,7 +18,12 @@ function AuthPage() {
 
   switch (authType) {
     case 'verify-email':
-      return <EmailVerified openApp={openApp} />;
+      return (
+        <EmailVerified
+          openApp={openApp}
+          createAccount={() => fetcher.auth.createAccount()}
+        />
+      );
 
     default:
   }
@@ -39,7 +45,6 @@ export const loader: LoaderFunction = async (args) => {
       const { searchParams } = new URL(args.request.url);
       const userId = searchParams.get('userId') ?? '';
       const secret = searchParams.get('secret') ?? '';
-
       await verifyMagicEmailSession(userId, secret);
     } catch (error) {
       redirect('/expired');

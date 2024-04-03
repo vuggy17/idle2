@@ -4,8 +4,8 @@
     "src/**/*.ts"
   ],
   "compilerOptions": {
-    // "composite": true,
-    // "noEmit": false,
+    "composite": true,
+    "noEmit": false,
     "outDir": "lib"
   },
   "references": [

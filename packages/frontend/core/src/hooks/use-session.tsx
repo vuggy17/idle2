@@ -23,6 +23,8 @@ const anonymousUser: UserDTO = {
 
 const isCurrentUserAGuest = async () => {
   try {
+    // check if they are verified their email or phone or not, if not, they are a guest
+    // TODO: update implementation
     const accountSdk = new Account(AppWriteClient);
     await accountSdk.getSession('current');
     return true;

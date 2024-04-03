@@ -345,6 +345,9 @@ importers:
       '@idle/env':
         specifier: workspace:*
         version: link:../../common/env
+      '@idle/model':
+        specifier: workspace:*
+        version: link:../../common/model
       appwrite:
         specifier: ^14.0.0
         version: 14.0.0

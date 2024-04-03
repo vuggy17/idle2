@@ -10,8 +10,6 @@ export function useAuth() {
     } catch (error) {
       await authGateway.createAnonymousSession();
     }
-    const token = await authGateway.requestJwt();
-    await fetcher.auth.authenticate(token.jwt);
   }, []);
 
   const magicUrlSignIn = useCallback(async (email: string) => {
@@ -27,5 +25,6 @@ export async function verifyMagicEmailSession(
 ) {
   await authGateway.verifyMagicEmailSession(userId, sessionSecret);
   const token = await authGateway.requestJwt();
+  // TODO: remove this api, authenticate and cookies can be done when they create their indentity in the database with POST /verify
   return fetcher.auth.authenticate(token.jwt);
 }

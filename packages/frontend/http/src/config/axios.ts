@@ -33,3 +33,14 @@ axiosClient.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+export class APICollection {
+  constructor(
+    readonly collectionPrefix: string,
+    readonly client = axiosClient,
+  ) {}
+
+  getUrl(path: string) {
+    return `${this.collectionPrefix}/${path}`;
+  }
+}

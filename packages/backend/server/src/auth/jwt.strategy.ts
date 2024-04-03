@@ -22,7 +22,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtDto): Promise<User> {
     const user = await this.authService.validateUser(payload.userId);
     if (!user) {
-      throw new UnauthorizedException('user_not_found');
+      // maybe they are a guest
+      throw new UnauthorizedException('User not found, are you guest');
     }
     return user;
   }

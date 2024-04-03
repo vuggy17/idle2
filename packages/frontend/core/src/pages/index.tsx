@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { useAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 
 import { authAtom } from '../atoms';
 import { useSession } from '../hooks/use-session';
@@ -7,7 +7,7 @@ import { WorkspaceLayout } from '../layouts/workspace-layout';
 
 export function Component() {
   const session = useSession();
-  const [auth, setAuth] = useAtom(authAtom);
+  const setAuth = useSetAtom(authAtom);
 
   return (
     <WorkspaceLayout>

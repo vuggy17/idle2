@@ -1,4 +1,4 @@
-import { APICollection } from '../config/api-collection';
+import { APICollection } from '../config/axios';
 
 class AuthCollection extends APICollection {
   /**
@@ -10,6 +10,10 @@ class AuthCollection extends APICollection {
     return this.client.post(this.getUrl('authenticate'), {
       token,
     });
+  }
+
+  createAccount() {
+    return this.client.post(this.getUrl('initialize'));
   }
 }
 
