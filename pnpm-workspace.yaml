@@ -1,3 +1,4 @@
 packages:
   - 'packages/**/*'
   - 'tools/@types/env'
+  - '!**/functions/**'
