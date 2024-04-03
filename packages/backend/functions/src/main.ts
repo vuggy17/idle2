@@ -15,7 +15,9 @@ type Context = {
 // It's executed each time we get a request
 export default async ({ req, res, log }: Context) => {
   const client = new PrismaClient();
-
+  return res.json({
+    data: req,
+  });
   if (req.method === 'PATCH') {
     return res.json({
       data: req,
