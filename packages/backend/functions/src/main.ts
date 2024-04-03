@@ -17,34 +17,36 @@ export default async ({ req, res, log }: Context) => {
   const client = new PrismaClient();
   log(JSON.stringify(req, null, 4));
 
-  if (req.method === 'PATCH') {
-    return res.json({
-      data: req,
-    });
-  }
-
+  // user is updating their account
   if (req.method === 'POST') {
     const { email, $id, $createdAt, $updatedAt } = req.body;
-    const user = await client.user.create({
-      data: {
-        id: $id,
-        email,
-        role: 'USER',
-        createdAt: new Date($createdAt),
-        updatedAt: new Date($updatedAt),
-      },
-    });
+
+    if (req.body.emailVerification) {
+      const user = await client.user.upsert({
+        create: {
+          id: $id,
+          email,
+          role: 'USER',
+          createdAt: new Date($createdAt),
+          updatedAt: new Date($updatedAt),
+        },
+        where: {
+          id: $id,
+        },
+        update: {
+          email,
+        },
+      });
+
+      return res.json({
+        message: 'user updated',
+        data: user,
+      });
+    }
 
     return res.json({
-      message: 'New user created',
-      data: user,
-    });
-  }
-
-  if (req.method === 'DELETE') {
-    log(JSON.stringify(req, null, 4));
-    return res.json({
-      data: req,
+      message: 'No action handled',
+      data: null,
     });
   }
 
