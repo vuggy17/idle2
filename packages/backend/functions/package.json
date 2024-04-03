@@ -1,0 +1,20 @@
+{
+  "name": "@idle/functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "postinstall": "npx prisma generate"
+  },
+  "dependencies": {
+    "node-appwrite": "^9.0.0",
+    "typescript": "^5.1.6",
+    "@prisma/client": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.7",
+    "prisma": "5.11.0"
+  }
+}
