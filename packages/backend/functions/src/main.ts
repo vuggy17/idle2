@@ -14,9 +14,9 @@ type Context = {
 const client = new PrismaClient();
 // This is your Appwrite function
 // It's executed each time we get a request
-export default async ({ req, res }: Context) => {
+export default async ({ req, res, log }: Context) => {
   const { email, $id, $createdAt, $updatedAt } = req.body;
-
+  log('.');
   const user = await client.user.create({
     data: {
       id: $id,
