@@ -1,6 +1,14 @@
-# ⚡ Node.js (TypeScript) Starter Function
+###  This function is not available yet
 
-A simple starter function. Edit `src/main.ts` to get started and create something awesome! 🚀
+# ⚡ Replicate appwrite user to database
+
+## Why cannot use yet
+Appwrite function ip lookup resulted in 5 ips and it likely to change after each deployment
+=> I cannot find a way to whitelist it's ip to an RDS security group yet 
+
+## When
+
+Run only when user has their email verified
 
 ## 🧰 Usage
 
@@ -16,33 +24,20 @@ Sample `200` Response:
 Hello, World!
 ```
 
-### POST, PUT, PATCH, DELETE /
-
-- Returns a "Learn More" JSON response.
-
-**Response**
-
-Sample `200` Response:
-
-```json
-{
-  "motto": "Build like a team of hundreds_",
-  "learn": "https://appwrite.io/docs",
-  "connect": "https://appwrite.io/discord",
-  "getInspired": "https://builtwith.appwrite.io"
-}
-```
 
 ## ⚙️ Configuration
 
 | Setting           | Value                          |
 | ----------------- | ------------------------------ |
 | Runtime           | Node (18.0)                    |
-| Entrypoint        | `dist/main.js`                 |
+| Entrypoint        | `dist/src/main.js`             |
+| Root directory    | `packages/backend/functions`   |
 | Build Commands    | `npm install && npm run build` |
 | Permissions       | `any`                          |
 | Timeout (Seconds) | 15                             |
 
 ## 🔒 Environment Variables
 
-No environment variables required.
+```
+DATABASE_URL: postgres database url
+```
