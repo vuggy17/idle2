@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import { lazy, Suspense, useCallback } from 'react';
 
-import { authAtom } from '../atoms';
+import { authAtom } from '../components/idle/auth/auth-atom';
 
 const Auth = lazy(() =>
   import('../components/idle/auth').then((module) => ({

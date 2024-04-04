@@ -28,12 +28,10 @@ export function useAuth() {
       }
     }
   }, []);
-  return { anonymousSignIn, magicUrlSignIn, logout };
-}
 
-export async function loginByMagicEmail(userId: string, sessionSecret: string) {
-  await authGateway.verifyMagicEmailSession(userId, sessionSecret);
-  const token = await authGateway.requestJwt();
-  const credential = await fetcher.auth.login(token.jwt);
-  return credential;
+  return {
+    anonymousSignIn,
+    magicUrlSignIn,
+    logout,
+  };
 }

@@ -34,9 +34,9 @@ class AuthGateway {
   }
 
   /**
-   * @INTERNAL Use loginByMagicEmail from use-auth.tsx instead
+   * @INTERNAL Use loginByMagicEmail from auth-helper instead
    */
-  async verifyMagicEmailSession(userId: string, sessionSecret: string) {
+  verifyMagicEmailSession(userId: string, sessionSecret: string) {
     return this.accountGateway.updateMagicURLSession(userId, sessionSecret);
   }
 }

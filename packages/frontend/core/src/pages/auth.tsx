@@ -14,8 +14,7 @@ import {
 } from 'react-router-dom';
 import { z } from 'zod';
 
-import { loginByMagicEmail } from '../components/idle/auth/use-auth';
-import { useCurrentLoginStatus } from '../hooks/use-current-login-status';
+import { loginByMagicEmail } from '../components/idle/auth/auth-helper';
 import useNavigateHelper from '../hooks/use-navigate-helper';
 
 const authTypeSchema = z.enum(['signIn', 'verify-email']);
@@ -65,16 +64,5 @@ export const loader: LoaderFunction = async (args) => {
 };
 
 export function Component() {
-  const loginStatus = useCurrentLoginStatus();
-  // const { jumpToExpired } = useNavigateHelper();
-
-  // if (loginStatus === 'unauthenticated') {
-  //   jumpToExpired();
-  // }
-
-  // if (loginStatus === 'authenticated') {
   return <AuthPage />;
-  // }
-
-  // return null;
 }

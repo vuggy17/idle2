@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { useSetAtom } from 'jotai';
 
-import { authAtom } from '../atoms';
+import { authAtom } from '../components/idle/auth/auth-atom';
 import { useAuth } from '../components/idle/auth/use-auth';
 import { useSession } from '../hooks/use-session';
 import { WorkspaceLayout } from '../layouts/workspace-layout';
@@ -19,7 +19,7 @@ export function Component() {
         onClick={() =>
           setAuth((prev) => ({
             ...prev,
-            state: 'signInWithEmail',
+            state: 'afterSignInWithEmail',
             openModal: true,
           }))
         }

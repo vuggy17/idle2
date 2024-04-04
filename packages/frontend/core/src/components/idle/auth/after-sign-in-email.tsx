@@ -1,13 +1,45 @@
-import { Avatar, Button, Space, Typography } from 'antd';
+import { Avatar, Button, Space, Statistic, Typography } from 'antd';
+import { useCallback, useState } from 'react';
 
 import logo from '../../../assets/logo.png';
 import type { AuthPanelProps } from './panel';
 import { subTitle, title, wrapper } from './sign-in.css';
+import { useAuth } from './use-auth';
+
+const RESEND_EMAIL_COUNTDOWN = 60;
+
+function Timer({
+  timeLeft,
+  onFinish,
+}: {
+  onFinish: () => void;
+  timeLeft: number;
+}) {
+  return (
+    <Statistic.Countdown
+      format="mm:ss"
+      value={Date.now() + timeLeft * 1000}
+      onFinish={onFinish}
+    />
+  );
+}
 
 export default function AfterSignInWithEmail({
   email,
   setAuthState,
 }: AuthPanelProps) {
+  const [countTimeout, setCountTimeout] = useState(false);
+  const { magicUrlSignIn } = useAuth();
+
+  const onCountdownFinish = () => {
+    setCountTimeout(true);
+  };
+
+  const onResendClick = useCallback(async () => {
+    setCountTimeout(false);
+    magicUrlSignIn(email);
+  }, [email, magicUrlSignIn]);
+
   return (
     <div>
       <div className={wrapper}>
@@ -16,11 +48,11 @@ export default function AfterSignInWithEmail({
             <Space>
               <Avatar src={logo} size={28} />
               <Typography.Text className={subTitle} strong>
-                Sign in
+                Idle
               </Typography.Text>
             </Space>
             <Typography.Text className={title} strong>
-              Idle chat
+              Sign into account
             </Typography.Text>
           </div>
           <Typography.Text>
@@ -37,11 +69,25 @@ export default function AfterSignInWithEmail({
               textAlign: 'center',
             }}
           >
-            <Button type="text">
-              <Typography.Text strong>Resend link</Typography.Text>
-            </Button>
+            {countTimeout ? (
+              <Button type="text">
+                <Typography.Text strong onClick={onResendClick}>
+                  Resend link
+                </Typography.Text>
+              </Button>
+            ) : (
+              <Timer
+                timeLeft={RESEND_EMAIL_COUNTDOWN}
+                onFinish={onCountdownFinish}
+              />
+            )}
           </div>
-          <Typography.Text type="secondary" style={{ fontSize: '13px' }}>
+          <Typography.Text
+            type="secondary"
+            style={{
+              fontSize: '13px',
+            }}
+          >
             If you haven&apos;t received the email, please check your spam
             folder.
           </Typography.Text>
