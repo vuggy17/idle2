@@ -17,7 +17,7 @@ import { z } from 'zod';
 import { loginByMagicEmail } from '../components/idle/auth/auth-helper';
 import useNavigateHelper from '../hooks/use-navigate-helper';
 
-const authTypeSchema = z.enum(['signIn', 'verify-email']);
+const authTypeSchema = z.enum(['verify-email']);
 
 function AuthPage() {
   const { authType } = useParams();

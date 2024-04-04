@@ -14,6 +14,11 @@ const routes = [
     path: '/sign-in',
     lazy: () => import('./pages/sign-in'),
   },
+  { path: '404', lazy: () => import('./pages/404') },
+  {
+    path: '*',
+    lazy: () => import('./pages/404'),
+  },
 ] satisfies [...RouteObject[]];
 
 export const router = createBrowserRouter(routes);
