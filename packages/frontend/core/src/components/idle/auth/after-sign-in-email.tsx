@@ -8,7 +8,7 @@ import { useAuth } from './use-auth';
 
 const RESEND_EMAIL_COUNTDOWN = 60;
 
-function Timer({
+function Countdown({
   timeLeft,
   onFinish,
 }: {
@@ -58,7 +58,7 @@ export default function AfterSignInWithEmail({
           <Typography.Text>
             An email with a magic link has been sent to
             <Typography.Link
-              href="https://gmail.com/"
+              href={`mailto:${email}`}
               target="_blank"
             >{` ${email} `}</Typography.Link>
             . You can click the link to create an account automatically.
@@ -76,7 +76,7 @@ export default function AfterSignInWithEmail({
                 </Typography.Text>
               </Button>
             ) : (
-              <Timer
+              <Countdown
                 timeLeft={RESEND_EMAIL_COUNTDOWN}
                 onFinish={onCountdownFinish}
               />
