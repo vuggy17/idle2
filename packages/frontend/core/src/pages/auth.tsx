@@ -1,8 +1,4 @@
-import {
-  EmailVerified,
-  EmailVerifiedError,
-  EmailVerifiedLoading,
-} from '@idle/component/auth-components';
+import { EmailVerified } from '@idle/component/auth-components';
 import { Suspense, useCallback } from 'react';
 import {
   Await,
@@ -28,10 +24,10 @@ function AuthPage() {
   switch (authType) {
     case 'verify-email':
       return (
-        <Suspense fallback={<EmailVerifiedLoading />}>
+        <Suspense fallback={<EmailVerified.Loader />}>
           <Await
             resolve={(data as any).user}
-            errorElement={<EmailVerifiedError openApp={openApp} />}
+            errorElement={<EmailVerified.Fallback openApp={openApp} />}
           >
             {() => <EmailVerified openApp={openApp} />}
           </Await>

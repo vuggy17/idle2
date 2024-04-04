@@ -1,4 +1,12 @@
-import { Avatar, Button, Flex, Space, Typography } from 'antd';
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Flex,
+  Space,
+  Tooltip,
+  Typography,
+} from 'antd';
 
 import { headerContainerStyle } from './index.css';
 
@@ -10,11 +18,16 @@ export function SidebarHeader() {
       className={headerContainerStyle}
     >
       <Space>
-        <Avatar
-          shape="circle"
-          size={46}
-          src="https://source.unsplash.com/random"
-        />
+        <Tooltip title="Open account settings" placement="bottomLeft">
+          <Avatar
+            style={{
+              cursor: 'pointer',
+            }}
+            shape="circle"
+            size={46}
+            src="https://source.unsplash.com/random"
+          />
+        </Tooltip>
         <Typography.Title
           level={4}
           style={{

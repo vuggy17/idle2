@@ -1,6 +1,6 @@
 import { Button, Space, Spin, Typography } from 'antd';
 
-export function EmailVerifiedLoading() {
+function EmailVerifiedLoading() {
   return (
     <Space
       direction="vertical"
@@ -19,7 +19,7 @@ export function EmailVerifiedLoading() {
   );
 }
 
-export function EmailVerifiedError({ openApp }: { openApp: () => void }) {
+function EmailVerifiedError({ openApp }: { openApp: () => void }) {
   return (
     <Space
       direction="vertical"
@@ -64,3 +64,6 @@ export function EmailVerified({ openApp }: { openApp: () => void }) {
     </Space>
   );
 }
+
+EmailVerified.Loader = EmailVerifiedLoading;
+EmailVerified.Fallback = EmailVerifiedError;
