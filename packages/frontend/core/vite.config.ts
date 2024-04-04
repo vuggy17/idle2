@@ -30,7 +30,7 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     vanillaExtractPlugin(),
-    watchNodeModules(['@idle/component']),
+    watchNodeModules(['@idle/component', '@idle/http']),
   ],
 
   define: {

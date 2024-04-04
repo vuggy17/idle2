@@ -1,4 +1,5 @@
 import { Avatar, Button, Form, Input, Space, Typography } from 'antd';
+import { useState } from 'react';
 
 import logo from '../../../assets/logo.png';
 import { useCurrentLoginStatus } from '../../../hooks/use-current-login-status';
@@ -24,6 +25,7 @@ export function SignInWithEmail({
   const loginStatus = useCurrentLoginStatus();
   const { reload, user } = useSession();
   const { jumpToIndex } = useNavigateHelper();
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   const onAnonymousSigningClick = async () => {
     await anonymousSignIn();
@@ -40,7 +42,9 @@ export function SignInWithEmail({
       return;
     }
 
+    setSendingEmail(true);
     await magicUrlSignIn(email);
+    setSendingEmail(false);
     setAuthState('afterSignInWithEmail');
   };
 
@@ -86,7 +90,7 @@ export function SignInWithEmail({
               <Button htmlType="submit" type="text">
                 Create account
               </Button>
-              <Button htmlType="submit" type="primary">
+              <Button htmlType="submit" type="primary" loading={sendingEmail}>
                 Continue
               </Button>
             </Space>

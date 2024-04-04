@@ -25,8 +25,11 @@ export default function AfterSignInWithEmail({
           </div>
           <Typography.Text>
             An email with a magic link has been sent to
-            <Typography.Link>{` ${email} `}</Typography.Link>. You can click the
-            link to create an account automatically.
+            <Typography.Link
+              href="https://gmail.com/"
+              target="_blank"
+            >{` ${email} `}</Typography.Link>
+            . You can click the link to create an account automatically.
           </Typography.Text>
 
           <div

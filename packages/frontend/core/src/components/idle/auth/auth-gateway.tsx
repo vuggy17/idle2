@@ -7,19 +7,19 @@ class AuthGateway {
 
   foo = 'this do nothing';
 
-  async createAnonymousSession() {
-    this.accountGateway.createAnonymousSession();
+  createAnonymousSession() {
+    return this.accountGateway.createAnonymousSession();
   }
 
-  async getCurrentSession() {
+  getCurrentSession() {
     return this.accountGateway.getSession('current');
   }
 
-  async requestJwt() {
+  requestJwt() {
     return this.accountGateway.createJWT();
   }
 
-  async sendMagicUrl(email: string) {
+  sendMagicUrl(email: string) {
     const PLATFORM_VERIFY_URL = `${window.location.origin}/auth/verify-email`;
 
     return this.accountGateway.createMagicURLSession(
@@ -29,8 +29,12 @@ class AuthGateway {
     );
   }
 
+  logoutCurrentDevice() {
+    return this.accountGateway.deleteSession('current');
+  }
+
   /**
-   * @INTERNAL Use verifyMagicEmailSession from use-auth.tsx instead
+   * @INTERNAL Use loginByMagicEmail from use-auth.tsx instead
    */
   async verifyMagicEmailSession(userId: string, sessionSecret: string) {
     return this.accountGateway.updateMagicURLSession(userId, sessionSecret);

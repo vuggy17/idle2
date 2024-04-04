@@ -14,6 +14,13 @@ class AuthCollection extends APICollection {
       token: appwriteToken,
     });
   }
+
+  /**
+   * Clear current access and refresh token
+   */
+  clearCredentials() {
+    return this.client.delete(this.getUrl('credentials'));
+  }
 }
 
 const authApis = new AuthCollection('auth');

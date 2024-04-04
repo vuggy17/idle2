@@ -45,7 +45,7 @@ import { PasswordService } from './password.service';
       provide: APPWRITE_CLIENT_FACTORY,
       useFactory: (configService: ConfigService) => () => {
         const config = configService.getOrThrow<AppwriteConfig>('appwrite');
-        return () => appwriteClientFactory(config);
+        return appwriteClientFactory(config);
       },
       inject: [ConfigService],
     },
