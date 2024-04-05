@@ -1,6 +1,7 @@
 import { fetcher } from '@idle/http';
 import { type UserDTO } from '@idle/model';
 import { Account } from 'appwrite';
+import { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import { AppWriteClient } from '../providers/appwrite-client';
@@ -18,14 +19,14 @@ const anonymousUser: UserDTO = {
   id: '0000',
   name: 'Guest',
   email: '',
-  avatar: '',
+  avatarUrl: '',
 };
 
 const isCurrentUserAGuest = async () => {
   try {
     const accountSdk = new Account(AppWriteClient);
     const user = await accountSdk.get();
-    return !user.phoneVerification || !user.emailVerification;
+    return !user.phoneVerification && !user.emailVerification;
   } catch (error) {
     return false;
   }
@@ -66,4 +67,31 @@ export function useSession(): AuthSessionWithReload {
       await mutate();
     },
   };
+}
+
+export function useCurrentUser() {
+  const session = useSession();
+  const [user, setUser] = useState<UserDTO>();
+
+  const update = useCallback(
+    async (payload?: Partial<UserDTO>) => {
+      setUser((u) => ({ ...u, ...payload }));
+      await session.reload();
+    },
+    [session],
+  );
+
+  useEffect(() => {
+    if (session.user) {
+      update(session.user);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    session.user,
+    session.user?.id,
+    session.user?.name,
+    session.user?.avatarUrl,
+  ]);
+
+  return { ...user, update };
 }

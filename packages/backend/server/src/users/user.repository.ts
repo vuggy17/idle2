@@ -7,14 +7,18 @@ export class UserRepository {
 
   updateUserData(
     userId: string,
-    newUserData: {
-      firstname?: string;
-      lastname?: string;
+    data: {
+      name?: string;
+      avatarUrl?: string;
       password?: string;
     },
   ) {
     return this.prisma.user.update({
-      data: newUserData,
+      data: {
+        name: data.name,
+        avatar: data.avatarUrl,
+        password: data.password,
+      },
       where: {
         id: userId,
       },

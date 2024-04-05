@@ -18,12 +18,6 @@ model User {
   updatedAt DateTime @updatedAt
   email     String   @unique
   password  String?
-  firstname String?
-  lastname  String?
-  role      Role
-}
-
-enum Role {
-  ADMIN
-  USER
+  name      String?
+  avatar    String?
 }

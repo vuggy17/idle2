@@ -1,16 +1,12 @@
-import {
-  Avatar,
-  Button,
-  Dropdown,
-  Flex,
-  Space,
-  Tooltip,
-  Typography,
-} from 'antd';
+import { Avatar, Button, Flex, Space, Tooltip, Typography } from 'antd';
+import { useSetAtom } from 'jotai';
 
+import { settingAtom } from '../../../atoms/setting';
 import { headerContainerStyle } from './index.css';
 
 export function SidebarHeader() {
+  const setOpenSettingModal = useSetAtom(settingAtom);
+
   return (
     <Flex
       align="center"
@@ -18,8 +14,15 @@ export function SidebarHeader() {
       className={headerContainerStyle}
     >
       <Space>
-        <Tooltip title="Open account settings" placement="bottomLeft">
+        <Tooltip
+          title="Open account settings"
+          mouseEnterDelay={0.5}
+          placement="bottomLeft"
+        >
           <Avatar
+            onClick={() =>
+              setOpenSettingModal((store) => ({ ...store, open: true }))
+            }
             style={{
               cursor: 'pointer',
             }}

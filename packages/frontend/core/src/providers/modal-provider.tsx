@@ -2,6 +2,7 @@ import { useAtom } from 'jotai';
 import { lazy, Suspense, useCallback } from 'react';
 
 import { authAtom } from '../components/idle/auth/auth-atom';
+import { SettingModal } from '../components/idle/setting';
 
 const Auth = lazy(() =>
   import('../components/idle/auth').then((module) => ({
@@ -43,6 +44,7 @@ export function AllWorkspaceModals() {
   return (
     <Suspense>
       <AuthModal />
+      <SettingModal />
     </Suspense>
   );
 }

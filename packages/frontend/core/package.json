@@ -10,13 +10,14 @@
     "lint": "eslint --ext .ts,.tsx ."
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.6",
     "@emotion/react": "^11.11.4",
     "@idle/component": "workspace:*",
     "@idle/env": "workspace:*",
     "@idle/http": "workspace:*",
     "@idle/model": "workspace:*",
     "@vanilla-extract/css": "^1.14.1",
-    "antd": "^5.15.0",
+    "antd": "^5.16.0",
     "appwrite": "^13.0.2",
     "axios": "^1.6.7",
     "jotai": "^2.7.0",

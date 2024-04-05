@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'nestjs-prisma';
 
 import { PasswordService } from '../auth/password.service';
 import { ChangePasswordInput } from './dto/change-password.input';
@@ -9,7 +8,6 @@ import { UserRepository } from './user.repository';
 @Injectable()
 export class UsersService {
   constructor(
-    private prisma: PrismaService,
     private passwordService: PasswordService,
     private repository: UserRepository,
   ) {}

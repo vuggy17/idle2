@@ -1,5 +1,12 @@
-export class UpdateUserInput {
-  firstname?: string;
+import { Optional } from '@nestjs/common';
+import { IsString } from 'class-validator';
 
-  lastname?: string;
+export class UpdateUserInput {
+  @Optional()
+  @IsString()
+  name?: string;
+
+  @Optional()
+  @IsString()
+  avatarUrl?: string;
 }

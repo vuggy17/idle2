@@ -20,6 +20,15 @@ class UserCollection extends APICollection {
       };
     }
   }
+
+  update(
+    updates: Partial<{ name: string; avatarUrl: string }>,
+  ): Promise<UserDTO> {
+    return this.client.post(this.getUrl('update'), {
+      name: updates.name,
+      avatarUrl: updates.avatarUrl,
+    });
+  }
 }
 
 const userApis = new UserCollection('user');

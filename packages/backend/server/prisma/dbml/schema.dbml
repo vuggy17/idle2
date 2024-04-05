@@ -8,12 +8,6 @@ Table User {
   updatedAt DateTime [not null]
   email String [unique, not null]
   password String
-  firstname String
-  lastname String
-  role Role [not null]
-}
-
-Enum Role {
-  ADMIN
-  USER
+  name String
+  avatar String
 }

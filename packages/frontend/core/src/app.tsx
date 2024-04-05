@@ -5,7 +5,7 @@ import { RouterProvider } from 'react-router-dom';
 import { AuthSessionProvider } from './providers/auth-provider';
 import { router } from './router';
 
-function App() {
+function Component() {
   return (
     <Suspense>
       <IdleContext>
@@ -16,4 +16,4 @@ function App() {
     </Suspense>
   );
 }
-export default App;
+export default Component;

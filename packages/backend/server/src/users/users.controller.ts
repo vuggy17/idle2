@@ -1,5 +1,5 @@
+import { UserDTO } from '@idle/model';
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
-import { PrismaService } from 'nestjs-prisma';
 
 import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { AuthUser } from '../common/decorators/user.decorator';
@@ -11,15 +11,17 @@ import { UsersService } from './users.service';
 @Controller('user')
 @UseGuards(JwtAuthGuard)
 export class UserController {
-  constructor(
-    private usersService: UsersService,
-    private prisma: PrismaService,
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   @Get('me')
-  async me(@AuthUser() user: User): Promise<User> {
+  async me(@AuthUser() user: User): Promise<UserDTO> {
     // TODO: handle case: user deleted from appwrite, but app still able to find them cus they got an active token
-    return user;
+    return {
+      id: user.id,
+      avatarUrl: 'https://source.unsplash.com/random',
+      email: user.email,
+      name: user.name,
+    };
   }
 
   @Post('update')
