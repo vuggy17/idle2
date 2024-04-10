@@ -27,7 +27,7 @@ export class UserController {
   @Post('update')
   async updateUser(
     @AuthUser() user: User,
-    @Body('data') newUserData: UpdateUserInput,
+    @Body() newUserData: UpdateUserInput,
   ) {
     return this.usersService.updateUser(user.id, newUserData);
   }
