@@ -9,7 +9,7 @@ import App from './app';
 function mountApp() {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-      <App />
+      <App />,
     </React.StrictMode>,
   );
 }

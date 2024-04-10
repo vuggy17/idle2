@@ -38,6 +38,7 @@ const isCurrentUserAGuest = async () => {
  * otherwise, check if their appwrite session if they are an guest user, if not return null
  */
 const fetchMe = async () => {
+  // console.log('fech recall');
   const { user, success } = await fetcher.user.getMe();
 
   if (success) {
@@ -64,6 +65,8 @@ export function useSession(): AuthSessionWithReload {
     // eslint-disable-next-line no-nested-ternary
     status: isLoading ? 'loading' : data ? 'authenticated' : 'unauthenticated',
     reload: async () => {
+      console.log('reload triggered');
+      // console.trace();
       await mutate();
     },
   };
@@ -83,7 +86,7 @@ export function useCurrentUser() {
 
   useEffect(() => {
     if (session.user) {
-      update(session.user);
+      setUser((u) => ({ ...u, ...session.user }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

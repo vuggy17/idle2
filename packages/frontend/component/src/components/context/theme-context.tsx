@@ -15,6 +15,9 @@ export function ThemeConfig({ children }: PropsWithChildren) {
       theme={{
         cssVar: true,
         hashed: false,
+        token: {
+          motion: false,
+        },
         // algorithm: theme.defaultAlgorithm,
       }}
       list={{ className: styles.list }}

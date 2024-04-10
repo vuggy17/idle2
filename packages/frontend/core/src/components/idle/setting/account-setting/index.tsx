@@ -37,15 +37,15 @@ export default function AccountSetting() {
     name?: string;
     avatar?: string;
   }) => {
-    // await fetcher.user.update({
-    //   name: changes.name,
-    //   avatarUrl: changes.avatar,
-    // });
+    await fetcher.user.update({
+      name: changes.name,
+      avatarUrl: changes.avatar,
+    });
 
-    // user.update({
-    //   name: changes.name,
-    //   avatarUrl: changes.avatar,
-    // });
+    await user.update({
+      name: changes.name,
+      avatarUrl: changes.avatar,
+    });
 
     message.success('Your information updated');
   };
