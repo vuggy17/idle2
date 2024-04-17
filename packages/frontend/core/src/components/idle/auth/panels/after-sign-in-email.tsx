@@ -2,9 +2,9 @@ import { Avatar, Button, Space, Statistic, Typography } from 'antd';
 import { useCallback, useState } from 'react';
 
 import logo from '../../../assets/logo.png';
-import type { AuthPanelProps } from './panel';
-import { subTitle, title, wrapper } from './sign-in.css';
-import { useAuth } from './use-auth';
+import type { AuthPanelProps } from '../auth-panel';
+import { subTitle, title, wrapper } from '../sign-in.css';
+import { useAuth } from '../use-auth';
 
 const RESEND_EMAIL_COUNTDOWN = 60;
 

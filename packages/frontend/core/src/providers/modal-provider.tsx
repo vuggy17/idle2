@@ -5,7 +5,7 @@ import { authAtom } from '../components/idle/auth/auth-atom';
 import { SettingModal } from '../components/idle/setting';
 
 const Auth = lazy(() =>
-  import('../components/idle/auth').then((module) => ({
+  import('../components/idle/auth/auth-modal').then((module) => ({
     default: module.AuthModal,
   })),
 );

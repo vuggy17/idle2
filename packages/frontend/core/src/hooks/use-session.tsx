@@ -38,7 +38,6 @@ const isCurrentUserAGuest = async () => {
  * otherwise, check if their appwrite session if they are an guest user, if not return null
  */
 const fetchMe = async () => {
-  // console.log('fech recall');
   const { user, success } = await fetcher.user.getMe();
 
   if (success) {
@@ -97,4 +96,21 @@ export function useCurrentUser() {
   ]);
 
   return { ...user, update };
+}
+
+type AuthPreference = {
+  isPasswordEnabled: boolean;
+};
+
+async function getAuthPreference(): Promise<AuthPreference | undefined> {
+  const accountSdk = new Account(AppWriteClient);
+  const userSession = await accountSdk.get();
+
+  return { isPasswordEnabled: !!userSession.password };
+}
+
+export function useAuthPreference() {
+  const { data, isLoading } = useSWR('user-auth', getAuthPreference);
+
+  return { data, isLoading };
 }

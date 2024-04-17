@@ -5,7 +5,7 @@ import logo from '../../../assets/logo.png';
 import { useCurrentLoginStatus } from '../../../hooks/use-current-login-status';
 import useNavigateHelper from '../../../hooks/use-navigate-helper';
 import { useSession } from '../../../hooks/use-session';
-import type { AuthPanelProps } from './panel';
+import type { AuthPanelProps } from './auth-panel';
 import {
   formButtonGroup,
   formWrapper,

@@ -2,7 +2,7 @@ import { Avatar, Button, Space, Typography } from 'antd';
 
 import logo from '../../../assets/logo.png';
 import { useSession } from '../../../hooks/use-session';
-import type { AuthPanelProps } from './panel';
+import type { AuthPanelProps } from './auth-panel';
 import { subTitle, title, wrapper } from './sign-in.css';
 import { useAuth } from './use-auth';
 

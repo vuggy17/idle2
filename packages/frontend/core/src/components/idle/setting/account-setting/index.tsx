@@ -17,7 +17,10 @@ import {
 } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 
-import { useCurrentUser } from '../../../../hooks/use-session';
+import {
+  useAuthPreference,
+  useCurrentUser,
+} from '../../../../hooks/use-session';
 import { NavArrowRightIcon } from '../icons';
 
 const { useToken } = theme;
@@ -26,6 +29,8 @@ const { useApp } = App;
 
 export default function AccountSetting() {
   const user = useCurrentUser();
+  const { data, isLoading } = useAuthPreference();
+
   const { token } = useToken();
   const [form] = useForm();
   const { message } = useApp();
@@ -136,9 +141,28 @@ export default function AccountSetting() {
                     paddingInline: 0,
                   }}
                   actions={[
-                    <Tooltip key="change-email-btn">
-                      <Button type="default">Change email</Button>
-                    </Tooltip>,
+                    data?.isPasswordEnabled ? (
+                      <Button
+                        loading={isLoading}
+                        type="default"
+                        disabled={!data?.isPasswordEnabled}
+                      >
+                        Change email
+                      </Button>
+                    ) : (
+                      <Tooltip
+                        key="change-email-btn"
+                        title="You should create a password before change email"
+                      >
+                        <Button
+                          loading={isLoading}
+                          type="default"
+                          disabled={!data?.isPasswordEnabled}
+                        >
+                          Change email
+                        </Button>
+                      </Tooltip>
+                    ),
                   ]}
                 >
                   <List.Item.Meta
@@ -159,13 +183,25 @@ export default function AccountSetting() {
                     paddingInline: 0,
                   }}
                   actions={[
-                    <Button
-                      key="create-password-btn"
-                      type="default"
-                      // onClick={() => setPwdModalOpen(true)}
-                    >
-                      Change password
-                    </Button>,
+                    data?.isPasswordEnabled ? (
+                      <Button
+                        loading={isLoading}
+                        key="change-password-btn"
+                        type="default"
+                        // onClick={() => setPwdModalOpen(true)}
+                      >
+                        Change password
+                      </Button>
+                    ) : (
+                      <Button
+                        loading={isLoading}
+                        key="create-password-btn"
+                        type="default"
+                        // onClick={() => setPwdModalOpen(true)}
+                      >
+                        Create password
+                      </Button>
+                    ),
                   ]}
                 >
                   <List.Item.Meta
@@ -178,7 +214,7 @@ export default function AccountSetting() {
                         Password
                       </Typography.Text>
                     }
-                    description="If you lose access to your school email address, you'll be able to log in using your password."
+                    description="If you lose access to your email address, you'll be able to log in using your password."
                   />
                 </List.Item>
               </List>
@@ -219,19 +255,6 @@ export default function AccountSetting() {
               </List>
             </section>
           </Flex>
-          {/* <ChangePasswordModal
-            destroyOnClose
-            onCancel={() => setPwdModalOpen(false)}
-            open={pwdModalOpen}
-            onOk={() => setPwdModalOpen(false)}
-          />
-          <DeactivateAccountModal
-            closeIcon={null}
-            destroyOnClose
-            onCancel={() => setDelAccountModalOpen(false)}
-            open={delAccountModalOpen}
-            onOk={onAccountDeleted}
-          /> */}
         </Content>
       </Layout>
     </ConfigProvider>

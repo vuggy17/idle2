@@ -1,6 +1,6 @@
 import { type FC, useMemo } from 'react';
 
-import AfterSignInWithEmail from './after-sign-in-email';
+import AfterSignInWithEmail from './panels/after-sign-in-email';
 import { SignIn } from './sign-in';
 import { SignInWithEmail } from './sign-in-with-email';
 
