@@ -1,8 +1,10 @@
 import { atom } from 'jotai';
 
+import type { AuthProps } from './panels/components/panel';
+
 export type AuthAtom = {
   openModal: boolean;
-  state: 'signIn' | 'signInWithEmail' | 'afterSignInWithEmail';
+  state: AuthProps['state'];
   email: string;
 };
 

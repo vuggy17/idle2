@@ -16,11 +16,13 @@ import {
   Typography,
 } from 'antd';
 import { Content } from 'antd/es/layout/layout';
+import { useSetAtom } from 'jotai';
 
 import {
   useAuthPreference,
   useCurrentUser,
 } from '../../../../hooks/use-session';
+import { authAtom } from '../../auth/auth-atom';
 import { NavArrowRightIcon } from '../icons';
 
 const { useToken } = theme;
@@ -28,6 +30,7 @@ const { useForm, useWatch } = Form;
 const { useApp } = App;
 
 export default function AccountSetting() {
+  const setAuthAtom = useSetAtom(authAtom);
   const user = useCurrentUser();
   const { data, isLoading } = useAuthPreference();
 
@@ -53,6 +56,17 @@ export default function AccountSetting() {
     });
 
     message.success('Your information updated');
+  };
+
+  const openCreatePasswordModal = () => {
+    setAuthAtom((store) => {
+      console.log('store', store);
+      return {
+        ...store,
+        openModal: true,
+        state: 'createPassword',
+      };
+    });
   };
 
   return (
@@ -197,7 +211,7 @@ export default function AccountSetting() {
                         loading={isLoading}
                         key="create-password-btn"
                         type="default"
-                        // onClick={() => setPwdModalOpen(true)}
+                        onClick={openCreatePasswordModal}
                       >
                         Create password
                       </Button>

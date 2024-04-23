@@ -1,6 +1,7 @@
 import { type FC, useMemo } from 'react';
 
 import AfterSignInWithEmail from '../after-sign-in-email';
+import { CreatePassword } from '../create-password';
 import { SignIn } from '../sign-in';
 import { SignInWithEmail } from '../sign-in-with-email';
 
@@ -11,7 +12,11 @@ export type AuthPanelProps = {
   onSignedIn?: () => void;
 };
 export type AuthProps = {
-  state: 'signIn' | 'signInWithEmail' | 'afterSignInWithEmail';
+  state:
+    | 'signIn'
+    | 'signInWithEmail'
+    | 'afterSignInWithEmail'
+    | 'createPassword';
   setAuthState: (state: AuthProps['state']) => void;
   setAuthEmail: (state: AuthProps['email']) => void;
   email: string;
@@ -24,6 +29,7 @@ const config: {
   signIn: SignIn,
   signInWithEmail: SignInWithEmail,
   afterSignInWithEmail: AfterSignInWithEmail,
+  createPassword: CreatePassword,
 };
 // ====================================================
 
@@ -34,7 +40,6 @@ export default function AuthPanel({
   const CurrentPanel = useMemo(() => {
     return config[state];
   }, [state]);
-
   return (
     <CurrentPanel
       email={props.email}

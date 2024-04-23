@@ -18,7 +18,7 @@ export function AuthPanelHeader({
         </Typography.Text>
       </Space>
       <Typography.Text className={cls.panelHeader} strong>
-        Idle chat
+        Idle
       </Typography.Text>
     </div>
   );
