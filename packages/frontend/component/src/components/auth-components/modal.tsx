@@ -1,15 +1,13 @@
-import { Avatar, Modal, Space, Typography } from 'antd';
+import { Modal } from 'antd';
 import type { PropsWithChildren } from 'react';
 import { useCallback } from 'react';
-
-import { subTitle } from './header.css';
 
 export type AuthModalProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
 };
 
-function AuthModal({
+export function AuthModal({
   children,
   setOpen,
   open,
@@ -28,23 +26,3 @@ function AuthModal({
     </Modal>
   );
 }
-
-function ModalHeader({ title, logo }: { title: string; logo: string }) {
-  return (
-    <div>
-      <Space>
-        <Avatar src={logo} size={28} />
-        <Typography.Text className={subTitle} strong>
-          {title}
-        </Typography.Text>
-      </Space>
-      <Typography.Text className={title} strong>
-        Idle chat
-      </Typography.Text>
-    </div>
-  );
-}
-
-AuthModal.Header = ModalHeader;
-
-export { AuthModal };

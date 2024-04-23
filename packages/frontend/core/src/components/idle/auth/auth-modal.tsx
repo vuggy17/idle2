@@ -2,8 +2,7 @@ import { AuthModal as AuthModalBase } from '@idle/component/auth-components';
 import { type AuthModalProps as AuthModalBaseProps } from '@idle/component/auth-components';
 import { useCallback } from 'react';
 
-import { AuthPanel } from './auth-panel';
-import { type AuthProps } from './auth-panel';
+import AuthPanel, { type AuthProps } from './panels/components/panel';
 
 type AuthModalProps = AuthProps & {
   setOpen: (open: boolean) => void;

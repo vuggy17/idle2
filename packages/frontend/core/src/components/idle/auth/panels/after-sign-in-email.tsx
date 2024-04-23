@@ -1,10 +1,11 @@
-import { Avatar, Button, Space, Statistic, Typography } from 'antd';
+import { Button, Space, Statistic, Typography } from 'antd';
 import { useCallback, useState } from 'react';
 
-import logo from '../../../assets/logo.png';
-import type { AuthPanelProps } from '../auth-panel';
-import { subTitle, title, wrapper } from '../sign-in.css';
+import logo from '../../../../assets/logo.png';
 import { useAuth } from '../use-auth';
+import { AuthPanelContent } from './components/content';
+import { AuthPanelHeader } from './components/header';
+import { type AuthPanelProps } from './components/panel';
 
 const RESEND_EMAIL_COUNTDOWN = 60;
 
@@ -41,20 +42,10 @@ export default function AfterSignInWithEmail({
   }, [email, magicUrlSignIn]);
 
   return (
-    <div>
-      <div className={wrapper}>
+    <>
+      <AuthPanelContent>
         <Space direction="vertical" size="large">
-          <div>
-            <Space>
-              <Avatar src={logo} size={28} />
-              <Typography.Text className={subTitle} strong>
-                Idle
-              </Typography.Text>
-            </Space>
-            <Typography.Text className={title} strong>
-              Sign into account
-            </Typography.Text>
-          </div>
+          <AuthPanelHeader logo={logo} title="Sign into account" />
           <Typography.Text>
             An email with a magic link has been sent to
             <Typography.Link
@@ -92,10 +83,10 @@ export default function AfterSignInWithEmail({
             folder.
           </Typography.Text>
         </Space>
-      </div>
+      </AuthPanelContent>
       <Button type="text" onClick={() => setAuthState('signInWithEmail')}>
         Back
       </Button>
-    </div>
+    </>
   );
 }

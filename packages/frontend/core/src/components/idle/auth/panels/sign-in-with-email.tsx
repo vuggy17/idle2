@@ -1,20 +1,15 @@
-import { Avatar, Button, Form, Input, Space, Typography } from 'antd';
+import { Button, Form, Input, Space, Typography } from 'antd';
 import { useState } from 'react';
 
-import logo from '../../../assets/logo.png';
-import { useCurrentLoginStatus } from '../../../hooks/use-current-login-status';
-import useNavigateHelper from '../../../hooks/use-navigate-helper';
-import { useSession } from '../../../hooks/use-session';
-import type { AuthPanelProps } from './auth-panel';
-import {
-  formButtonGroup,
-  formWrapper,
-  subTitle,
-  title,
-  wrapper,
-} from './sign-in.css';
-import { createAccountGuest } from './sign-in-with-email.css';
-import { useAuth } from './use-auth';
+import logo from '../../../../assets/logo.png';
+import { useCurrentLoginStatus } from '../../../../hooks/use-current-login-status';
+import useNavigateHelper from '../../../../hooks/use-navigate-helper';
+import { useSession } from '../../../../hooks/use-session';
+import { useAuth } from '../use-auth';
+import { AuthPanelContent } from './components/content';
+import { AuthPanelHeader } from './components/header';
+import type { AuthPanelProps } from './components/panel';
+import * as cls from './style.css';
 
 export function SignInWithEmail({
   onSignedIn,
@@ -49,20 +44,10 @@ export function SignInWithEmail({
   };
 
   return (
-    <div>
-      <div className={wrapper}>
-        <Space direction="vertical" size="large" className={formWrapper}>
-          <div>
-            <Space>
-              <Avatar src={logo} size={28} />
-              <Typography.Text className={subTitle} strong>
-                Sign in
-              </Typography.Text>
-            </Space>
-            <Typography.Text className={title} strong>
-              Idle chat
-            </Typography.Text>
-          </div>
+    <>
+      <AuthPanelContent>
+        <Space direction="vertical" size="large" className={cls.signInForm}>
+          <AuthPanelHeader logo={logo} title="Sign in" />
           <Form
             onFinish={onLoginWithEmail}
             initialValues={{ email: 'nutriboost17z@gmail.com' }}
@@ -86,7 +71,7 @@ export function SignInWithEmail({
                 placeholder="Enter your email address"
               />
             </Form.Item>
-            <Space className={formButtonGroup}>
+            <Space className={cls.signInFormBtnGroup}>
               <Button htmlType="submit" type="text">
                 Create account
               </Button>
@@ -96,13 +81,13 @@ export function SignInWithEmail({
             </Space>
           </Form>
         </Space>
-      </div>
+      </AuthPanelContent>
       <Typography.Link
-        className={createAccountGuest}
+        className={cls.createAccountGuest}
         onClick={onAnonymousSigningClick}
       >
         Try without create an account
       </Typography.Link>
-    </div>
+    </>
   );
 }
