@@ -28,7 +28,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
     @Body() { token }: AuthenticateInput,
   ) {
-    const user = await this.authService.createUserFromToken(token);
+    const user = await this.authService.retrieveUserFromToken(token);
 
     const tokens = this.authService.generateTokens({
       userId: user.id,

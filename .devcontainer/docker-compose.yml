@@ -8,8 +8,8 @@ services:
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
-    environment:
-      DATABASE_URL: postgresql://idle:idle@pg:5432/idle?chema=idle&sslmode=prefer
+    # environment:
+    #   DATABASE_URL: postgresql://idle:idle@pg:5432/idle?chema=idle&sslmode=prefer
 
   pg:
     container_name: pg

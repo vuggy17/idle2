@@ -31,12 +31,14 @@ export class AuthService {
   ) {}
 
   async createUser(payload: SignupInput): Promise<Token> {
+    const { firstname, lastname, ...data } = payload;
     const hashedPassword = await this.passwordService.hashPassword(
       payload.password,
     );
 
     const user = await this.repository.createUser({
-      ...payload,
+      email: data.email,
+      name: `${firstname?.trim()} ${lastname?.trim()}`,
       password: hashedPassword,
     });
 
@@ -83,7 +85,7 @@ export class AuthService {
     return auth.get();
   }
 
-  async createUserFromToken(token: string): Promise<User> {
+  async retrieveUserFromToken(token: string): Promise<User> {
     const appwriteUser = await this.getUserFromAppwriteToken(token);
 
     const user = await this.repository.findById(appwriteUser.$id);
@@ -95,7 +97,7 @@ export class AuthService {
       id: appwriteUser.$id,
       email: appwriteUser.email,
       password: appwriteUser.password,
-      lastname: appwriteUser.name,
+      name: appwriteUser.name,
     });
 
     return newUser;

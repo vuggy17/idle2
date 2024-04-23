@@ -10,15 +10,11 @@ export class AuthRepository {
     id?: string;
     email: string;
     password?: string;
-    firstname?: string;
-    lastname?: string;
+    name?: string;
   }) {
     try {
       const doc = await this.prisma.user.create({
-        data: {
-          ...data,
-          role: 'USER',
-        },
+        data,
       });
 
       return doc;
@@ -39,6 +35,7 @@ export class AuthRepository {
   }
 
   findById(id: string) {
-    return this.prisma.user.findUnique({ where: { id } });
+    console.log('🚀 ~ AuthRepository ~ findById ~ id:', id);
+    return this.prisma.user.findFirst({ where: { id } });
   }
 }
