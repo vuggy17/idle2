@@ -1,4 +1,4 @@
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider } from 'antd';
 import { type PropsWithChildren, useContext } from 'react';
 
 import { useListStyle } from '../../ui/list/index';
@@ -15,10 +15,6 @@ export function ThemeConfig({ children }: PropsWithChildren) {
       theme={{
         cssVar: true,
         hashed: false,
-        token: {
-          motion: false,
-        },
-        // algorithm: theme.defaultAlgorithm,
       }}
       list={{ className: styles.list }}
     >

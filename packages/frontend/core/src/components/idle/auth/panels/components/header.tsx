@@ -14,11 +14,11 @@ export function AuthPanelHeader({
       <Space>
         <Avatar src={logo} size={28} />
         <Typography.Text className={cls.panelSub} strong>
-          {title}
+          Idle
         </Typography.Text>
       </Space>
       <Typography.Text className={cls.panelHeader} strong>
-        Idle
+        {title}
       </Typography.Text>
     </div>
   );

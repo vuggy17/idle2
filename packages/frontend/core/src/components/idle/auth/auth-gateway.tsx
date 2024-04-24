@@ -5,8 +5,6 @@ import { AppWriteClient } from '../../../providers/appwrite-client';
 class AuthGateway {
   constructor(private readonly accountGateway: Account) {}
 
-  foo = 'this do nothing';
-
   createAnonymousSession() {
     return this.accountGateway.createAnonymousSession();
   }
@@ -27,6 +25,10 @@ class AuthGateway {
       email,
       PLATFORM_VERIFY_URL,
     );
+  }
+
+  createPassword(password: string) {
+    return this.accountGateway.updatePassword(password);
   }
 
   logoutCurrentDevice() {

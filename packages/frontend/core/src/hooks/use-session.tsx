@@ -64,8 +64,6 @@ export function useSession(): AuthSessionWithReload {
     // eslint-disable-next-line no-nested-ternary
     status: isLoading ? 'loading' : data ? 'authenticated' : 'unauthenticated',
     reload: async () => {
-      console.log('reload triggered');
-      // console.trace();
       await mutate();
     },
   };
@@ -106,11 +104,11 @@ async function getAuthPreference(): Promise<AuthPreference | undefined> {
   const accountSdk = new Account(AppWriteClient);
   const userSession = await accountSdk.get();
 
-  return { isPasswordEnabled: !!userSession.password };
+  return { isPasswordEnabled: !!userSession.passwordUpdate };
 }
 
 export function useAuthPreference() {
-  const { data, isLoading } = useSWR('user-auth', getAuthPreference);
+  const { data, isLoading, mutate } = useSWR('user-auth', getAuthPreference);
 
-  return { data, isLoading };
+  return { data, isLoading, reload: useCallback(() => mutate(), [mutate]) };
 }

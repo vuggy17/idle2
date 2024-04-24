@@ -29,7 +29,13 @@ export function useAuth() {
     }
   }, []);
 
+  const createPassword = useCallback(
+    (password: string) => authGateway.createPassword(password),
+    [],
+  );
+
   return {
+    createPassword,
     anonymousSignIn,
     magicUrlSignIn,
     logout,

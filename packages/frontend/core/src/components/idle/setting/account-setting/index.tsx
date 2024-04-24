@@ -60,11 +60,22 @@ export default function AccountSetting() {
 
   const openCreatePasswordModal = () => {
     setAuthAtom((store) => {
-      console.log('store', store);
       return {
         ...store,
         openModal: true,
+        email: user.email,
         state: 'createPassword',
+      };
+    });
+  };
+
+  const openResetPasswordModal = () => {
+    setAuthAtom((store) => {
+      return {
+        ...store,
+        openModal: true,
+        email: user.email,
+        state: 'resetPassword',
       };
     });
   };
@@ -202,7 +213,7 @@ export default function AccountSetting() {
                         loading={isLoading}
                         key="change-password-btn"
                         type="default"
-                        // onClick={() => setPwdModalOpen(true)}
+                        onClick={openResetPasswordModal}
                       >
                         Change password
                       </Button>

@@ -22,7 +22,7 @@ export function AuthModal({
       destroyOnClose
       footer={null}
     >
-      {children}
+      <div id="auth-modal">{children}</div>
     </Modal>
   );
 }
