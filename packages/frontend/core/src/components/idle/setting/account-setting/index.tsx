@@ -24,6 +24,7 @@ import {
   useCurrentUser,
 } from '../../../../hooks/use-session';
 import { authAtom } from '../../auth/auth-atom';
+import { useAuth } from '../../auth/use-auth';
 import { NavArrowRightIcon } from '../icons';
 
 const { useToken } = theme;
@@ -34,6 +35,7 @@ export default function AccountSetting() {
   const setAuthAtom = useSetAtom(authAtom);
   const user = useCurrentUser();
   const { data, isLoading } = useAuthPreference();
+  const { logout } = useAuth();
 
   const { token } = useToken();
   const [form] = useForm();
@@ -91,6 +93,11 @@ export default function AccountSetting() {
       };
     });
   }, [setAuthAtom, user.email]);
+
+  const logoutAndRefresh = useCallback(async () => {
+    await logout();
+    window.location.reload();
+  }, [logout]);
 
   return (
     <ConfigProvider
@@ -262,9 +269,9 @@ export default function AccountSetting() {
                   }}
                   actions={[
                     <Button
-                      key="delete-account-btn"
+                      key="logout-btn"
                       type="text"
-                      // onClick={() => setDelAccountModalOpen(true)}
+                      onClick={logoutAndRefresh}
                       icon={
                         <NavArrowRightIcon color={token.colorTextDescription} />
                       }

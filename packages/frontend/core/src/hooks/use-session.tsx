@@ -82,16 +82,12 @@ export function useCurrentUser() {
   );
 
   useEffect(() => {
+    console.log('change');
     if (session.user) {
       setUser((u) => ({ ...u, ...session.user }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    session.user,
-    session.user?.id,
-    session.user?.name,
-    session.user?.avatarUrl,
-  ]);
+  }, [session.user]);
 
   return { ...user, update };
 }
