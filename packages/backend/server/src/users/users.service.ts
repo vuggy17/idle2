@@ -13,6 +13,7 @@ export class UsersService {
   ) {}
 
   updateUser(userId: string, newUserData: UpdateUserInput) {
+    console.log('🚀 ~ UsersService ~ updateUser ~ newUserData:', newUserData);
     return this.repository.updateUserData(userId, newUserData);
   }
 

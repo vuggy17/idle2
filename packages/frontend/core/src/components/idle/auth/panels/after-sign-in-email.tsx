@@ -32,7 +32,7 @@ export default function AfterSignInWithEmail({
   setAuthState,
 }: AuthPanelProps) {
   const [countTimeout, setCountTimeout] = useState(false);
-  const { magicUrlSignIn } = useAuth();
+  const { sendMagicUrl } = useAuth();
 
   const onCountdownFinish = () => {
     setCountTimeout(true);
@@ -40,8 +40,8 @@ export default function AfterSignInWithEmail({
 
   const onResendClick = useCallback(async () => {
     setCountTimeout(false);
-    magicUrlSignIn(email);
-  }, [email, magicUrlSignIn]);
+    sendMagicUrl(email);
+  }, [email, sendMagicUrl]);
 
   return (
     <>

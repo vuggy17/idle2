@@ -1,6 +1,7 @@
 import { type FC, useMemo } from 'react';
 
 import AfterSignInWithEmail from '../after-sign-in-email';
+import { ChangeEmail } from '../change-emaiil';
 import { CreatePassword } from '../create-password';
 import { ResetPassword } from '../reset-password';
 import { SignIn } from '../sign-in';
@@ -18,7 +19,8 @@ export type AuthProps = {
     | 'signInWithEmail'
     | 'afterSignInWithEmail'
     | 'createPassword'
-    | 'resetPassword';
+    | 'resetPassword'
+    | 'changeEmail';
   setAuthState: (state: AuthProps['state']) => void;
   setAuthEmail: (state: AuthProps['email']) => void;
   email: string;
@@ -33,6 +35,7 @@ const config: {
   afterSignInWithEmail: AfterSignInWithEmail,
   createPassword: CreatePassword,
   resetPassword: ResetPassword,
+  changeEmail: ChangeEmail,
 };
 // ====================================================
 

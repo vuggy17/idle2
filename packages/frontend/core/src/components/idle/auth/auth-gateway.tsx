@@ -18,7 +18,7 @@ class AuthGateway {
   }
 
   sendMagicUrl(email: string) {
-    const PLATFORM_VERIFY_URL = `${window.location.origin}/auth/verify-email`;
+    const PLATFORM_VERIFY_URL = `${window.location.origin}/auth/magic-login`;
 
     return this.accountGateway.createMagicURLSession(
       ID.unique(),
@@ -56,6 +56,24 @@ class AuthGateway {
     passAgain: string,
   ) {
     return this.accountGateway.updateRecovery(userId, secret, pass, passAgain);
+  }
+
+  changeEmail(email: string, password: string) {
+    return this.accountGateway.updateEmail(email, password);
+  }
+
+  sendVerificationEmail() {
+    const PLATFORM_VERIFY_URL = `${window.location.origin}/auth/verify-email`;
+    return this.accountGateway.createVerification(PLATFORM_VERIFY_URL);
+  }
+
+  verifyEmail(userId: string, sessionSecret: string) {
+    return this.accountGateway.updateVerification(userId, sessionSecret);
+  }
+
+  /** Get current logged in user */
+  getCurrentUser() {
+    return this.accountGateway.get();
   }
 }
 export const authGateway = new AuthGateway(new Account(AppWriteClient));

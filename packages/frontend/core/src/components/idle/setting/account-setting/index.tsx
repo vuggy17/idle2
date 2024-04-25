@@ -17,6 +17,7 @@ import {
 } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { useSetAtom } from 'jotai';
+import { useCallback } from 'react';
 
 import {
   useAuthPreference,
@@ -79,6 +80,17 @@ export default function AccountSetting() {
       };
     });
   };
+
+  const openChangeEmailModal = useCallback(() => {
+    setAuthAtom((store) => {
+      return {
+        ...store,
+        openModal: true,
+        email: user.email,
+        state: 'changeEmail',
+      };
+    });
+  }, [setAuthAtom, user.email]);
 
   return (
     <ConfigProvider
@@ -170,7 +182,7 @@ export default function AccountSetting() {
                       <Button
                         loading={isLoading}
                         type="default"
-                        disabled={!data?.isPasswordEnabled}
+                        onClick={openChangeEmailModal}
                       >
                         Change email
                       </Button>
@@ -179,11 +191,7 @@ export default function AccountSetting() {
                         key="change-email-btn"
                         title="You should create a password before change email"
                       >
-                        <Button
-                          loading={isLoading}
-                          type="default"
-                          disabled={!data?.isPasswordEnabled}
-                        >
+                        <Button loading={isLoading} type="default" disabled>
                           Change email
                         </Button>
                       </Tooltip>

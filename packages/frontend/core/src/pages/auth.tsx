@@ -11,11 +11,18 @@ import {
 import { z } from 'zod';
 
 import logo from '../assets/logo.png';
-import { loginByMagicEmail } from '../components/idle/auth/auth-helper';
+import {
+  loginByMagicEmail,
+  verifyAndUpdateEmailAddress,
+} from '../components/idle/auth/auth-helper';
 import { useAuth } from '../components/idle/auth/use-auth';
 import useNavigateHelper from '../hooks/use-navigate-helper';
 
-const authTypeSchema = z.enum(['verify-email', 'password-reset']);
+const authTypeSchema = z.enum([
+  'verify-email',
+  'password-reset',
+  'magic-login',
+]);
 type AuthParams = {
   authType: z.infer<typeof authTypeSchema>;
 };
@@ -39,6 +46,7 @@ function AuthPage() {
   );
 
   switch (authType) {
+    case 'magic-login':
     case 'verify-email':
       return (
         <Suspense fallback={<EmailVerified.Loader />}>
@@ -75,11 +83,18 @@ export const loader: LoaderFunction = async (args) => {
     return redirect('/404');
   }
 
-  if (args.params.authType === 'verify-email') {
+  if (args.params.authType === 'magic-login') {
     const { searchParams } = new URL(args.request.url);
     const userId = searchParams.get('userId') ?? '';
     const secret = searchParams.get('secret') ?? '';
     return defer({ user: loginByMagicEmail(userId, secret) });
+  }
+
+  if (args.params.authType === 'verify-email') {
+    const { searchParams } = new URL(args.request.url);
+    const userId = searchParams.get('userId') ?? '';
+    const secret = searchParams.get('secret') ?? '';
+    return defer({ user: verifyAndUpdateEmailAddress(userId, secret) });
   }
 
   return null;

@@ -10,12 +10,14 @@ export class UserRepository {
     data: {
       name?: string;
       avatarUrl?: string;
+      email?: string;
       password?: string;
     },
   ) {
     return this.prisma.user.update({
       data: {
         name: data.name,
+        email: data.email,
         avatar: data.avatarUrl,
         password: data.password,
       },

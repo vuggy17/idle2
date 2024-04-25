@@ -13,7 +13,7 @@ export function useAuth() {
     }
   }, []);
 
-  const magicUrlSignIn = useCallback(async (email: string) => {
+  const sendMagicUrl = useCallback(async (email: string) => {
     await authGateway.sendMagicUrl(email);
   }, []);
 
@@ -53,12 +53,25 @@ export function useAuth() {
       authGateway.resetPassword(userId, secret, pass, passAgain),
     [],
   );
+
+  const changeEmail = useCallback(
+    (email: string, pass: string) => authGateway.changeEmail(email, pass),
+    [],
+  );
+
+  const sendEmailVerificationEmail = useCallback(
+    () => authGateway.sendVerificationEmail(),
+    [],
+  );
+
   return {
     logout,
+    changeEmail,
     resetPassword,
     createPassword,
-    magicUrlSignIn,
+    sendMagicUrl,
     anonymousSignIn,
     sendResetPasswordEmail,
+    sendEmailVerificationEmail,
   };
 }

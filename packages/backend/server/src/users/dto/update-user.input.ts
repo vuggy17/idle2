@@ -8,4 +8,8 @@ export class UpdateUserInput {
   @IsString()
   @IsOptional()
   avatarUrl?: string;
+
+  @IsString()
+  @IsOptional()
+  email?: string;
 }

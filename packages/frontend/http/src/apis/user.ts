@@ -21,12 +21,11 @@ class UserCollection extends APICollection {
     }
   }
 
-  update(
-    updates: Partial<{ name: string; avatarUrl: string }>,
-  ): Promise<UserDTO> {
-    return this.client.post(this.getUrl('update'), {
+  update(updates: Partial<{ name: string; avatarUrl: string; email: string }>) {
+    return this.client.post<UserDTO>(this.getUrl('update'), {
       name: updates.name,
       avatarUrl: updates.avatarUrl,
+      email: updates.email,
     });
   }
 }

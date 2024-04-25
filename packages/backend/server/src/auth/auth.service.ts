@@ -8,7 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { Account } from 'node-appwrite';
+import { Account, Users } from 'node-appwrite';
 
 import { SecurityConfig } from '../common/configs/config.interface';
 import { APPWRITE_CLIENT_FACTORY } from '../common/configs/injection-token';

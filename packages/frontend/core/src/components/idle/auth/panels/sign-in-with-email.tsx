@@ -18,7 +18,7 @@ export function SignInWithEmail({
   setAuthState,
   setAuthEmail,
 }: AuthPanelProps) {
-  const { anonymousSignIn, magicUrlSignIn } = useAuth();
+  const { anonymousSignIn, sendMagicUrl } = useAuth();
   const loginStatus = useCurrentLoginStatus();
   const { reload, user } = useSession();
   const { jumpToIndex } = useNavigateHelper();
@@ -40,7 +40,7 @@ export function SignInWithEmail({
     }
 
     setSendingEmail(true);
-    await magicUrlSignIn(email);
+    await sendMagicUrl(email);
     setSendingEmail(false);
     setAuthState('afterSignInWithEmail');
   };
