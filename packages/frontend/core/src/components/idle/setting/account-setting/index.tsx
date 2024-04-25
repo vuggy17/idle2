@@ -1,3 +1,4 @@
+import { AvatarWithUpload } from '@idle/component/auth-components';
 import { fetcher } from '@idle/http';
 import {
   App,
@@ -139,12 +140,13 @@ export default function AccountSetting() {
                 >
                   <Space>
                     <Form.Item name="avatar">
-                      <Avatar
+                      {/* <Avatar
                         shape="circle"
                         size={64}
                         alt={user.name}
                         src={user.avatarUrl}
-                      />
+                      /> */}
+                      <AvatarWithUpload url={user.avatarUrl} />
                     </Form.Item>
                     <Form.Item
                       required
@@ -185,24 +187,23 @@ export default function AccountSetting() {
                     paddingInline: 0,
                   }}
                   actions={[
-                    data?.isPasswordEnabled ? (
+                    <Tooltip
+                      key="change-email-btn"
+                      title={
+                        !data?.isPasswordEnabled
+                          ? 'You should create a password before change email'
+                          : ''
+                      }
+                    >
                       <Button
+                        disabled={!data?.isPasswordEnabled}
                         loading={isLoading}
                         type="default"
                         onClick={openChangeEmailModal}
                       >
                         Change email
                       </Button>
-                    ) : (
-                      <Tooltip
-                        key="change-email-btn"
-                        title="You should create a password before change email"
-                      >
-                        <Button loading={isLoading} type="default" disabled>
-                          Change email
-                        </Button>
-                      </Tooltip>
-                    ),
+                    </Tooltip>,
                   ]}
                 >
                   <List.Item.Meta

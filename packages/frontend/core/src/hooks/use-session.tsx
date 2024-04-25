@@ -82,7 +82,6 @@ export function useCurrentUser() {
   );
 
   useEffect(() => {
-    console.log('change');
     if (session.user) {
       setUser((u) => ({ ...u, ...session.user }));
     }
