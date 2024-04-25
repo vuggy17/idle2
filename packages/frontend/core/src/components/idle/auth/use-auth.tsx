@@ -34,10 +34,31 @@ export function useAuth() {
     [],
   );
 
+  const sendResetPasswordEmail = useCallback(
+    (email: string) => authGateway.sendResetPasswordEmail(email),
+    [],
+  );
+
+  // const resetPassword = useCallback(
+  //   (userId: string, secret: string, pass: string, passAgain: string) =>
+  //     new Promise<string>((resolve) => {
+  //       setTimeout(() => {
+  //         resolve('v');
+  //       }, 2000);
+  //     }),
+  //   [],
+  // );
+  const resetPassword = useCallback(
+    (userId: string, secret: string, pass: string, passAgain: string) =>
+      authGateway.resetPassword(userId, secret, pass, passAgain),
+    [],
+  );
   return {
-    createPassword,
-    anonymousSignIn,
-    magicUrlSignIn,
     logout,
+    resetPassword,
+    createPassword,
+    magicUrlSignIn,
+    anonymousSignIn,
+    sendResetPasswordEmail,
   };
 }

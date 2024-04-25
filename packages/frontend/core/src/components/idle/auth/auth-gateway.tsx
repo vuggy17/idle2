@@ -41,5 +41,21 @@ class AuthGateway {
   verifyMagicEmailSession(userId: string, sessionSecret: string) {
     return this.accountGateway.updateMagicURLSession(userId, sessionSecret);
   }
+
+  sendResetPasswordEmail(email: string) {
+    return this.accountGateway.createRecovery(
+      email,
+      `${window.location.origin}/auth/password-reset`,
+    );
+  }
+
+  resetPassword(
+    userId: string,
+    secret: string,
+    pass: string,
+    passAgain: string,
+  ) {
+    return this.accountGateway.updateRecovery(userId, secret, pass, passAgain);
+  }
 }
 export const authGateway = new AuthGateway(new Account(AppWriteClient));

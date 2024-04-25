@@ -1,3 +1,7 @@
+import {
+  AuthPanelContent,
+  AuthPanelHeader,
+} from '@idle/component/auth-components';
 import { Button, Form, Input, Space, Typography } from 'antd';
 import { useState } from 'react';
 
@@ -6,8 +10,6 @@ import { useCurrentLoginStatus } from '../../../../hooks/use-current-login-statu
 import useNavigateHelper from '../../../../hooks/use-navigate-helper';
 import { useSession } from '../../../../hooks/use-session';
 import { useAuth } from '../use-auth';
-import { AuthPanelContent } from './components/content';
-import { AuthPanelHeader } from './components/header';
 import type { AuthPanelProps } from './components/panel';
 import * as cls from './style.css';
 

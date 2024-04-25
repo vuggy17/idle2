@@ -1,101 +1,98 @@
-import type { FormInstance, FormRule } from 'antd';
+import {
+  AuthPanelContent,
+  AuthPanelHeader,
+} from '@idle/component/auth-components';
 import { App, Button, Form, Input, Space, Typography } from 'antd';
-import { type PropsWithChildren, useEffect, useState } from 'react';
+import { type PropsWithChildren, useState } from 'react';
 
 import logo from '../../../../assets/logo.png';
-import { useAuthPreference } from '../../../../hooks/use-session';
 import { useAuth } from '../use-auth';
-import { AuthPanelContent } from './components/content';
-import { AuthPanelHeader } from './components/header';
 import type { AuthPanelProps } from './components/panel';
 import * as cls from './style.css';
 
 interface SubmitButtonProps {
-  form: FormInstance;
-  loading: boolean;
+  resetLinkSent: boolean;
+  sending: boolean;
 }
-function SubmitButton({
-  form,
-  loading,
-  children,
+function SendResetLinkButton({
+  resetLinkSent,
+  sending,
 }: PropsWithChildren<SubmitButtonProps>) {
-  const [submittable, setSubmittable] = useState<boolean>(false);
-
-  // Watch all values
-  const values = Form.useWatch([], form);
-
-  useEffect(() => {
-    form
-      .validateFields({ validateOnly: true })
-      .then(() => setSubmittable(true))
-      .catch(() => setSubmittable(false));
-  }, [form, values]);
-
   return (
     <Button
       block
       type="primary"
       htmlType="submit"
-      disabled={!submittable}
-      loading={loading}
+      size="large"
+      loading={sending}
     >
-      {children}
+      {resetLinkSent ? 'Sent' : 'Send reset link'}
     </Button>
   );
 }
 
 export function ResetPassword({ email, onSignedIn }: AuthPanelProps) {
   const [form] = Form.useForm();
-  const { message } = App.useApp();
-
-  const { reload } = useAuthPreference();
-  const { createPassword } = useAuth();
+  const { notification } = App.useApp();
+  const { sendResetPasswordEmail } = useAuth();
+  const [isResetLinkSent, setIsResetLinkSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleCreatePassword = async () => {
-    // setLoading(true);
-    // await createPassword(password);
-    // await reload();
-    // onSignedIn();
-    // message.success('Password created');
+    setLoading(true);
+    try {
+      await sendResetPasswordEmail(email);
+      setIsResetLinkSent(true);
+    } catch (error) {
+      notification.error({
+        message: 'Service unavailable at the moment',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'We cannot send reset link at the moment, please try again after couple of minutes',
+      });
+    }
+    setLoading(false);
   };
 
   return (
-    <div>
-      <AuthPanelContent>
-        <Space direction="vertical" size="large" className={cls.signInForm}>
-          <Space direction="vertical" size="large">
-            <AuthPanelHeader logo={logo} title="Reset your password" />
-            <Typography.Text>
-              You will receive an email with a link to reset your password.
-              Please check your inbox.
-            </Typography.Text>
-          </Space>
-          <Form
-            initialValues={{
-              email,
-            }}
-            disabled
-            onFinish={handleCreatePassword}
-            form={form}
-            autoComplete="off"
-            layout="vertical"
-            requiredMark={false}
-          >
+    <>
+      <Form
+        initialValues={{
+          email,
+        }}
+        onFinish={handleCreatePassword}
+        form={form}
+        autoComplete="off"
+        layout="vertical"
+        requiredMark={false}
+        disabled={isResetLinkSent}
+      >
+        <AuthPanelContent>
+          <Space direction="vertical" size="large" className={cls.signInForm}>
+            <Space direction="vertical" size="large">
+              <AuthPanelHeader logo={logo} title="Reset your password" />
+              <Typography.Text>
+                You will receive an email with a link to reset your password.
+                Please check your inbox.
+              </Typography.Text>
+            </Space>
+
             <Form.Item label="Email" name="email">
-              <Input autoFocus />
+              <Input autoFocus disabled />
             </Form.Item>
-            <Form.Item>
-              <Button block type="primary" htmlType="submit">
-                Send
-              </Button>
-            </Form.Item>
-          </Form>
-        </Space>
-      </AuthPanelContent>
-      <Button type="text" onClick={() => setAuthState('signInWithEmail')}>
+          </Space>
+        </AuthPanelContent>
+        <Form.Item>
+          <SendResetLinkButton
+            resetLinkSent={isResetLinkSent}
+            sending={loading}
+          />
+        </Form.Item>
+      </Form>
+      <Button type="text" onClick={() => onSignedIn()}>
         Back
       </Button>
-    </div>
+    </>
   );
 }

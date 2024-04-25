@@ -100,15 +100,20 @@ type AuthPreference = {
   isPasswordEnabled: boolean;
 };
 
-async function getAuthPreference(): Promise<AuthPreference | undefined> {
+async function getAuthPreference() {
   const accountSdk = new Account(AppWriteClient);
-  const userSession = await accountSdk.get();
-
-  return { isPasswordEnabled: !!userSession.passwordUpdate };
+  return accountSdk.get();
 }
 
 export function useAuthPreference() {
   const { data, isLoading, mutate } = useSWR('user-auth', getAuthPreference);
 
-  return { data, isLoading, reload: useCallback(() => mutate(), [mutate]) };
+  const auth: AuthPreference = {
+    isPasswordEnabled: data && !!data.passwordUpdate,
+  };
+  return {
+    data: auth,
+    isLoading,
+    reload: useCallback(() => mutate(), [mutate]),
+  };
 }

@@ -1,10 +1,12 @@
+import {
+  AuthPanelContent,
+  AuthPanelHeader,
+} from '@idle/component/auth-components';
 import { Button, Space, Statistic, Typography } from 'antd';
 import { useCallback, useState } from 'react';
 
 import logo from '../../../../assets/logo.png';
 import { useAuth } from '../use-auth';
-import { AuthPanelContent } from './components/content';
-import { AuthPanelHeader } from './components/header';
 import { type AuthPanelProps } from './components/panel';
 
 const RESEND_EMAIL_COUNTDOWN = 60;

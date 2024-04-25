@@ -1,11 +1,9 @@
 import { style } from '@vanilla-extract/css';
 
-// Shared styles
 export const panelWrapper = style({
   padding: 8,
   paddingBottom: 40,
 });
-// ====================
 
 export const panelSub = style({
   fontSize: 20,

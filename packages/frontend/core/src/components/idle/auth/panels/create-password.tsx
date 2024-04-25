@@ -1,3 +1,7 @@
+import {
+  AuthPanelContent,
+  AuthPanelHeader,
+} from '@idle/component/auth-components';
 import type { FormInstance, FormRule } from 'antd';
 import { App, Button, Form, Input, Space, Typography } from 'antd';
 import { type PropsWithChildren, useEffect, useState } from 'react';
@@ -5,8 +9,6 @@ import { type PropsWithChildren, useEffect, useState } from 'react';
 import logo from '../../../../assets/logo.png';
 import { useAuthPreference } from '../../../../hooks/use-session';
 import { useAuth } from '../use-auth';
-import { AuthPanelContent } from './components/content';
-import { AuthPanelHeader } from './components/header';
 import type { AuthPanelProps } from './components/panel';
 import * as cls from './style.css';
 

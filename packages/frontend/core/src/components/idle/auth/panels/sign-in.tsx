@@ -1,10 +1,12 @@
+import {
+  AuthPanelContent,
+  AuthPanelHeader,
+} from '@idle/component/auth-components';
 import { Button, Space } from 'antd';
 
 import logo from '../../../../assets/logo.png';
 import { useSession } from '../../../../hooks/use-session';
 import { useAuth } from '../use-auth';
-import { AuthPanelContent } from './components/content';
-import { AuthPanelHeader } from './components/header';
 import type { AuthPanelProps } from './components/panel';
 
 export function SignIn({ onSignedIn }: AuthPanelProps) {

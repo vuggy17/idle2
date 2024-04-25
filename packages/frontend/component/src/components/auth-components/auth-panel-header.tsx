@@ -1,6 +1,6 @@
 import { Avatar, Space, Typography } from 'antd';
 
-import * as cls from './panel.css';
+import * as cls from './auth-panel.css';
 
 export function AuthPanelHeader({
   title,
