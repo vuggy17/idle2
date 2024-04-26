@@ -4,6 +4,10 @@ export const runtimeFlagsSchema = z.object({
   serverUrlPrefix: z.string(),
   appwriteProjectHost: z.string(),
   appwriteProjectId: z.string(),
+  cloudinary: z.object({
+    apiKey: z.string(),
+    cloudName: z.string(),
+  }),
 });
 
 export type RuntimeConfig = z.infer<typeof runtimeFlagsSchema>;

@@ -1,5 +1,6 @@
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import { Avatar, ConfigProvider, Tooltip, Upload } from 'antd';
+import type { RcFile } from 'antd/es/upload';
 import { useState } from 'react';
 
 import * as cls from './avatar-upload.css';
@@ -14,9 +15,14 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export function AvatarWithUpload({ url }: { url: string }) {
+export function AvatarWithUpload({
+  url,
+  onUpload,
+}: {
+  url: string;
+  onUpload: (file: File) => Promise<string>;
+}) {
   const [previewImage, setPreviewImage] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -27,12 +33,19 @@ export function AvatarWithUpload({ url }: { url: string }) {
     setPreviewImage(file.url || (file.preview as string));
   };
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
+  const handleChange: UploadProps['onChange'] = ({ file: newFile }) => {
+    const { status, response } = newFile;
+    if (status === 'done') {
+      setPreviewImage(response as string);
+    }
+  };
 
-    handlePreview(newFileList[0]);
-
-    // upload file to remote
+  const handleUpload: UploadProps['customRequest'] = async ({
+    file,
+    onSuccess,
+  }) => {
+    const fileUrl = await onUpload(file as RcFile);
+    onSuccess(fileUrl);
   };
 
   return (
@@ -46,9 +59,10 @@ export function AvatarWithUpload({ url }: { url: string }) {
       }}
     >
       <Upload
+        customRequest={handleUpload}
+        showUploadList={false}
         itemRender={() => null}
         maxCount={1}
-        fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
       >

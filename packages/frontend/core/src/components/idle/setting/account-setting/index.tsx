@@ -2,7 +2,6 @@ import { AvatarWithUpload } from '@idle/component/auth-components';
 import { fetcher } from '@idle/http';
 import {
   App,
-  Avatar,
   Button,
   ConfigProvider,
   Divider,
@@ -23,6 +22,7 @@ import { useCallback } from 'react';
 import {
   useAuthPreference,
   useCurrentUser,
+  useSession,
 } from '../../../../hooks/use-session';
 import { authAtom } from '../../auth/auth-atom';
 import { useAuth } from '../../auth/use-auth';
@@ -35,6 +35,7 @@ const { useApp } = App;
 export default function AccountSetting() {
   const setAuthAtom = useSetAtom(authAtom);
   const user = useCurrentUser();
+  const { reload } = useSession();
   const { data, isLoading } = useAuthPreference();
   const { logout } = useAuth();
 
@@ -100,6 +101,27 @@ export default function AccountSetting() {
     window.location.reload();
   }, [logout]);
 
+  const avatarUpload = useCallback(
+    async (file: File) => {
+      const folderName = 'avatars';
+      const { data: signature } =
+        await fetcher.upload.getUploadSignature(folderName);
+
+      const image = await fetcher.upload.uploadImage(file, {
+        ...signature,
+        id: user.id,
+        folder: folderName,
+        apiKey: runtimeConfig.cloudinary.apiKey,
+        cloudName: runtimeConfig.cloudinary.cloudName,
+      });
+
+      await reload();
+
+      return image.url;
+    },
+    [reload, user.id],
+  );
+
   return (
     <ConfigProvider
       theme={{
@@ -140,13 +162,10 @@ export default function AccountSetting() {
                 >
                   <Space>
                     <Form.Item name="avatar">
-                      {/* <Avatar
-                        shape="circle"
-                        size={64}
-                        alt={user.name}
-                        src={user.avatarUrl}
-                      /> */}
-                      <AvatarWithUpload url={user.avatarUrl} />
+                      <AvatarWithUpload
+                        url={user.avatarUrl}
+                        onUpload={avatarUpload}
+                      />
                     </Form.Item>
                     <Form.Item
                       required

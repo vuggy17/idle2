@@ -5,6 +5,10 @@ export function getRuntimeConfig(): RuntimeConfig {
     appwriteProjectHost: process.env.APPWRITE_PROJECT_HOST,
     appwriteProjectId: process.env.APPWRITE_PROJECT_ID,
     serverUrlPrefix: process.env.SERVER_URL_PREFIX,
+    cloudinary: {
+      apiKey: process.env.CLOUDINARY_API_KEY,
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    },
   };
 
   if (process.env.NODE_ENV === 'development') {

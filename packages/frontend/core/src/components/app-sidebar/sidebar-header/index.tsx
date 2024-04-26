@@ -2,10 +2,12 @@ import { Avatar, Button, Flex, Space, Tooltip, Typography } from 'antd';
 import { useSetAtom } from 'jotai';
 
 import { settingAtom } from '../../../atoms/setting';
+import { useCurrentUser } from '../../../hooks/use-session';
 import { headerContainerStyle } from './index.css';
 
 export function SidebarHeader() {
   const setOpenSettingModal = useSetAtom(settingAtom);
+  const user = useCurrentUser();
 
   return (
     <Flex
@@ -28,7 +30,7 @@ export function SidebarHeader() {
             }}
             shape="circle"
             size={46}
-            src="https://source.unsplash.com/random"
+            src={user.avatarUrl}
           />
         </Tooltip>
         <Typography.Title

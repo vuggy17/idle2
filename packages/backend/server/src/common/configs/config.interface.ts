@@ -5,6 +5,7 @@ export interface Config {
   graphql: GraphqlConfig;
   security: SecurityConfig;
   appwrite: AppwriteConfig;
+  cloudinary: CloudinaryConfig;
 }
 
 export interface NestConfig {
@@ -40,4 +41,10 @@ export interface AppwriteConfig {
   apiKey: string;
   projectId: string;
   host: string;
+}
+
+export interface CloudinaryConfig {
+  cloudName: string;
+  apiKey: string;
+  apiSecret: string;
 }

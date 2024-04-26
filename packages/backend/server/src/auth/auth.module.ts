@@ -2,7 +2,6 @@ import { Module, Scope } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { Client, Users } from 'node-appwrite';
 
 import {
   AppwriteConfig,

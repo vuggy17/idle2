@@ -1,5 +1,6 @@
 import { UserDTO } from '@idle/model';
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import { v2 } from 'cloudinary';
 
 import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { AuthUser } from '../common/decorators/user.decorator';
@@ -18,7 +19,12 @@ export class UserController {
     // TODO: handle case: user deleted from appwrite, but app still able to find them cus they got an active token
     return {
       id: user.id,
-      avatarUrl: 'https://source.unsplash.com/random',
+      avatarUrl: v2.url(`avatars/${user.id}`, {
+        width: 100,
+        height: 100,
+        crop: 'scale',
+        fetch_format: 'auto',
+      }),
       email: user.email,
       name: user.name,
     };

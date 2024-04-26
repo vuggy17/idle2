@@ -30,6 +30,11 @@ const config: Config = {
     projectId: process.env.APPWRITE_PROJECT_ID || '',
     apiKey: process.env.APPWRITE_API_KEY || '',
   },
+  cloudinary: {
+    apiKey: process.env.CLOUDINARY_API_KEY || '',
+    apiSecret: process.env.CLOUDINARY_API_SECRET || '',
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
+  },
 };
 
 export default (): Config => config;
