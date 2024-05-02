@@ -1,12 +1,15 @@
 import { Avatar, Button, Flex, Space, Tooltip, Typography } from 'antd';
 import { useSetAtom } from 'jotai';
+import { useCallback } from 'react';
 
-import { settingAtom } from '../../../atoms/setting';
+import { friendAtom, settingAtom } from '../../../atoms/ui';
 import { useCurrentUser } from '../../../hooks/use-session';
+import { Setting } from './icon';
 import { headerContainerStyle } from './index.css';
 
 export function SidebarHeader() {
   const setOpenSettingModal = useSetAtom(settingAtom);
+  const setOpenFriendModal = useSetAtom(friendAtom);
   const user = useCurrentUser();
 
   return (
@@ -22,9 +25,10 @@ export function SidebarHeader() {
           placement="bottomLeft"
         >
           <Avatar
-            onClick={() =>
-              setOpenSettingModal((store) => ({ ...store, open: true }))
-            }
+            onClick={useCallback(
+              () => setOpenFriendModal((store) => ({ ...store, open: true })),
+              [setOpenFriendModal],
+            )}
             style={{
               cursor: 'pointer',
             }}
@@ -43,9 +47,17 @@ export function SidebarHeader() {
         </Typography.Title>
       </Space>
       <Flex gap={16} align="center">
-        <Button shape="circle" size="small" />
-        <Button shape="circle" size="small" />
-        <Button shape="circle" size="small" />
+        {/* <Button shape="circle" size="small" />
+        <Button shape="circle" size="small" /> */}
+        <Button
+          icon={<Setting />}
+          shape="circle"
+          size="small"
+          onClick={useCallback(
+            () => setOpenSettingModal((store) => ({ ...store, open: true })),
+            [setOpenSettingModal],
+          )}
+        />
       </Flex>
     </Flex>
   );

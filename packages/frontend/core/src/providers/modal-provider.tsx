@@ -10,6 +10,12 @@ const Auth = lazy(() =>
   })),
 );
 
+const FriendModal = lazy(() =>
+  import('../components/idle/friend').then((module) => ({
+    default: module.FriendModal,
+  })),
+);
+
 function AuthModal() {
   const [auth, setAuthAtom] = useAtom(authAtom);
 
@@ -45,6 +51,7 @@ export function AllWorkspaceModals() {
     <Suspense>
       <AuthModal />
       <SettingModal />
+      <FriendModal />
     </Suspense>
   );
 }

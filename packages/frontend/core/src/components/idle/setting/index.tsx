@@ -2,7 +2,7 @@ import { ConfigProvider, Layout, Modal } from 'antd';
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 
-import { settingAtom } from '../../../atoms/setting';
+import { settingAtom } from '../../../atoms/ui';
 import AccountSetting from './account-setting';
 import SettingSidebar from './sidebar';
 import { contentInnerWrapper, tabContentWrapper } from './style.css';
