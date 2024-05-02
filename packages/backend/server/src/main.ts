@@ -18,7 +18,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.setGlobalPrefix('/api');
   // Validation
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   // enable shutdown hook
   app.enableShutdownHooks();

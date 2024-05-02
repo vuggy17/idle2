@@ -16,13 +16,13 @@ export class UserController {
 
   @Get('me')
   async me(@AuthUser() user: User): Promise<UserDTO> {
-    // TODO: handle case: user deleted from appwrite, but app still able to find them cus they got an active token
     return {
       id: user.id,
-      avatarUrl: v2.url(`avatars/${user.id}`, {
+      avatarUrl: v2.utils.url(`avatars/${user.id}`, {
         width: 100,
         height: 100,
         crop: 'scale',
+        quality: 'auto',
         fetch_format: 'auto',
       }),
       email: user.email,

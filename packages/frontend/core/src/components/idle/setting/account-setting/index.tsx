@@ -104,8 +104,10 @@ export default function AccountSetting() {
   const avatarUpload = useCallback(
     async (file: File) => {
       const folderName = 'avatars';
-      const { data: signature } =
-        await fetcher.upload.getUploadSignature(folderName);
+      const { data: signature } = await fetcher.upload.getUploadSignature(
+        folderName,
+        true,
+      );
 
       const image = await fetcher.upload.uploadImage(file, {
         ...signature,
@@ -113,6 +115,7 @@ export default function AccountSetting() {
         folder: folderName,
         apiKey: runtimeConfig.cloudinary.apiKey,
         cloudName: runtimeConfig.cloudinary.cloudName,
+        override: true,
       });
 
       await reload();

@@ -1,9 +1,10 @@
 import { APICollection } from '../config/axios';
 
 class UploadCollection extends APICollection {
-  getUploadSignature(folder: string) {
+  getUploadSignature(folder: string, shouldOverride: boolean) {
     const params = new URLSearchParams({
       folder,
+      invalidate: `${shouldOverride}`,
     });
     return this.client.get(`upload?${params.toString()}`);
   }
@@ -17,6 +18,7 @@ class UploadCollection extends APICollection {
       apiKey: string;
       cloudName: string;
       folder: string;
+      override: boolean; // To prevent the old asset being delivered: https://cloudinary.com/documentation/invalidate_cached_media_assets_on_the_cdn
     },
   ) {
     const cloudUrl = `https://api.cloudinary.com/v1_1/${uploadOptions.cloudName}/auto/upload`;
@@ -29,6 +31,7 @@ class UploadCollection extends APICollection {
       timestamp: uploadOptions.timestamp,
       signature: uploadOptions.signature,
       folder: uploadOptions.folder,
+      invalidate: uploadOptions.override,
     });
 
     return response.data;

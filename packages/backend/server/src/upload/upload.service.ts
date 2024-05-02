@@ -8,8 +8,8 @@ export class UploadService {
   async generateUploadSignature(paramToSign: {
     folder: string;
     publicId: string;
+    invalidate: boolean;
   }) {
-    console.log('🚀 ~ UploadService ~ publicId:', paramToSign);
     const apiSecret = cloudinary.config().api_secret;
     const timestamp = Math.round(new Date().getTime() / 1000);
 
@@ -17,6 +17,7 @@ export class UploadService {
     const signature = cloudinary.utils.api_sign_request(
       {
         timestamp,
+        invalidate: paramToSign.invalidate,
         public_id: paramToSign.publicId,
         folder: paramToSign.folder, // file name must match client file name on request
       },
