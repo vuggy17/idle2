@@ -7,9 +7,9 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "axios": "^1.6.7",
     "@idle/env": "workspace:*",
-    "@idle/model": "workspace:*"
+    "@idle/model": "workspace:*",
+    "axios": "^1.6.8"
   },
   "peerDependencies": {
     "appwrite": "^14.0.0"
