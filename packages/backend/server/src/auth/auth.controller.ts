@@ -32,7 +32,6 @@ export class AuthController {
     @Body() { token, userId }: AuthenticateInput,
   ) {
     try {
-      await this.ssoService.listSession(userId);
       const tokens = await this.authService.authenticate(token);
       res.cookie('access_token', tokens.accessToken, {
         sameSite: 'lax',
@@ -43,6 +42,9 @@ export class AuthController {
         httpOnly: true,
       });
     } catch (error) {
+      console.log(error)
+      await this.ssoService.listSession(userId);
+
       await this.ssoService.deleteCurrentSession(userId);
     }
   }
