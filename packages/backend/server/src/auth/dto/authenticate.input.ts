@@ -4,4 +4,8 @@ export class AuthenticateInput {
   @IsNotEmpty()
   @IsString()
   token: string;
+
+  @IsNotEmpty()
+  @IsString()
+  userId: string;
 }

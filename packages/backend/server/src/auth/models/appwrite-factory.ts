@@ -6,7 +6,6 @@ export function appwriteClientFactory(config: AppwriteConfig) {
   const client = new Client();
   client.setEndpoint(config.host);
   client.setProject(config.projectId);
-  client.setKey(config.apiKey);
 
   return client;
 }

@@ -9,9 +9,10 @@ class AuthCollection extends APICollection {
    * Also initialize access_token and refresh_token
    * @param token: appwrite jwt
    */
-  login(appwriteToken: string) {
+  login(appwriteToken: string, userId: string) {
     return this.client.post(this.getUrl('authenticate'), {
       token: appwriteToken,
+      userId,
     });
   }
 

@@ -39,18 +39,9 @@ export function useAuth() {
     [],
   );
 
-  // const resetPassword = useCallback(
-  //   (userId: string, secret: string, pass: string, passAgain: string) =>
-  //     new Promise<string>((resolve) => {
-  //       setTimeout(() => {
-  //         resolve('v');
-  //       }, 2000);
-  //     }),
-  //   [],
-  // );
   const resetPassword = useCallback(
-    (userId: string, secret: string, pass: string, passAgain: string) =>
-      authGateway.resetPassword(userId, secret, pass, passAgain),
+    (userId: string, secret: string, pass: string) =>
+      authGateway.resetPassword(userId, secret, pass),
     [],
   );
 

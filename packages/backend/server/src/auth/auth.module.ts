@@ -2,12 +2,16 @@ import { Module, Scope } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { Client } from 'node-appwrite';
 
 import {
   AppwriteConfig,
   SecurityConfig,
 } from '../common/configs/config.interface';
-import { APPWRITE_CLIENT_FACTORY } from '../common/configs/injection-token';
+import {
+  APPWRITE_CLIENT_FACTORY,
+  APPWRITE_SERVER,
+} from '../common/configs/injection-token';
 import { assertExists } from '../utils/assert-exist';
 import { AuthController } from './auth.controller';
 import { AuthRepository } from './auth.repository';
@@ -16,6 +20,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth-guard';
 import { appwriteClientFactory } from './models/appwrite-factory';
 import { PasswordService } from './password.service';
+import { SsoService } from './sso.service';
+import { TokenService } from './token.service';
 
 @Module({
   imports: [
@@ -36,6 +42,8 @@ import { PasswordService } from './password.service';
   ],
   providers: [
     AuthService,
+    SsoService,
+    TokenService,
     JwtStrategy,
     JwtAuthGuard,
     PasswordService,
@@ -45,6 +53,19 @@ import { PasswordService } from './password.service';
       useFactory: (configService: ConfigService) => () => {
         const config = configService.getOrThrow<AppwriteConfig>('appwrite');
         return appwriteClientFactory(config);
+      },
+      inject: [ConfigService],
+    },
+    {
+      provide: APPWRITE_SERVER,
+      useFactory: (configService: ConfigService) => () => {
+        const config = configService.getOrThrow<AppwriteConfig>('appwrite');
+        const client = new Client();
+        client.setEndpoint(config.host);
+        client.setProject(config.projectId);
+        client.setKey(config.apiKey);
+
+        return client;
       },
       inject: [ConfigService],
     },

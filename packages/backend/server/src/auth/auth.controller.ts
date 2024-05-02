@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -16,23 +15,45 @@ import { Public } from '../common/decorators/public-route.decorator';
 import { AuthService } from './auth.service';
 import { AuthenticateInput } from './dto/authenticate.input';
 import { JwtAuthGuard } from './jwt-auth-guard';
+import { SsoService } from './sso.service';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(readonly authService: AuthService) {}
+  constructor(
+    readonly authService: AuthService,
+    readonly ssoService: SsoService,
+  ) {}
 
   @Public()
   @Post('authenticate')
   async generateTokens(
     @Res({ passthrough: true }) res: Response,
-    @Body() { token }: AuthenticateInput,
+    @Body() { token, userId }: AuthenticateInput,
   ) {
-    const user = await this.authService.retrieveUserFromToken(token);
+    try {
+      await this.ssoService.listSession(userId);
+      const tokens = await this.authService.authenticate(token);
+      res.cookie('access_token', tokens.accessToken, {
+        sameSite: 'lax',
+        httpOnly: true,
+      });
+      res.cookie('refresh_token', tokens.refreshToken, {
+        sameSite: 'lax',
+        httpOnly: true,
+      });
+    } catch (error) {
+      await this.ssoService.deleteCurrentSession(userId);
+    }
+  }
 
-    const tokens = this.authService.generateTokens({
-      userId: user.id,
-    });
+  @Public()
+  @Get('refresh')
+  async refreshToken(
+    @Res({ passthrough: true }) res: Response,
+    @Cookies('refresh_token') token: string,
+  ) {
+    const tokens = await this.authService.refreshUserToken(token);
     res.cookie('access_token', tokens.accessToken, {
       sameSite: 'lax',
       httpOnly: true,
@@ -43,32 +64,11 @@ export class AuthController {
     });
   }
 
-  @Public()
-  @Get('refresh')
-  async refreshToken(
-    @Res({ passthrough: true }) res: Response,
-    @Cookies('refresh_token') refreshToken: string,
-  ) {
-    const user = await this.authService.getUserFromToken(refreshToken);
-    if (user) {
-      const tokens = this.authService.generateTokens({ userId: user.id });
-      res.cookie('access_token', tokens.accessToken, {
-        sameSite: 'lax',
-        httpOnly: true,
-      });
-      res.cookie('refresh_token', tokens.refreshToken, {
-        sameSite: 'lax',
-        httpOnly: true,
-      });
-    } else throw new BadRequestException('Token invalid');
-  }
-
   @UseGuards(JwtAuthGuard)
   @Delete('credentials')
   clearCredentials(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('access_token');
     res.clearCookie('refresh_token');
-    console.log('clear cred');
-    return 'ok';
+    return 'credentials deleted';
   }
 }

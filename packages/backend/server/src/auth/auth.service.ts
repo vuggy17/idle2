@@ -1,33 +1,27 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { Account, Users } from 'node-appwrite';
 
-import { SecurityConfig } from '../common/configs/config.interface';
-import { APPWRITE_CLIENT_FACTORY } from '../common/configs/injection-token';
 import { assertExists } from '../utils/assert-exist';
 import { AuthRepository } from './auth.repository';
 import { SignupInput } from './dto/signup.input';
-import { AppwriteFactoryFn } from './models/appwrite-factory';
 import { Token } from './models/token.model';
 import { PasswordService } from './password.service';
+import { SsoService } from './sso.service';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly passwordService: PasswordService,
-    private readonly configService: ConfigService,
     private readonly repository: AuthRepository,
-    @Inject(APPWRITE_CLIENT_FACTORY)
-    private readonly appwriteClient: AppwriteFactoryFn,
+    private readonly sso: SsoService,
+    private readonly tokenService: TokenService,
   ) {}
 
   async createUser(payload: SignupInput): Promise<Token> {
@@ -42,7 +36,7 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return this.generateTokens({
+    return this.tokenService.generateTokens({
       userId: user.id,
     });
   }
@@ -63,7 +57,7 @@ export class AuthService {
       throw new BadRequestException('Invalid password');
     }
 
-    return this.generateTokens({
+    return this.tokenService.generateTokens({
       userId: user.id,
     });
   }
@@ -73,67 +67,38 @@ export class AuthService {
     return user;
   }
 
+  private async getOrCreateUser(token: string): Promise<User> {
+    const ssoUser = await this.sso.getUserFromToken(token);
+
+    const localUser = await this.repository.findById(ssoUser.$id);
+    if (localUser) {
+      return localUser;
+    }
+
+    return this.repository.createUser({
+      id: ssoUser.$id,
+      email: ssoUser.email,
+      password: ssoUser.password,
+      name: ssoUser.name,
+    });
+  }
+
+  async authenticate(token: string) {
+    const { id } = await this.getOrCreateUser(token);
+    return this.tokenService.generateTokens({
+      userId: id,
+    });
+  }
+
   async getUserFromToken(token: string): Promise<User> {
     const id = (this.jwtService.decode(token) as any).userId || '';
     const user = await this.repository.findById(id);
-    assertExists(user, 'No user found');
+    assertExists(user, new BadRequestException('Token invalid'));
     return user;
   }
 
-  private getUserFromAppwriteToken(token: string) {
-    const auth = new Account(this.appwriteClient().setJWT(token));
-    return auth.get();
-  }
-
-  async retrieveUserFromToken(token: string): Promise<User> {
-    const appwriteUser = await this.getUserFromAppwriteToken(token);
-
-    const user = await this.repository.findById(appwriteUser.$id);
-    if (user) {
-      return user;
-    }
-
-    const newUser = await this.repository.createUser({
-      id: appwriteUser.$id,
-      email: appwriteUser.email,
-      password: appwriteUser.password,
-      name: appwriteUser.name,
-    });
-
-    return newUser;
-  }
-
-  generateTokens(payload: { userId: string }): Token {
-    return {
-      accessToken: this.generateAccessToken(payload),
-      refreshToken: this.generateRefreshToken(payload),
-    };
-  }
-
-  private generateAccessToken(payload: { userId: string }): string {
-    return this.jwtService.sign(payload);
-  }
-
-  private generateRefreshToken(payload: { userId: string }): string {
-    const securityConfig = this.configService.get<SecurityConfig>('security');
-    assertExists(securityConfig);
-    return this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_REFRESH_SECRET'),
-      expiresIn: securityConfig.refreshIn,
-    });
-  }
-
-  refreshToken(token: string) {
-    try {
-      const { userId } = this.jwtService.verify(token, {
-        secret: this.configService.get('JWT_REFRESH_SECRET'),
-      });
-
-      return this.generateTokens({
-        userId,
-      });
-    } catch (e) {
-      throw new UnauthorizedException();
-    }
+  async refreshUserToken(token: string) {
+    const user = await this.getUserFromToken(token);
+    return this.tokenService.generateTokens({ userId: user.id });
   }
 }

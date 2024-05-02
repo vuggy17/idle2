@@ -20,7 +20,7 @@ class AuthGateway {
   sendMagicUrl(email: string) {
     const PLATFORM_VERIFY_URL = `${window.location.origin}/auth/magic-login`;
 
-    return this.accountGateway.createMagicURLSession(
+    return this.accountGateway.createMagicURLToken(
       ID.unique(),
       email,
       PLATFORM_VERIFY_URL,
@@ -39,7 +39,7 @@ class AuthGateway {
    * @INTERNAL Use loginByMagicEmail from auth-helper instead
    */
   verifyMagicEmailSession(userId: string, sessionSecret: string) {
-    return this.accountGateway.updateMagicURLSession(userId, sessionSecret);
+    return this.accountGateway.createSession(userId, sessionSecret);
   }
 
   sendResetPasswordEmail(email: string) {
@@ -49,13 +49,8 @@ class AuthGateway {
     );
   }
 
-  resetPassword(
-    userId: string,
-    secret: string,
-    pass: string,
-    passAgain: string,
-  ) {
-    return this.accountGateway.updateRecovery(userId, secret, pass, passAgain);
+  resetPassword(userId: string, secret: string, pass: string) {
+    return this.accountGateway.updateRecovery(userId, secret, pass);
   }
 
   changeEmail(email: string, password: string) {
