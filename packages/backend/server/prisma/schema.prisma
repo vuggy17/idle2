@@ -13,11 +13,11 @@ generator dbml {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String?
-  name      String?
-  avatar    String?
+  id          String   @id @default(cuid())
+  username    String   @unique()
+  email       String   @unique
+  displayName String   @map("display_name")
+  password    String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("upated_at")
 }

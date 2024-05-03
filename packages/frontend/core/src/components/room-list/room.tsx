@@ -12,7 +12,7 @@ export function Room({ name, id }: RoomProps) {
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
 
   const parentPrefix = getPrefixCls('list');
-  const activeItemPrefix = `${parentPrefix}-item--active`;
+  const activeItemPrefix = `${parentPrefix}-item--selected`;
 
   const isActive = id === '2';
   return (

@@ -42,7 +42,6 @@ export class AuthController {
         httpOnly: true,
       });
     } catch (error) {
-      console.log(error)
       await this.ssoService.listSession(userId);
 
       await this.ssoService.deleteCurrentSession(userId);

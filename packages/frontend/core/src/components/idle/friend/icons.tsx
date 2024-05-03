@@ -45,6 +45,76 @@ function GroupSvg() {
   );
 }
 
+function XMarkSvg() {
+  return (
+    <svg
+      width="1em"
+      height="1em"
+      strokeWidth="1.5"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      color="currentColor"
+    >
+      <path
+        d="M6.75827 17.2426L12.0009 12M17.2435 6.75736L12.0009 12M12.0009 12L6.75827 6.75736M12.0009 12L17.2435 17.2426"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CheckSvg() {
+  return (
+    <svg
+      width="1em"
+      height="1em"
+      strokeWidth="1.5"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      color="currentColor"
+    >
+      <path
+        d="M5 13L9 17L19 7"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function Check(props: Partial<CustomIconComponentProps>) {
+  return (
+    <Icon
+      component={CheckSvg}
+      {...props}
+      style={{
+        // eslint-disable-next-line react/destructuring-assignment
+        fontSize: `${props.size}px`,
+      }}
+    />
+  );
+}
+
+export function XMark(props: Partial<CustomIconComponentProps>) {
+  return (
+    <Icon
+      component={XMarkSvg}
+      {...props}
+      style={{
+        // eslint-disable-next-line react/destructuring-assignment
+        fontSize: `${props.size}px`,
+      }}
+    />
+  );
+}
+
 export function Group(props: Partial<CustomIconComponentProps>) {
   return (
     <Icon

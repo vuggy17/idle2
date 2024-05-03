@@ -44,7 +44,7 @@ export default function AccountSetting() {
   const { message } = useApp();
 
   const newUserName = useWatch('name', form);
-  const shouldDisplaySaveBtn = user.name !== newUserName?.trim();
+  const shouldDisplaySaveBtn = user.displayName !== newUserName?.trim();
 
   const updateUserInfo = async (changes: {
     name?: string;
@@ -56,7 +56,7 @@ export default function AccountSetting() {
     });
 
     await user.update({
-      name: changes.name,
+      displayName: changes.name,
       avatarUrl: changes.avatar,
     });
 
@@ -160,7 +160,7 @@ export default function AccountSetting() {
                   layout="vertical"
                   initialValues={{
                     avatar: 'https://source.unsplash.com/random',
-                    name: user.name,
+                    name: user.displayName,
                   }}
                 >
                   <Space>

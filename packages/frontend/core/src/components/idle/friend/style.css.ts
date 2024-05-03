@@ -5,17 +5,6 @@ export const contentInnerWrapper = style({
   paddingInline: 20,
 });
 
-export const tabContentWrapper = style({
-  background: 'white',
-  paddingLeft: 20,
-});
-
-export const sidebarHeader = style({
-  paddingInline: 20,
-});
-
-export const sidebarHeaderTitle = style({
-  color: 'var(--ant-color-text-description)',
-  letterSpacing: '0.1px',
-  fontSize: 12,
+export const tabPanelWrapper = style({
+  paddingInline: 16,
 });

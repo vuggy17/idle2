@@ -10,11 +10,18 @@ export class AuthRepository {
     id?: string;
     email: string;
     password?: string;
-    name?: string;
+    displayName: string;
+    username: string;
   }) {
     try {
       const doc = await this.prisma.user.create({
-        data,
+        data: {
+          id: data.id,
+          email: data.email,
+          password: data.password,
+          displayName: data.displayName,
+          username: data.username,
+        },
       });
 
       return doc;

@@ -26,7 +26,8 @@ export class UserController {
         fetch_format: 'auto',
       }),
       email: user.email,
-      name: user.name,
+      displayName: user.displayName,
+      username: user.username,
     };
   }
 
@@ -45,7 +46,7 @@ export class UserController {
   ) {
     return this.usersService.changePassword(
       user.id,
-      user.password,
+      user.password!,
       changePassword,
     );
   }

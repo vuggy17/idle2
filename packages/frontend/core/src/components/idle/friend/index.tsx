@@ -1,5 +1,6 @@
 import {
   Button,
+  type ButtonProps,
   ConfigProvider,
   Divider,
   Layout,
@@ -15,36 +16,59 @@ import { useCallback, useState } from 'react';
 
 import { friendAtom } from '../../../atoms/ui';
 import { Group } from './icons';
+import { FriendPanelLayout } from './panel-layout';
 import AddFriendPanel from './panels/add-friend-panel';
+import PendingRequestPanel from './panels/pending-request';
 import { contentInnerWrapper } from './style.css';
 
 const items: TabsProps['items'] = [
   {
     label: 'Online',
     key: '1',
-    children: 'online friends',
+    children: <FriendPanelLayout>Online friends</FriendPanelLayout>,
   },
   {
     label: 'All',
     key: '2',
-    children: 'All friends',
+    children: <FriendPanelLayout>All friends</FriendPanelLayout>,
   },
   {
     label: 'Pending',
     key: '3',
-    children: 'Pending friend requests',
+    children: <PendingRequestPanel />,
   },
   {
     label: 'Blocked',
     key: '4',
-    children: 'Blocked users',
+    children: <FriendPanelLayout>Blocked users</FriendPanelLayout>,
   },
 ];
 
-function FriendModalInner() {
-  const [activeTab, setActiveTab] = useState('1');
+function AddFriendButton(props: ButtonProps) {
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#218247',
+        },
+        components: {
+          Button: {
+            primaryShadow: 'none',
+          },
+        },
+      }}
+    >
+      <Button type="primary" {...props}>
+        Add friend
+      </Button>
+    </ConfigProvider>
+  );
+}
 
-  const isAddFriendActive = Number(activeTab) > 4;
+function FriendModalInner() {
+  const [activeTab, setActiveTab] = useState('5');
+
+  const isAddFriendActive = activeTab === '5';
 
   return (
     <ConfigProvider
@@ -79,12 +103,11 @@ function FriendModalInner() {
                     },
                   }}
                 >
-                  <Button
-                    type="primary"
+                  <AddFriendButton
                     onClick={useCallback(() => setActiveTab('5'), [])}
                   >
                     Add friend
-                  </Button>
+                  </AddFriendButton>
                 </ConfigProvider>
               ),
             }}

@@ -8,7 +8,6 @@ import { User } from '@prisma/client';
 
 import { assertExists } from '../utils/assert-exist';
 import { AuthRepository } from './auth.repository';
-import { SignupInput } from './dto/signup.input';
 import { Token } from './models/token.model';
 import { PasswordService } from './password.service';
 import { SsoService } from './sso.service';
@@ -23,23 +22,6 @@ export class AuthService {
     private readonly sso: SsoService,
     private readonly tokenService: TokenService,
   ) {}
-
-  async createUser(payload: SignupInput): Promise<Token> {
-    const { firstname, lastname, ...data } = payload;
-    const hashedPassword = await this.passwordService.hashPassword(
-      payload.password,
-    );
-
-    const user = await this.repository.createUser({
-      email: data.email,
-      name: `${firstname?.trim()} ${lastname?.trim()}`,
-      password: hashedPassword,
-    });
-
-    return this.tokenService.generateTokens({
-      userId: user.id,
-    });
-  }
 
   async login(email: string, password: string): Promise<Token> {
     const user = await this.repository.findByEmail(email);
@@ -75,11 +57,13 @@ export class AuthService {
       return localUser;
     }
 
+    const userDisplayName = ssoUser.name || ssoUser.email.split('@')[0];
     return this.repository.createUser({
       id: ssoUser.$id,
       email: ssoUser.email,
       password: ssoUser.password,
-      name: ssoUser.name,
+      displayName: userDisplayName,
+      username: Date.now().toString(32),
     });
   }
 

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
 import { BaseModel } from '../../common/models/base.model';
 
@@ -8,9 +8,11 @@ export class User extends BaseModel {
   @IsEmail()
   email: string;
 
-  name?: string;
+  @IsString()
+  username: string;
 
-  avatar?: string;
+  @IsString()
+  displayName: string;
 
-  password: string;
+  password?: string;
 }

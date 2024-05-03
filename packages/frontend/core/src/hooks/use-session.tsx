@@ -17,7 +17,8 @@ export type AuthSessionWithReload = AuthSession & {
 
 const anonymousUser: UserDTO = {
   id: '0000',
-  name: 'Guest',
+  displayName: 'Guest',
+  username: 'Guest',
   email: '',
   avatarUrl: '',
 };

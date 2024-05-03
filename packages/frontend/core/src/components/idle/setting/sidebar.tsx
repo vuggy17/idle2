@@ -69,7 +69,7 @@ export default function SettingSidebar({
                     fontSize: 12,
                   }}
                 >
-                  {user.name}
+                  {user.displayName}
                 </Typography.Text>
                 <Typography.Text
                   ellipsis
@@ -80,7 +80,7 @@ export default function SettingSidebar({
                     display: 'block',
                   }}
                 >
-                  {user.email}
+                  {user.username}
                 </Typography.Text>
               </div>
             </Flex>
