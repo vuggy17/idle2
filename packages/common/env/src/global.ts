@@ -1,4 +1,4 @@
-import z from 'zod';
+import z, { ZodError } from 'zod';
 
 export const runtimeFlagsSchema = z.object({
   serverUrlPrefix: z.string(),
@@ -16,8 +16,12 @@ export function setupGlobal() {
   if (globalThis.$IDLE_SETUP) {
     return;
   }
-
-  runtimeFlagsSchema.parse(runtimeConfig);
-
+  try {
+    runtimeFlagsSchema.parse(runtimeConfig);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      console.error('Missing env variable, try restart pnpm dev command');
+    }
+  }
   globalThis.$IDLE_SETUP = true;
 }
