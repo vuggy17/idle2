@@ -1,17 +1,34 @@
+import { BullModule } from '@nestjs/bull';
 import { Logger, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { loggingMiddleware, PrismaModule } from 'nestjs-prisma';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import config from './common/configs/config';
+import { RedisConfig } from './common/configs/config.interface';
 import { UploadModule } from './upload/upload.module';
 import { UsersModule } from './users/users.module';
+import { assertExists } from './utils/assert-exist';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
+    BullModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => {
+        const redisConfig = configService.get<RedisConfig>('redis');
+        assertExists(redisConfig);
+
+        return {
+          redis: {
+            host: redisConfig.host,
+            port: redisConfig.port,
+          },
+        };
+      },
+      inject: [ConfigService],
+    }),
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {

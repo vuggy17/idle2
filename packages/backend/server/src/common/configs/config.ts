@@ -35,6 +35,10 @@ const config: Config = {
     apiSecret: process.env.CLOUDINARY_API_SECRET || '',
     cloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
   },
+  redis: {
+    host: process.env.REDIS_HOST || 'localhost',
+    port: Number.parseInt(process.env.REDIS_PORT || '6379', 10),
+  },
 };
 
 export default (): Config => config;

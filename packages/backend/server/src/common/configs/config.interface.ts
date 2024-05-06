@@ -6,6 +6,7 @@ export interface Config {
   security: SecurityConfig;
   appwrite: AppwriteConfig;
   cloudinary: CloudinaryConfig;
+  redis: RedisConfig;
 }
 
 export interface NestConfig {
@@ -47,4 +48,9 @@ export interface CloudinaryConfig {
   cloudName: string;
   apiKey: string;
   apiSecret: string;
+}
+
+export interface RedisConfig {
+  host: string;
+  port: number;
 }
