@@ -1,4 +1,5 @@
-import { Avatar, ConfigProvider, Flex, List, Typography } from 'antd';
+import { List } from '@idle/component';
+import { Avatar, ConfigProvider, Flex, Typography } from 'antd';
 import { useContext } from 'react';
 
 import { roomTitleStyle, wrapper } from './room.css';

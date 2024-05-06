@@ -1,36 +1,20 @@
+import { List } from '@idle/component';
 import {
   Avatar,
   Button,
   ConfigProvider,
   Flex,
   Input,
-  List,
   Space,
   Tooltip,
   Typography,
 } from 'antd';
-import { Suspense, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { Check, XMark } from '../icons';
 import { FriendPanelLayout } from '../panel-layout';
 import { useFriendRequests } from '../useFriends';
 import * as cls from './style.css';
-
-// const data = [
-//   {
-//     id: '992a12223286b77e18923',
-//     sentByMe: false,
-//     subject: {
-//       id: '662a1222f1386b77e10d',
-//       createdAt: '2024-04-02T14:18:21.890Z',
-//       updatedAt: '2024-04-02T14:17:31.193Z',
-//       email: 'nutriboost17z@gmail.com',
-//       username: new Date('2024-04-02T14:18:21.890Z').getTime().toString(32),
-//       displayName: 'Khuong Duy 2',
-//     },
-//     createdAt: '2024-04-02T14:18:21.890Z',
-//   },
-// ];
 
 function SearchFriendRequestInput({
   onSearch,
@@ -127,6 +111,7 @@ function FriendRequestList({
 
   return (
     <List
+      hoverable
       loading={isLoading}
       className={cls.list}
       itemLayout="horizontal"

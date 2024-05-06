@@ -2,19 +2,21 @@ const { resolve } = require('node:path');
 
 const createPattern = (packageName) => [
   {
+    group: ['antd'],
+    importNames: ['List'],
+    message: 'Use import from @idle/component/List instead',
+  },
+  {
     group: ['**/dist', '**/dist/**'],
     message: 'Do not import from dist',
-    allowTypeImports: false,
   },
   {
     group: ['**/src', '**/src/**'],
     message: 'Do not import from src',
-    allowTypeImports: false,
   },
   {
     group: [`@idle/${packageName}`],
     message: 'Do not import package itself',
-    allowTypeImports: false,
   },
 ];
 
@@ -84,5 +86,22 @@ module.exports = {
         ],
       },
     })),
+    {
+      files: [
+        `${allPackages[1]}/src/**/*.ts`,
+        `${allPackages[1]}/src/**/*.tsx`,
+      ],
+      parserOptions: {
+        project: resolve(__dirname, './tsconfig.eslint.json'),
+      },
+      rules: {
+        '@typescript-eslint/no-restricted-imports': [
+          'error',
+          {
+            patterns: createPattern(allPackages[1]).slice(1),
+          },
+        ],
+      },
+    },
   ],
 };

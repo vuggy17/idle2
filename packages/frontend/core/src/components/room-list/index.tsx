@@ -1,4 +1,4 @@
-import { List } from 'antd';
+import { List } from '@idle/component';
 
 import { Room } from './room';
 
@@ -10,6 +10,7 @@ const rooms = Array.from({ length: 6 }, (_, index) => ({
 export function RoomList() {
   return (
     <List
+      selectable
       split={false}
       dataSource={rooms}
       renderItem={(room) => (
