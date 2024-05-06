@@ -6,7 +6,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { AuthUser } from '../common/decorators/user.decorator';
 import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { User } from './models/user.model';
 import { UsersService } from './users.service';
 
 @Controller('user')
@@ -15,7 +14,7 @@ export class UserController {
   constructor(private usersService: UsersService) {}
 
   @Get('me')
-  async me(@AuthUser() user: User): Promise<UserDTO> {
+  async me(@AuthUser() user: AuthUser): Promise<UserDTO> {
     return {
       id: user.id,
       avatarUrl: v2.utils.url(`avatars/${user.id}`, {
@@ -33,7 +32,7 @@ export class UserController {
 
   @Post('update')
   async updateUser(
-    @AuthUser() user: User,
+    @AuthUser() user: AuthUser,
     @Body() newUserData: UpdateUserInput,
   ) {
     return this.usersService.updateUser(user.id, newUserData);
@@ -41,7 +40,7 @@ export class UserController {
 
   @Patch('change-password')
   async changePassword(
-    @AuthUser() user: User,
+    @AuthUser() user: AuthUser,
     @Body('data') changePassword: ChangePasswordInput,
   ) {
     return this.usersService.changePassword(

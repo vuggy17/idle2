@@ -2,6 +2,8 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 
+import { User } from '../users/models/user.model';
+
 @Injectable()
 export class AuthRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -41,8 +43,8 @@ export class AuthRepository {
     return this.prisma.user.findUnique({ where: { email } });
   }
 
-  findById(id: string) {
-    console.log('🚀 ~ AuthRepository ~ findById ~ id:', id);
-    return this.prisma.user.findFirst({ where: { id } });
+  async findById(id: string): Promise<User | null> {
+    const doc = await this.prisma.user.findFirst({ where: { id } });
+    return doc ? new User(doc) : null;
   }
 }

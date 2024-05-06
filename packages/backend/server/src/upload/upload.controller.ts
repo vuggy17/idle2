@@ -1,6 +1,5 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '@prisma/client';
 
 import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { AuthUser } from '../common/decorators/user.decorator';
@@ -20,7 +19,7 @@ export class UploadController {
   })
   getImageUploadDirectSignature(
     @Query() { folder, invalidate }: GetUploadSignatureInput,
-    @AuthUser() user: User,
+    @AuthUser() user: AuthUser,
   ) {
     return this.uploadService.generateUploadSignature({
       folder,
