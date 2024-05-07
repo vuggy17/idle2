@@ -96,19 +96,11 @@ function FriendModalInner() {
                 </Space>
               ),
               right: (
-                <ConfigProvider
-                  theme={{
-                    token: {
-                      colorPrimary: '#218247',
-                    },
-                  }}
+                <AddFriendButton
+                  onClick={useCallback(() => setActiveTab('5'), [])}
                 >
-                  <AddFriendButton
-                    onClick={useCallback(() => setActiveTab('5'), [])}
-                  >
-                    Add friend
-                  </AddFriendButton>
-                </ConfigProvider>
+                  Add friend
+                </AddFriendButton>
               ),
             }}
             items={items}

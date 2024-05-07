@@ -1,6 +1,7 @@
 import { ConfigProvider } from 'antd';
 import { type PropsWithChildren, useContext } from 'react';
 
+import { useButtonStyle } from '../../ui/button/style';
 import { useListStyle } from '../../ui/list/style';
 
 export function ThemeConfig({ children }: PropsWithChildren) {
@@ -8,6 +9,7 @@ export function ThemeConfig({ children }: PropsWithChildren) {
 
   // List
   const { styles } = useListStyle(getPrefixCls('list'));
+  const { styles: btnStyle } = useButtonStyle(getPrefixCls('button'));
 
   return (
     <ConfigProvider
@@ -17,6 +19,7 @@ export function ThemeConfig({ children }: PropsWithChildren) {
         hashed: false,
       }}
       list={{ className: styles.list }}
+      button={{ className: btnStyle.button }}
     >
       {children}
     </ConfigProvider>
