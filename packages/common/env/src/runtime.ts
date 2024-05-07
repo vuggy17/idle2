@@ -9,6 +9,11 @@ export function getRuntimeConfig(): RuntimeConfig {
       apiKey: process.env.CLOUDINARY_API_KEY,
       cloudName: process.env.CLOUDINARY_CLOUD_NAME,
     },
+    pusher: {
+      authorizeEndpoint: '/api/ws',
+      cluster: process.env.PUSHER_APP_CLUSTER,
+      appKey: process.env.PUSHER_APP_KEY,
+    },
   };
 
   if (process.env.NODE_ENV === 'development') {

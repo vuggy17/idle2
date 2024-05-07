@@ -8,6 +8,11 @@ export const runtimeFlagsSchema = z.object({
     apiKey: z.string(),
     cloudName: z.string(),
   }),
+  pusher: z.object({
+    authorizeEndpoint: z.string(),
+    cluster: z.string(),
+    appKey: z.string(),
+  }),
 });
 
 export type RuntimeConfig = z.infer<typeof runtimeFlagsSchema>;

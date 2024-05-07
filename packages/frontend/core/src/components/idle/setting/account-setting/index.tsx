@@ -1,3 +1,4 @@
+import { List } from '@idle/component';
 import { AvatarWithUpload } from '@idle/component/auth-components';
 import { fetcher } from '@idle/http';
 import {
@@ -9,7 +10,6 @@ import {
   Form,
   Input,
   Layout,
-  List,
   Space,
   theme,
   Tooltip,

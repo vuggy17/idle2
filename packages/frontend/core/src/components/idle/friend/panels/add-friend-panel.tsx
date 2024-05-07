@@ -1,22 +1,33 @@
 import { fetcher } from '@idle/http';
 import { Alert, Button, Flex, Form, Input, Space, Typography } from 'antd';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 
 import { FriendPanelLayout } from '../panel-layout';
 
 export default function AddFriendPanel() {
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [form] = Form.useForm<{ uname: string }>();
+  const [isSendError, setIsSendError] = useState(false);
   const [prevNameTag, setPrevNameTag] = useState('');
   const [isSending, setIsSending] = useState(false);
 
   const sendFriendRequest = async (value: any) => {
     const { uname } = value;
-    setIsSending(true);
-    await fetcher.friend.sendFriendRequest(uname);
     setPrevNameTag(uname);
+    setIsSending(true);
+
+    try {
+      await fetcher.friend.sendFriendRequest(uname);
+      setIsSendError(false);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setIsSendError(true);
+      }
+    }
     setIsSending(false);
-    setIsSuccess(true);
   };
+
+  const username = Form.useWatch('uname', form);
 
   return (
     <FriendPanelLayout>
@@ -27,6 +38,10 @@ export default function AddFriendPanel() {
           You can add a friend with their username.
         </Typography.Text>
         <Form
+          initialValues={{
+            uname: '',
+          }}
+          form={form}
           validateTrigger={['onBlur', 'onChange']}
           onFinish={sendFriendRequest}
           autoComplete="off"
@@ -36,9 +51,7 @@ export default function AddFriendPanel() {
               style={{
                 width: '100%',
               }}
-              validateFirst
               name="uname"
-              rules={[{ required: true, message: 'Please fill' }]}
             >
               <Input
                 variant="filled"
@@ -46,6 +59,7 @@ export default function AddFriendPanel() {
                 placeholder="Enter your friend uname"
                 suffix={
                   <Button
+                    disabled={username?.length === 0}
                     type="primary"
                     htmlType="submit"
                     loading={isSending}
@@ -59,18 +73,34 @@ export default function AddFriendPanel() {
           </Space.Compact>
         </Form>
 
-        {isSuccess && prevNameTag.length > 0 && (
-          <Alert
-            message={
-              <Typography.Text>
-                Success! Your friend request to{' '}
-                <Typography.Text strong> {prevNameTag}</Typography.Text> was
-                sent.
-              </Typography.Text>
-            }
-            type="success"
-            showIcon
-          />
+        {!isSending && (
+          <div>
+            {!isSendError && prevNameTag.length > 0 && (
+              <Alert
+                message={
+                  <Typography.Text>
+                    Success! Your friend request to{' '}
+                    <Typography.Text strong> {prevNameTag}</Typography.Text> was
+                    sent.
+                  </Typography.Text>
+                }
+                type="success"
+                showIcon
+              />
+            )}
+            {isSendError && (
+              <Alert
+                message={
+                  <Typography.Text>
+                    That didn&apos;t work. Double check that the username is
+                    correct.
+                  </Typography.Text>
+                }
+                type="error"
+                showIcon
+              />
+            )}
+          </div>
         )}
       </Flex>
     </FriendPanelLayout>

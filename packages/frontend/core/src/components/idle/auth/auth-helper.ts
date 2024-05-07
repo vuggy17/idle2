@@ -12,7 +12,7 @@ export async function loginByMagicEmail(userId: string, sessionSecret: string) {
   }
 
   // if they already have an auth session, skip verify it
-  if (session.userId !== userId) {
+  if (!session || session.userId !== userId) {
     await authGateway.verifyMagicEmailSession(userId, sessionSecret);
   }
 

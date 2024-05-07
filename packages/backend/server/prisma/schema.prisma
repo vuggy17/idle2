@@ -13,11 +13,31 @@ generator dbml {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  username    String   @unique()
-  email       String   @unique
-  displayName String   @map("display_name")
+  id          String          @id @default(cuid())
+  username    String          @unique()
+  email       String          @unique
+  displayName String          @map("display_name")
   password    String?
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("upated_at")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("upated_at")
+  frSender    FriendRequest[] @relation("fr_sender")
+  frReceiver  FriendRequest[] @relation("fr_receiver")
+
+  @@map("user")
+}
+
+model FriendRequest {
+  id         String   @id @default(cuid())
+  senderId   String   @map("sender_id")
+  receiverId String   @map("receiver_id")
+  receiver   User     @relation("fr_receiver", fields: [receiverId], references: [id])
+  sender     User     @relation("fr_sender", fields: [senderId], references: [id])
+  // if both accepted and cacelled is null => request is pending
+  accepted   Boolean?
+  cancelled  Boolean?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("upated_at")
+
+  // @@unique([senderId, receiverId])
+  @@map("friend_request")
 }

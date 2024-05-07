@@ -13,7 +13,7 @@ import { useCallback } from 'react';
 
 import { Check, XMark } from '../icons';
 import { FriendPanelLayout } from '../panel-layout';
-import { useFriendRequests } from '../useFriends';
+import { useFriendRequests } from '../use-friend';
 import * as cls from './style.css';
 
 function SearchFriendRequestInput({
@@ -169,7 +169,13 @@ export default function PendingRequestPanel() {
     <FriendPanelLayout>
       <Flex vertical gap={32}>
         <SearchFriendRequestInput onSearch={(val) => val} />
-        <Space direction="vertical">
+        <Space
+          direction="vertical"
+          style={{
+            minHeight: 0,
+            flexGrow: 0,
+          }}
+        >
           <Typography.Text strong>
             PENDING — {pendingRequestCount}
           </Typography.Text>
