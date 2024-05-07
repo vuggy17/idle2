@@ -21,8 +21,4 @@ export function List<T>({
   return <AntdList rootClassName={cls} {...componentProps} />;
 }
 
-List.defaultProps = {
-  hoverable: false,
-  selectable: false,
-};
 List.Item = AntdList.Item;

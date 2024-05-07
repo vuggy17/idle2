@@ -48,7 +48,7 @@ const validatePasswordRepeatRules: FormRule[] = [
 type ResetPasswordProps = {
   logo: string;
   onCancel: () => void;
-  onResetClick: (pass: string, passAgain: string) => Promise<void>;
+  onResetClick: (pass: string) => Promise<void>;
 };
 
 export function ResetPassword({
@@ -63,8 +63,8 @@ export function ResetPassword({
 
   const onResetPasswordClick = useCallback(async () => {
     setSubmitting(true);
-    const { password, passwordRepeat } = form.getFieldsValue();
-    await onResetClick(password, passwordRepeat);
+    const { password } = form.getFieldsValue();
+    await onResetClick(password);
     setSubmitting(false);
   }, [form, onResetClick]);
 

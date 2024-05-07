@@ -3,13 +3,19 @@ import { fetcher } from '@idle/http';
 import { authGateway } from './auth-gateway';
 
 export async function loginByMagicEmail(userId: string, sessionSecret: string) {
-  const session  = await authGateway.getCurrentSession()
+  let session = null;
+
+  try {
+    session = await authGateway.getCurrentSession();
+  } catch (error) {
+    session = null;
+  }
 
   // if they already have an auth session, skip verify it
-  if(session.userId !== userId){
+  if (session.userId !== userId) {
     await authGateway.verifyMagicEmailSession(userId, sessionSecret);
   }
-  
+
   const token = await authGateway.requestJwt();
   const credential = await fetcher.auth.login(token.jwt, userId);
   return credential;

@@ -35,11 +35,11 @@ function AuthPage() {
   const openApp = useCallback(() => jumpToIndex(), [jumpToIndex]);
 
   const onResetPassword = useCallback(
-    async (pass: string, passAgain: string) => {
+    async (pass: string) => {
       const { searchParams } = new URL(window.location.href);
       const userId = searchParams.get('userId') ?? '';
       const secret = searchParams.get('secret') ?? '';
-      await resetPassword(userId, secret, pass, passAgain);
+      await resetPassword(userId, secret, pass);
       openApp();
     },
     [openApp, resetPassword],
