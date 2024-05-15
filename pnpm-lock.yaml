@@ -261,6 +261,15 @@ importers:
         specifier: ^3.23.5
         version: 3.23.5
 
+  packages/common/infra:
+    dependencies:
+      mobx:
+        specifier: ^6.12.3
+        version: 6.12.3
+      mobx-keystone:
+        specifier: ^1.10.1
+        version: 1.10.1(mobx@6.12.3)
+
   packages/common/model: {}
 
   packages/frontend/component:
@@ -4828,6 +4837,14 @@ packages:
   mlly@1.7.0:
     resolution: {integrity: sha512-U9SDaXGEREBYQgfejV97coK0UL1r+qnF2SyO9A3qcI8MzKnsIFKHNVEkrDyNncQTKQQumsasmeq84eNMdBfsNQ==}
 
+  mobx-keystone@1.10.1:
+    resolution: {integrity: sha512-IRTU462+FMUA4jbS+gkIVP4/72KGLZ6rgCD7gGDel+J7h2BemJgQjk3HT5R8+eGEq1UWcgr6LRv1ww7rdFifVA==}
+    peerDependencies:
+      mobx: ^6.0.0 || ^5.0.0 || ^4.0.0
+
+  mobx@6.12.3:
+    resolution: {integrity: sha512-c8NKkO4R2lShkSXZ2Ongj1ycjugjzFFo/UswHBnS62y07DMcTc9Rvo03/3nRyszIvwPNljlkd4S828zIBv/piw==}
+
   modern-ahocorasick@1.0.1:
     resolution: {integrity: sha512-yoe+JbhTClckZ67b2itRtistFKf8yPYelHLc7e5xAwtNAXxM6wJTUx2C7QeVSJFDzKT7bCIFyBVybPMKvmB9AA==}
 
@@ -6286,6 +6303,9 @@ packages:
 
   ts-pattern@4.3.0:
     resolution: {integrity: sha512-pefrkcd4lmIVR0LA49Imjf9DYLK8vtWhqBPA3Ya1ir8xCW0O2yjL9dsCVvI7pCodLC5q7smNpEtDR2yVulQxOg==}
+
+  ts-toolbelt@9.6.0:
+    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
 
   tsconfck@3.0.3:
     resolution: {integrity: sha512-4t0noZX9t6GcPTfBAbIbbIU4pfpCwh0ueq3S4O/5qXI1VwK1outmxhe9dOiEWqMz3MW2LKgDTpqWV+37IWuVbA==}
@@ -12094,6 +12114,16 @@ snapshots:
       pkg-types: 1.1.0
       ufo: 1.5.3
 
+  mobx-keystone@1.10.1(mobx@6.12.3):
+    dependencies:
+      fast-deep-equal: 3.1.3
+      mobx: 6.12.3
+      nanoid: 3.3.7
+      ts-toolbelt: 9.6.0
+      tslib: 2.6.2
+
+  mobx@6.12.3: {}
+
   modern-ahocorasick@1.0.1: {}
 
   ms@2.0.0: {}
@@ -13745,6 +13775,8 @@ snapshots:
       '@swc/core': 1.4.17
 
   ts-pattern@4.3.0: {}
+
+  ts-toolbelt@9.6.0: {}
 
   tsconfck@3.0.3(typescript@5.4.5):
     optionalDependencies:
