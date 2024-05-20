@@ -108,6 +108,12 @@ module.exports = {
       },
     ],
     'no-plusplus': 'off',
+    '@typescript-eslint/no-use-before-define': [
+      'error',
+      {
+        classes: false,
+      },
+    ],
   },
   overrides: [
     ...allPackages.map((pkg) => ({

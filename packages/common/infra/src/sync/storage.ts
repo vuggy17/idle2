@@ -1,15 +1,16 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable no-await-in-loop */
-import type { ByteKV } from '../storage/kv';
+import type { KV } from '../storage/kv';
 import { isEmptyUpdate, throwIfAborted } from '../utils';
 import { type EventBus, EventBusInner } from './event';
 
 const mergeUpdates = (...arg: any[]): any => {};
 
-export interface Storage {
+export interface Storage<T> {
   eventBus: EventBus;
-  doc: ByteKV;
-  syncMetadata: ByteKV;
-  serverClock: ByteKV;
+  doc: KV<T>;
+  syncMetadata: KV;
+  serverClock: KV;
 }
 
 const Keys = {
@@ -34,10 +35,10 @@ const Values = {
   },
 };
 
-export class DocStorageInner {
+export class DocStorageInner<T> {
   public readonly eventBus;
 
-  constructor(public readonly behavior: Storage) {
+  constructor(public readonly behavior: Storage<T>) {
     this.eventBus = new EventBusInner(this.behavior.eventBus);
   }
 
@@ -170,6 +171,12 @@ export class DocStorageInner {
     return this.behavior.doc.get(docId);
   }
 
+  async loadDocsFromLocal(ids: string[], signal?: AbortSignal) {
+    throwIfAborted(signal);
+    const keys = await this.behavior.doc.keys();
+    return Promise.all(keys.map((k) => this.behavior.doc.get(k)));
+  }
+
   /**
    * Confirm that server updates are applied in the order they occur!!!
    */
@@ -223,4 +230,128 @@ export class DocStorageInner {
   async clearServerClock() {
     return this.behavior.serverClock.clear();
   }
+}
+
+export class MemoryStorage implements Storage {
+  constructor(private readonly memo: Memento = new MemoryMemento()) {}
+
+  eventBus = new MemoryDocEventBus();
+  lock = new AsyncLock();
+  readonly docDb = wrapMemento(this.memo, 'doc:');
+  readonly syncMetadataDb = wrapMemento(this.memo, 'syncMetadata:');
+  readonly serverClockDb = wrapMemento(this.memo, 'serverClock:');
+
+  readonly doc = {
+    transaction: async (cb) => {
+      using _lock = await this.lock.acquire();
+      return await cb({
+        get: async (key) => {
+          return this.docDb.get(key) ?? null;
+        },
+        set: async (key, value) => {
+          this.docDb.set(key, value);
+        },
+        keys: async () => {
+          return Array.from(this.docDb.keys());
+        },
+        clear: () => {
+          this.docDb.clear();
+        },
+        del: (key) => {
+          this.docDb.del(key);
+        },
+      });
+    },
+    get(key) {
+      return this.transaction(async (tx) => tx.get(key));
+    },
+    set(key, value) {
+      return this.transaction(async (tx) => tx.set(key, value));
+    },
+    keys() {
+      return this.transaction(async (tx) => tx.keys());
+    },
+    clear() {
+      return this.transaction(async (tx) => tx.clear());
+    },
+    del(key) {
+      return this.transaction(async (tx) => tx.del(key));
+    },
+  } satisfies ByteKV;
+
+  readonly syncMetadata = {
+    transaction: async (cb) => {
+      using _lock = await this.lock.acquire();
+      return await cb({
+        get: async (key) => {
+          return this.syncMetadataDb.get(key) ?? null;
+        },
+        set: async (key, value) => {
+          this.syncMetadataDb.set(key, value);
+        },
+        keys: async () => {
+          return Array.from(this.syncMetadataDb.keys());
+        },
+        clear: () => {
+          this.syncMetadataDb.clear();
+        },
+        del: (key) => {
+          this.syncMetadataDb.del(key);
+        },
+      });
+    },
+    get(key) {
+      return this.transaction(async (tx) => tx.get(key));
+    },
+    set(key, value) {
+      return this.transaction(async (tx) => tx.set(key, value));
+    },
+    keys() {
+      return this.transaction(async (tx) => tx.keys());
+    },
+    clear() {
+      return this.transaction(async (tx) => tx.clear());
+    },
+    del(key) {
+      return this.transaction(async (tx) => tx.del(key));
+    },
+  } satisfies ByteKV;
+
+  readonly serverClock = {
+    transaction: async (cb) => {
+      using _lock = await this.lock.acquire();
+      return await cb({
+        get: async (key) => {
+          return this.serverClockDb.get(key) ?? null;
+        },
+        set: async (key, value) => {
+          this.serverClockDb.set(key, value);
+        },
+        keys: async () => {
+          return Array.from(this.serverClockDb.keys());
+        },
+        clear: () => {
+          this.serverClockDb.clear();
+        },
+        del: (key) => {
+          this.serverClockDb.del(key);
+        },
+      });
+    },
+    get(key) {
+      return this.transaction(async (tx) => tx.get(key));
+    },
+    set(key, value) {
+      return this.transaction(async (tx) => tx.set(key, value));
+    },
+    keys() {
+      return this.transaction(async (tx) => tx.keys());
+    },
+    clear() {
+      return this.transaction(async (tx) => tx.clear());
+    },
+    del(key) {
+      return this.transaction(async (tx) => tx.del(key));
+    },
+  } satisfies ByteKV;
 }

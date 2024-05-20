@@ -1,7 +1,6 @@
 import z, { ZodError } from 'zod';
 
 export const runtimeFlagsSchema = z.object({
-  serverUrlPrefix: z.string(),
   appwriteProjectHost: z.string(),
   appwriteProjectId: z.string(),
   cloudinary: z.object({

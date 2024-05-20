@@ -1,15 +1,21 @@
+type SyncPayload = {
+  collectionName: 'request';
+  type: 'add' | 'delete' | 'update';
+  data: Uint8Array;
+};
+
 export type SyncEvent =
   | {
       type: 'ClientUpdateCommitted';
       clientId: string;
       docId: string;
-      update: Uint8Array;
+      update: SyncPayload;
       seqNum: number;
     }
   | {
       type: 'ServerUpdateCommitted';
       docId: string;
-      update: Uint8Array;
+      update: SyncPayload;
       clientId: string;
     };
 

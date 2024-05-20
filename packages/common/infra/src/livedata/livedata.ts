@@ -1,5 +1,4 @@
 /* eslint-disable max-classes-per-file */
-import { DebugLogger } from '@affine/debug';
 import type {
   InteropObservable,
   Observer,
@@ -24,7 +23,7 @@ import {
   throttleTime,
 } from 'rxjs';
 
-const logger = new DebugLogger('livedata');
+const logger = console;
 
 /**
  * LiveData is a reactive data type.
@@ -353,7 +352,6 @@ export class LiveData<T = unknown>
     );
   }
 
-  // eslint-disable-next-line rxjs/finnish
   asObservable(): Observable<T> {
     return new Observable<T>((subscriber) => {
       return this.subscribe(subscriber);
@@ -435,11 +433,11 @@ export class LiveData<T = unknown>
               return of([]);
             }
             return combineLatest(
-              v.map((v) => {
-                if (v instanceof LiveData) {
-                  return v.flat();
+              v.map((d) => {
+                if (d instanceof LiveData) {
+                  return d.flat();
                 }
-                return of(v);
+                return of(d);
               }),
             );
           }

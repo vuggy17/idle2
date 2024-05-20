@@ -1,9 +1,11 @@
 {
   "name": "@idle/env",
   "version": "1.0.0",
+  "type": "module",
   "exports": {
     "./global": "./src/global.ts",
-    "./runtime": "./src/runtime.ts"
+    "./runtime": "./src/runtime.ts",
+    "./constant": "./src/constant.ts"
   },
   "dependencies": {
     "zod": "^3.23.5"
