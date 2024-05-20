@@ -1,4 +1,3 @@
-import { DebugLogger } from '@affine/debug';
 import type {
   InteropObservable,
   Observer,
@@ -23,7 +22,7 @@ import {
   throttleTime,
 } from 'rxjs';
 
-const logger = new DebugLogger('livedata');
+const logger = console;
 
 /**
  * LiveData is a reactive data type.
@@ -91,15 +90,15 @@ export class LiveData<T = unknown>
       | Observable<T>
       | InteropObservable<T>
       | ((stream: Observable<LiveDataOperation>) => Observable<T>),
-    initialValue: T
+    initialValue: T,
   ): LiveData<T> {
     const data$ = new LiveData(
       initialValue,
       typeof upstream$ === 'function'
         ? upstream$
-        : stream$ =>
+        : (stream$) =>
             stream$.pipe(
-              mergeMap(v => {
+              mergeMap((v) => {
                 if (v === 'set') {
                   return EMPTY;
                 } else if (v === 'get') {
@@ -117,7 +116,7 @@ export class LiveData<T = unknown>
                   return acc;
                 }
               }, 0),
-              map(count => {
+              map((count) => {
                 if (count > 0) {
                   return 'watch';
                 } else {
@@ -125,14 +124,14 @@ export class LiveData<T = unknown>
                 }
               }),
               distinctUntilChanged(),
-              switchMap(op => {
+              switchMap((op) => {
                 if (op === 'watch') {
                   return upstream$;
                 } else {
                   return EMPTY;
                 }
-              })
-            )
+              }),
+            ),
     );
 
     return data$;
@@ -155,10 +154,10 @@ export class LiveData<T = unknown>
    * ```
    */
   static computed<T>(
-    compute: (get: <L>(data: LiveData<L>) => L) => T
+    compute: (get: <L>(data: LiveData<L>) => L) => T,
   ): LiveData<T> {
     return LiveData.from(
-      new Observable(subscribe => {
+      new Observable((subscribe) => {
         const execute = (next: () => void) => {
           const subscriptions: Subscription[] = [];
           const getfn = <L>(data$: LiveData<L>) => {
@@ -176,7 +175,7 @@ export class LiveData<T = unknown>
                   }
                   first = false;
                 },
-              })
+              }),
             );
             return value;
           };
@@ -196,7 +195,7 @@ export class LiveData<T = unknown>
           }
 
           return () => {
-            subscriptions.forEach(s => s.unsubscribe());
+            subscriptions.forEach((s) => s.unsubscribe());
           };
         };
 
@@ -214,7 +213,7 @@ export class LiveData<T = unknown>
           prev();
         };
       }),
-      null as any
+      null as any,
     );
   }
 
@@ -236,13 +235,13 @@ export class LiveData<T = unknown>
     initialValue: T,
     upstream:
       | ((upstream: Observable<LiveDataOperation>) => Observable<T>)
-      | undefined = undefined
+      | undefined = undefined,
   ) {
     super();
     this.raw$ = new BehaviorSubject(initialValue);
     if (upstream) {
       this.upstreamSubscription = upstream(this.ops$).subscribe({
-        next: v => {
+        next: (v) => {
           this.raw$.next(v);
         },
         complete: () => {
@@ -250,7 +249,7 @@ export class LiveData<T = unknown>
             logger.error('livedata upstream unexpected complete');
           }
         },
-        error: err => {
+        error: (err) => {
           logger.error('uncatched error in livedata', err);
           this.isPoisoned = true;
           this.poisonedError = new PoisonedError(err);
@@ -292,23 +291,23 @@ export class LiveData<T = unknown>
   };
 
   override subscribe(
-    observerOrNext?: Partial<Observer<T>> | ((value: T) => void)
+    observerOrNext?: Partial<Observer<T>> | ((value: T) => void),
   ): Subscription;
   override subscribe(
     next?: ((value: T) => void) | null,
     error?: ((error: any) => void) | null,
-    complete?: (() => void) | null
+    complete?: (() => void) | null,
   ): Subscription;
   override subscribe(
     observerOrNext?: Partial<Observer<T>> | ((value: T) => void) | null,
     error?: ((error: any) => void) | null,
-    complete?: (() => void) | null
+    complete?: (() => void) | null,
   ): Subscription {
     this.ops$.next('watch');
     const subscription = this.raw$.subscribe(
       observerOrNext as any,
       error,
-      complete
+      complete,
     );
     subscription.add(() => {
       this.ops$.next('unwatch');
@@ -318,17 +317,17 @@ export class LiveData<T = unknown>
 
   map<R>(mapper: (v: T) => R): LiveData<R> {
     const sub$ = LiveData.from(
-      new Observable<R>(subscriber =>
+      new Observable<R>((subscriber) =>
         this.subscribe({
-          next: v => {
+          next: (v) => {
             subscriber.next(mapper(v));
           },
           complete: () => {
             sub$.complete();
           },
-        })
+        }),
       ),
-      undefined as R // is safe
+      undefined as R, // is safe
     );
 
     return sub$;
@@ -337,23 +336,23 @@ export class LiveData<T = unknown>
   distinctUntilChanged(comparator?: (previous: T, current: T) => boolean) {
     return LiveData.from(
       this.pipe(distinctUntilChanged(comparator)),
-      null as any
+      null as any,
     );
   }
 
   throttleTime(
     duration: number,
-    { trailing = true, leading = true }: ThrottleConfig = {}
+    { trailing = true, leading = true }: ThrottleConfig = {},
   ) {
     return LiveData.from(
       this.pipe(throttleTime(duration, undefined, { trailing, leading })),
-      null as any
+      null as any,
     );
   }
 
   // eslint-disable-next-line rxjs/finnish
   asObservable(): Observable<T> {
-    return new Observable<T>(subscriber => {
+    return new Observable<T>((subscriber) => {
       return this.subscribe(subscriber);
     });
   }
@@ -362,25 +361,25 @@ export class LiveData<T = unknown>
   override pipe<A>(op1: OperatorFunction<T, A>): Observable<A>;
   override pipe<A, B>(
     op1: OperatorFunction<T, A>,
-    op2: OperatorFunction<A, B>
+    op2: OperatorFunction<A, B>,
   ): Observable<B>;
   override pipe<A, B, C>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
-    op3: OperatorFunction<B, C>
+    op3: OperatorFunction<B, C>,
   ): Observable<C>;
   override pipe<A, B, C, D>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
     op3: OperatorFunction<B, C>,
-    op4: OperatorFunction<C, D>
+    op4: OperatorFunction<C, D>,
   ): Observable<D>;
   override pipe<A, B, C, D, E>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
     op3: OperatorFunction<B, C>,
     op4: OperatorFunction<C, D>,
-    op5: OperatorFunction<D, E>
+    op5: OperatorFunction<D, E>,
   ): Observable<E>;
   override pipe<A, B, C, D, E, F>(
     op1: OperatorFunction<T, A>,
@@ -388,10 +387,10 @@ export class LiveData<T = unknown>
     op3: OperatorFunction<B, C>,
     op4: OperatorFunction<C, D>,
     op5: OperatorFunction<D, E>,
-    op6: OperatorFunction<E, F>
+    op6: OperatorFunction<E, F>,
   ): Observable<F>;
   override pipe(...args: any[]) {
-    return new Observable(subscriber => {
+    return new Observable((subscriber) => {
       this.ops$.next('watch');
       // eslint-disable-next-line prefer-spread
       const subscription = this.raw$.pipe
@@ -424,7 +423,7 @@ export class LiveData<T = unknown>
   flat(): Flat<this> {
     return LiveData.from(
       this.pipe(
-        switchMap(v => {
+        switchMap((v) => {
           if (v instanceof LiveData) {
             return (v as LiveData<any>).flat();
           } else if (Array.isArray(v)) {
@@ -432,26 +431,26 @@ export class LiveData<T = unknown>
               return of([]);
             }
             return combineLatest(
-              v.map(v => {
+              v.map((v) => {
                 if (v instanceof LiveData) {
                   return v.flat();
                 } else {
                   return of(v);
                 }
-              })
+              }),
             );
           } else {
             return of(v);
           }
-        })
+        }),
       ),
-      null as any
+      null as any,
     ) as any;
   }
 
   waitFor(predicate: (v: T) => unknown, signal?: AbortSignal): Promise<T> {
     return new Promise((resolve, reject) => {
-      const subscription = this.subscribe(v => {
+      const subscription = this.subscribe((v) => {
         if (predicate(v)) {
           resolve(v as any);
           setImmediate(() => {
@@ -459,7 +458,7 @@ export class LiveData<T = unknown>
           });
         }
       });
-      signal?.addEventListener('abort', reason => {
+      signal?.addEventListener('abort', (reason) => {
         subscription.unsubscribe();
         reject(reason);
       });
@@ -467,9 +466,10 @@ export class LiveData<T = unknown>
   }
 
   waitForNonNull(signal?: AbortSignal) {
-    return this.waitFor(v => v !== null && v !== undefined, signal) as Promise<
-      NonNullable<T>
-    >;
+    return this.waitFor(
+      (v) => v !== null && v !== undefined,
+      signal,
+    ) as Promise<NonNullable<T>>;
   }
 
   reactSubscribe = (cb: () => void) => {
@@ -525,7 +525,7 @@ export class PoisonedError extends Error {
   constructor(originalError: any) {
     super(
       'The livedata is poisoned, original error: ' +
-        (originalError instanceof Error ? originalError.stack : originalError)
+        (originalError instanceof Error ? originalError.stack : originalError),
     );
   }
 }

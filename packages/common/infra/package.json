@@ -5,9 +5,18 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "type": "module",
   "version": "0.0.0",
   "dependencies": {
+    "@datastructures-js/binary-search-tree": "^5.3.2",
+    "@idle/env": "workspace:*",
+    "foxact": "^0.2.33",
+    "lodash-es": "^4.17.21",
     "mobx": "^6.12.3",
     "mobx-keystone": "^1.10.1"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "vitest": "^1.6.0"
   }
 }
