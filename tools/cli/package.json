@@ -1,0 +1,22 @@
+{
+  "name": "@idle/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "node --import ./ts-loader.js ./src/bin/dev.ts",
+    "build": "node --import ./ts-loader.js ./src/bin/build.ts",
+    "preview": "node --import ./ts-loader.js ./src/bin/preview-web.ts"
+  },
+  "dependencies": {
+    "@idle/env": "workspace:*",
+    "esbuild": "^0.21.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.8",
+    "dotenv": "^16.4.5",
+    "ts-node": "10.9.2",
+    "vite": "^5.2.10",
+    "vite-plugin-html": "^3.2.2"
+  }
+}

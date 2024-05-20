@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "exports": {
+    "./*": "./src/*",
+    "./router": "./src/router.tsx"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --build && vite build",

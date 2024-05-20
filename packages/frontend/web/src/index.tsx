@@ -1,5 +1,4 @@
-import './index.css';
-
+// import "@idle/component/theme/global.css"
 import { setupGlobal } from '@idle/env/global';
 import React from 'react';
 import ReactDOM from 'react-dom/client';

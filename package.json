@@ -2,6 +2,7 @@
   "name": "idle2",
   "version": "0.0.0",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev:web": "nx dev @idle/core",
     "dev:db": "nx docker:db @idle/server",
@@ -9,11 +10,15 @@
     "build:web": "nx build @idle/core",
     "build:server": "nx build @idle/server",
     "lint": "eslint . --ext .js,mjs,.ts,.tsx --cache",
-    "lint:fix": "yarn lint:eslint --fix"
+    "lint:fix": "yarn lint:eslint --fix",
+    "test": "NODE_OPTIONS=\"--import tsx/esm\" pnpm exec vitest"
   },
   "private": true,
   "devDependencies": {
+    "@idle/cli": "workspace:*",
+    "@idle/env": "workspace:*",
     "@nx/js": "18.3.4",
+    "@testing-library/react": "^15.0.7",
     "@types/eslint": "^8.56.10",
     "@types/idle__env": "workspace:*",
     "@typescript-eslint/eslint-plugin": "7.8.0",
@@ -28,9 +33,12 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
     "eslint-plugin-simple-import-sort": "^12.1.0",
+    "fast-glob": "^3.3.2",
+    "happy-dom": "^14.11.0",
     "nx": "18.3.4",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   },
   "pnpm": {
     "peerDependencyRules": {

@@ -1,0 +1,23 @@
+{
+  "name": "@idle/web",
+  "version": "0.0.1",
+  "private": true,
+  "browser": "src/index.tsx",
+  "scripts": {
+    "dev": "pnpm --filter  @idle/cli run dev",
+    "build": "pnpm --filter  @idle/cli run build",
+    "preview": "pnpm --filter  @idle/cli run preview"
+  },
+  "dependencies": {
+    "@idle/component": "workspace:*",
+    "@idle/core": "workspace:*",
+    "@idle/env": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0"
+  }
+}

@@ -16,7 +16,9 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "types": ["idle__env"],
+    "types": [
+      "idle__env"
+    ],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -26,8 +28,12 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "target": "ES2022",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "target": "ES2022", //vite wont respect this, default to esnext https://vitejs.dev/guide/features.html#target
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -35,17 +41,34 @@
     "incremental": true,
     "skipLibCheck": true,
     "paths": {
-      "@idle/component": ["./packages/frontend/component/src/index"],
+      "@idle/component": [
+        "./packages/frontend/component/src/index"
+      ],
       "@idle/component/*": [
         "./packages/frontend/component/src/components/*/index",
         "./packages/frontend/component/src/components/*"
       ],
-      "@idle/core/*": ["./packages/frontend/core/*"],
-      "@idle/env": ["./packages/common/env/src"],
-      "@idle/env/*": ["./packages/common/env/src/*"],
-      "@idle/http": ["./packages/frontend/http/src/index"],
-      "@idle/model": ["./packages/common/model/src/index"],
-      "@idle/server/*": ["./packages/backend/server/src/*"]
+      "@idle/core/*": [
+        "./packages/frontend/core/*"
+      ],
+      "@idle/env": [
+        "./packages/common/env/src"
+      ],
+      "@idle/env/*": [
+        "./packages/common/env/src/*"
+      ],
+      "@idle/http": [
+        "./packages/frontend/http/src/index"
+      ],
+      "@idle/model": [
+        "./packages/common/model/src/index"
+      ],
+      "@idle/server/*": [
+        "./packages/backend/server/src/*"
+      ],
+      "@idle/cli/*": [
+        "./tools/cli/src/*"
+      ],
     }
   },
   "include": [],
@@ -55,6 +78,9 @@
     },
     {
       "path": "./packages/frontend/core"
+    },
+    {
+      "path": "./packages/frontend/web"
     },
     {
       "path": "./packages/frontend/component"
@@ -67,8 +93,15 @@
     },
     {
       "path": "./packages/common/model"
+    },
+    // Others
+    {
+      "path": "./tsconfig.node.json"
     }
   ],
   "files": [],
-  "exclude": ["node_modules", "lib"]
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
 }
