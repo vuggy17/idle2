@@ -5,6 +5,7 @@ import type { RuntimeConfig } from '@idle/env/global';
 import * as vite from 'vite';
 import { join, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export const rootPath = join(fileURLToPath(import.meta.url), '..', '..');
 export const workspaceRoot = join(rootPath, '..', '..', '..');
@@ -16,7 +17,7 @@ const webPublicPath = join(
   'public',
 );
 
-function watchNodeModules(modules: string[]): vite.PluginOption {
+function watchNodeModules(modules: string[]) {
   return {
     name: 'watch-node-modules',
     config() {
@@ -42,6 +43,7 @@ export function createConfiguration(
       react(),
       tsconfigPaths(),
       vanillaExtractPlugin(),
+      nxViteTsPaths(),
       watchNodeModules(['@idle/component', '@idle/http']),
     ],
 

@@ -1,7 +1,6 @@
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { mergeConfig } from 'vite';
-
 import fg from 'fast-glob';
 
 import { projectRoot } from '@idle/cli/src/config/index';

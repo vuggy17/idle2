@@ -4,5 +4,17 @@
   "affected": {
     "defaultBase": "main"
   },
-  "nxCloudAccessToken": "YjdmZTVkYWUtZWExZS00YjU1LTliYTYtNTJlYmFjNzdmZDlmfHJlYWQ="
+  "nxCloudAccessToken": "YjdmZTVkYWUtZWExZS00YjU1LTliYTYtNTJlYmFjNzdmZDlmfHJlYWQ=",
+  "plugins": [
+    {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "serveStaticTargetName": "serve-static"
+      }
+    }
+  ]
 }
