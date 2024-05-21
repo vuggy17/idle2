@@ -1,3 +1,4 @@
+/* eslint-disable  */
 // From: https://stackoverflow.com/a/77693896
 
 // Useful links:
@@ -5,7 +6,6 @@
 // https://github.com/nodejs/loaders-test/blob/main/typescript-loader/loader.js
 // https://github.com/nodejs/loaders-test/blob/main/commonjs-extension-resolution-loader/loader.js
 
-import { transform } from 'esbuild';
 import { readFile } from 'node:fs/promises';
 import { isBuiltin, register } from 'node:module';
 import {
@@ -17,6 +17,8 @@ import {
   sep,
 } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+
+import { transform } from 'esbuild';
 
 // 💡 It's probably a good idea to put this loader near the end of the chain.
 register(import.meta.url, pathToFileURL('./')); // Register this file, itself.
@@ -39,17 +41,12 @@ export async function resolve(specifier, context, nextResolve) {
     return defaultResolutionResult;
 
   if (specifier.startsWith('@/')) {
-    specifier =
-      './' +
-      posix.join(
-        toPosix(
-          relative(
-            dirname(fileURLToPath(context.parentURL)),
-            resolvePath('src'),
-          ),
-        ), // TODO: Do this according to project's "tsconfig.json"
-        posix.relative('@', specifier),
-      );
+    specifier = `./${posix.join(
+      toPosix(
+        relative(dirname(fileURLToPath(context.parentURL)), resolvePath('src')),
+      ), // TODO: Do this according to project's "tsconfig.json"
+      posix.relative('@', specifier),
+    )}`;
     // Retry default-resolution with new resolved `specifier`:
     const defaultResolutionResult = await nextResolve(specifier, context).catch(
       () => {},
@@ -72,16 +69,16 @@ export async function resolve(specifier, context, nextResolve) {
       .catch(() => nextResolve(specifier + (resolvedExt = '.ts'), context))
       .catch(() => nextResolve(specifier + (resolvedExt = '.tsx'), context))
       .catch(() =>
-        nextResolve(specifier + '/index' + (resolvedExt = '.js'), context),
+        nextResolve(`${specifier}/index${(resolvedExt = '.js')}`, context),
       )
       .catch(() =>
-        nextResolve(specifier + '/index' + (resolvedExt = '.jsx'), context),
+        nextResolve(`${specifier}/index${(resolvedExt = '.jsx')}`, context),
       )
       .catch(() =>
-        nextResolve(specifier + '/index' + (resolvedExt = '.ts'), context),
+        nextResolve(`${specifier}/index${(resolvedExt = '.ts')}`, context),
       )
       .catch(() =>
-        nextResolve(specifier + '/index' + (resolvedExt = '.tsx'), context),
+        nextResolve(`${specifier}/index${(resolvedExt = '.tsx')}`, context),
       )
       .catch(() => defaultResolutionTry); // If our tries to resolve the module failed, return `defaultResolutionTry` promise.
 

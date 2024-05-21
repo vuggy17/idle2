@@ -1,18 +1,17 @@
-import { config } from 'dotenv';
-import { existsSync } from 'fs';
-import { register } from 'module';
-import { join } from 'path';
-import { pathToFileURL } from 'url';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+import dotenv from 'dotenv';
 import { build } from 'vite';
+
 import { projectRoot } from '../config';
 import { createViteConfig } from '../vite/create-vite-config';
 
-register('ts-node/esm', pathToFileURL('./'));
 const files = ['.env'];
 
 for (const file of files) {
   if (existsSync(join(projectRoot, file))) {
-    config({
+    dotenv.config({
       path: join(projectRoot, file),
     });
     console.log(`${file} at ${projectRoot} loaded`);

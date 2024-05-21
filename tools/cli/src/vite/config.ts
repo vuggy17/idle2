@@ -1,10 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import type { RuntimeConfig } from '@idle/env/global';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import type { RuntimeConfig } from '@idle/env/global';
-import * as vite from 'vite';
 import { join, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import * as vite from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export const rootPath = join(fileURLToPath(import.meta.url), '..', '..');
 export const workspaceRoot = join(rootPath, '..', '..', '..');

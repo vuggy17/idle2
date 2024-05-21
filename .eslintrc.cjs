@@ -72,9 +72,12 @@ module.exports = {
     ],
     'class-methods-use-this': 'off',
     'no-nested-ternary': 'off',
-    'no-underscore-dangle': {
-      allowAfterThis: true,
-    },
+    'no-underscore-dangle': [
+      'error',
+      {
+        allowAfterThis: true,
+      },
+    ],
     'no-restricted-syntax': [
       'error',
       {

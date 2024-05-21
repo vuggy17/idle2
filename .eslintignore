@@ -3,4 +3,5 @@ dist
 lib
 public
 .eslintrc.js
-vite.config.ts
+vitest.config.ts
+vitest.workspace.ts

@@ -16,8 +16,9 @@ export default mergeConfig(createViteConfig(cwd), {
     exclude: ['**/node_modules', '**/dist', '**/build', '**/out,'],
     include: [
       // rootDir cannot be used as a pattern on windows
-      fg.convertPathToPattern(rootDir) +
-        'packages/{common,frontend}/**/*.spec.{ts,tsx}',
+      `${fg.convertPathToPattern(
+        rootDir,
+      )}packages/{common,frontend}/**/*.spec.{ts,tsx}`,
     ],
     testTimeout: 5000,
   },
