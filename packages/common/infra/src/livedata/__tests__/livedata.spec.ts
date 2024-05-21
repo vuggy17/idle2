@@ -11,7 +11,7 @@ describe('livedata', () => {
     livedata$.next(1);
     expect(livedata$.value).toBe(1);
     let subscribed = 0;
-    livedata$.subscribe(v => {
+    livedata$.subscribe((v) => {
       subscribed = v;
     });
     livedata$.next(2);
@@ -27,12 +27,12 @@ describe('livedata', () => {
 
     {
       let subscriber: Subscriber<number> = null!;
-      const observable$ = new Observable<number>(s => {
+      const observable$ = new Observable<number>((s) => {
         subscriber = s;
       });
       const livedata$ = LiveData.from(observable$, 0);
       let value = 0;
-      livedata$.subscribe(v => {
+      livedata$.subscribe((v) => {
         value = v;
       });
 
@@ -46,7 +46,7 @@ describe('livedata', () => {
     {
       let observableSubscribed = false;
       let observableClosed = false;
-      const observable$ = new Observable(subscriber => {
+      const observable$ = new Observable((subscriber) => {
         observableSubscribed = true;
         subscriber.next(1);
         return () => {
@@ -55,7 +55,7 @@ describe('livedata', () => {
       });
       const livedata$ = LiveData.from(observable$, 0);
       expect(observableSubscribed).toBe(false);
-      const subscription = livedata$.subscribe(_ => {});
+      const subscription = livedata$.subscribe((_) => {});
       expect(observableSubscribed).toBe(true);
       expect(observableClosed).toBe(false);
       subscription.unsubscribe();
@@ -64,17 +64,17 @@ describe('livedata', () => {
 
     {
       let subscriber: Subscriber<number> = null!;
-      const observable$ = new Observable<number>(s => {
+      const observable$ = new Observable<number>((s) => {
         subscriber = s;
       });
       const livedata$ = LiveData.from(observable$, 0);
       let value1 = 0;
-      livedata$.subscribe(v => {
+      livedata$.subscribe((v) => {
         value1 = v;
       });
 
       let value2 = 0;
-      livedata$.subscribe(v => {
+      livedata$.subscribe((v) => {
         value2 = v;
       });
 
@@ -91,7 +91,7 @@ describe('livedata', () => {
     {
       let observableSubscribed = false;
       let observableClosed = false;
-      const observable$ = new Observable(subscriber => {
+      const observable$ = new Observable((subscriber) => {
         observableSubscribed = true;
         subscriber.next(1);
         return () => {
@@ -100,8 +100,8 @@ describe('livedata', () => {
       });
       const livedata$ = LiveData.from(observable$, 0);
       expect(observableSubscribed).toBe(false);
-      const subscription1 = livedata$.subscribe(_ => {});
-      const subscription2 = livedata$.subscribe(_ => {});
+      const subscription1 = livedata$.subscribe((_) => {});
+      const subscription2 = livedata$.subscribe((_) => {});
       expect(observableSubscribed).toBe(true);
       expect(observableClosed).toBe(false);
       subscription1.unsubscribe();
@@ -112,18 +112,18 @@ describe('livedata', () => {
 
     {
       let observerCount = 0;
-      const observable$ = new Observable(_ => {
+      const observable$ = new Observable((_) => {
         observerCount++;
       });
       const livedata$ = LiveData.from(observable$, 0);
-      livedata$.subscribe(_ => {});
-      livedata$.subscribe(_ => {});
+      livedata$.subscribe((_) => {});
+      livedata$.subscribe((_) => {});
       expect(observerCount).toBe(1);
     }
 
     {
       let value = 0;
-      const observable$ = new Observable<number>(subscriber => {
+      const observable$ = new Observable<number>((subscriber) => {
         subscriber.next(value);
       });
       const livedata$ = LiveData.from(observable$, 0);
@@ -134,50 +134,48 @@ describe('livedata', () => {
   });
 
   test('poisoned', () => {
-    {
-      let subscriber: Subscriber<number> = null!;
-      const livedata$ = LiveData.from<number>(
-        new Observable(sub => {
-          subscriber = sub;
-        }),
-        1
-      );
+    let subscriber: Subscriber<number> = null!;
+    const livedata$ = LiveData.from<number>(
+      new Observable((sub) => {
+        subscriber = sub;
+      }),
+      1,
+    );
 
-      let value: number = 0;
-      let error: any = null;
-      livedata$.subscribe({
-        next: v => {
-          value = v;
-        },
-        error: e => {
-          error = e;
-        },
-      });
-      expect(value).toBe(1);
-      subscriber.next(2);
-      expect(value).toBe(2);
+    let value: number = 0;
+    let error: any = null;
+    livedata$.subscribe({
+      next: (v) => {
+        value = v;
+      },
+      error: (e) => {
+        error = e;
+      },
+    });
+    expect(value).toBe(1);
+    subscriber.next(2);
+    expect(value).toBe(2);
 
-      expect(error).toBe(null);
-      subscriber.error('error');
-      expect(error).toBeInstanceOf(PoisonedError);
+    expect(error).toBe(null);
+    subscriber.error('error');
+    expect(error).toBeInstanceOf(PoisonedError);
 
-      expect(() => livedata$.next(3)).toThrowError(PoisonedError);
-      expect(() => livedata$.value).toThrowError(PoisonedError);
+    expect(() => livedata$.next(3)).toThrowError(PoisonedError);
+    expect(() => livedata$.value).toThrowError(PoisonedError);
 
-      let error2: any = null;
-      livedata$.subscribe({
-        error: e => {
-          error2 = e;
-        },
-      });
-      expect(error2).toBeInstanceOf(PoisonedError);
-    }
+    let error2: any = null;
+    livedata$.subscribe({
+      error: (e) => {
+        error2 = e;
+      },
+    });
+    expect(error2).toBeInstanceOf(PoisonedError);
   });
 
   test('map', () => {
     {
       const livedata$ = new LiveData(0);
-      const mapped$ = livedata$.map(v => v + 1);
+      const mapped$ = livedata$.map((v) => v + 1);
       expect(mapped$.value).toBe(1);
       livedata$.next(1);
       expect(mapped$.value).toBe(2);
@@ -185,9 +183,9 @@ describe('livedata', () => {
 
     {
       const livedata$ = new LiveData(0);
-      const mapped$ = livedata$.map(v => v + 1);
+      const mapped$ = livedata$.map((v) => v + 1);
       let value = 0;
-      mapped$.subscribe(v => {
+      mapped$.subscribe((v) => {
         value = v;
       });
       expect(value).toBe(1);
@@ -198,7 +196,7 @@ describe('livedata', () => {
     {
       let observableSubscribed = false;
       let observableClosed = false;
-      const observable$ = new Observable<number>(subscriber => {
+      const observable$ = new Observable<number>((subscriber) => {
         observableSubscribed = true;
         subscriber.next(1);
         return () => {
@@ -207,10 +205,10 @@ describe('livedata', () => {
       });
 
       const livedata$ = LiveData.from(observable$, 0);
-      const mapped$ = livedata$.map(v => v + 1);
+      const mapped$ = livedata$.map((v) => v + 1);
 
       expect(observableSubscribed).toBe(false);
-      const subscription = mapped$.subscribe(_ => {});
+      const subscription = mapped$.subscribe((_) => {});
       expect(observableSubscribed).toBe(true);
       expect(observableClosed).toBe(false);
       subscription.unsubscribe();
@@ -221,8 +219,8 @@ describe('livedata', () => {
   test('interop with rxjs', () => {
     const ob$ = combineLatest([new LiveData(1)]);
     let value = 0;
-    ob$.subscribe(v => {
-      value = v[0];
+    ob$.subscribe((v) => {
+      [value] = v;
     });
     expect(value).toBe(1);
   });
@@ -245,7 +243,7 @@ describe('livedata', () => {
         new LiveData([
           new LiveData(new LiveData(1)),
           new LiveData(new LiveData(2)),
-        ])
+        ]),
       );
       const flatten$ = wrapped$.flat();
       expect(flatten$.value).toStrictEqual([1, 2]);
@@ -275,7 +273,7 @@ describe('livedata', () => {
   test('computed', () => {
     {
       const a$ = new LiveData(1);
-      const b$ = LiveData.computed(get => get(a$) + 1);
+      const b$ = LiveData.computed((get) => get(a$) + 1);
       expect(b$.value).toBe(2);
     }
 
@@ -284,7 +282,7 @@ describe('livedata', () => {
       const v1$ = new LiveData(100);
       const v2$ = new LiveData(200);
 
-      const v$ = LiveData.computed(get => {
+      const v$ = LiveData.computed((get) => {
         return get(a$) === 'v1' ? get(v1$) : get(v2$);
       });
 
@@ -299,7 +297,7 @@ describe('livedata', () => {
       let count = 0;
       let subscriber: Subscriber<number> = null!;
       const a$ = LiveData.from<number>(
-        new Observable(sub => {
+        new Observable((sub) => {
           count++;
           watched = true;
           subscriber = sub;
@@ -308,14 +306,14 @@ describe('livedata', () => {
             watched = false;
           };
         }),
-        0
+        0,
       );
-      const b$ = LiveData.computed(get => get(a$) + 1);
+      const b$ = LiveData.computed((get) => get(a$) + 1);
 
       expect(watched).toBe(false);
       expect(count).toBe(0);
 
-      const subscription = b$.subscribe(_ => {});
+      const subscription = b$.subscribe((_) => {});
       expect(watched).toBe(true);
       expect(count).toBe(1);
       subscriber.next(2);
@@ -328,8 +326,8 @@ describe('livedata', () => {
 
     {
       let c$ = null! as LiveData<number>;
-      const b$ = LiveData.computed(get => get(c$) + 1);
-      c$ = LiveData.computed(get => get(b$) + 1);
+      const b$ = LiveData.computed((get) => get(c$) + 1);
+      c$ = LiveData.computed((get) => get(b$) + 1);
 
       expect(() => b$.value).toThrowError(PoisonedError);
     }

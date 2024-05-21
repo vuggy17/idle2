@@ -9,7 +9,7 @@ import {
   mapInto,
   onComplete,
   onStart,
-} from '../../';
+} from '../..';
 
 describe('example', () => {
   type User = {
@@ -29,9 +29,9 @@ describe('example', () => {
         mapInto(user$),
         catchErrorInto(error$),
         onStart(() => isLoading$.next(true)),
-        onComplete(() => isLoading$.next(false))
-      )
-    )
+        onComplete(() => isLoading$.next(false)),
+      ),
+    ),
   );
 
   beforeEach(() => {
@@ -43,10 +43,10 @@ describe('example', () => {
   });
 
   test('basic', async () => {
-    fetchUser.mockImplementation(async id => ({ id, name: 'John' }));
+    fetchUser.mockImplementation(async (id) => ({ id, name: 'John' }));
     loadUser(1);
     await vi.waitFor(() =>
-      expect(user$.value).toStrictEqual({ id: 1, name: 'John' })
+      expect(user$.value).toStrictEqual({ id: 1, name: 'John' }),
     );
     expect(fetchUser).toHaveBeenCalledOnce();
     expect(fetchUser).toHaveBeenCalledWith(1);
@@ -61,9 +61,9 @@ describe('example', () => {
   test('isLoading', async () => {
     let resolveFn: (value: User) => void = null!;
     fetchUser.mockReturnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolveFn = resolve;
-      })
+      }),
     );
     loadUser(1);
     await vi.waitFor(() => expect(isLoading$.value).toBe(true));
@@ -76,12 +76,12 @@ describe('example', () => {
     let fetch1: Subscriber<User> = null!;
     let fetch1Canceled = false;
     fetchUser.mockReturnValue(
-      new Observable<User>(subscriber => {
+      new Observable<User>((subscriber) => {
         fetch1 = subscriber;
         return () => {
           fetch1Canceled = true;
         };
-      }) as any
+      }) as any,
     );
 
     loadUser(1);
@@ -91,9 +91,9 @@ describe('example', () => {
     // start fetch2, should cancel fetch1
     let fetch2: Subscriber<User> = null!;
     fetchUser.mockReturnValue(
-      new Observable<User>(subscriber => {
+      new Observable<User>((subscriber) => {
         fetch2 = subscriber;
-      }) as any
+      }) as any,
     );
     loadUser(2);
     await vi.waitFor(() => expect(fetch1Canceled).toBe(true));
@@ -109,7 +109,7 @@ describe('example', () => {
 
     // should update user$ to fetch2 result
     await vi.waitFor(() =>
-      expect(user$.value).toStrictEqual({ id: 2, name: 'John' })
+      expect(user$.value).toStrictEqual({ id: 2, name: 'John' }),
     );
     // should not have error
     expect(error$.value).toBe(null);

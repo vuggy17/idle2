@@ -96,6 +96,18 @@ module.exports = {
           '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
       },
     ],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: [
+          '**/*.spec.ts',
+          '**/*.spec.tsx',
+          '**/*.e2e-spec.ts',
+          'scripts/*',
+        ],
+      },
+    ],
+    'no-plusplus': 'off',
   },
   overrides: [
     ...allPackages.map((pkg) => ({

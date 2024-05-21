@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@idle/cli':
+        specifier: workspace:*
+        version: link:tools/cli
       axios:
         specifier: ^1.6.8
         version: 1.6.8
@@ -21,9 +24,6 @@ importers:
         specifier: ^2.3.0
         version: 2.6.2
     devDependencies:
-      '@idle/cli':
-        specifier: workspace:*
-        version: link:tools/cli
       '@idle/env':
         specifier: workspace:*
         version: link:packages/common/env
@@ -287,6 +287,12 @@ importers:
       mobx-keystone:
         specifier: ^1.10.1
         version: 1.10.1(mobx@6.12.3)
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.1
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.0(@types/node@20.12.8)(happy-dom@14.11.0)(terser@5.31.0)
 
   packages/common/model: {}
 

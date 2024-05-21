@@ -19,7 +19,7 @@ function undefinedGetSnapshot() {
  * subscribe LiveData and return the value.
  */
 export function useLiveData<Input extends LiveData<any> | null | undefined>(
-  liveData: Input
+  liveData: Input,
 ): NonNullable<Input> extends LiveData<infer T>
   ? Input extends undefined
     ? T | undefined
@@ -33,7 +33,7 @@ export function useLiveData<Input extends LiveData<any> | null | undefined>(
       ? liveData.reactGetSnapshot
       : liveData === undefined
         ? undefinedGetSnapshot
-        : nullGetSnapshot
+        : nullGetSnapshot,
   );
 }
 
@@ -60,7 +60,7 @@ export function useEnsureLiveData<T>(liveData$: LiveData<T>): NonNullable<T> {
             reject(new Error('Unexpected completion'));
           },
         });
-      })
+      }),
     );
   }
 

@@ -28,7 +28,7 @@ export function mapInto<T>(l$: LiveData<T>) {
     mergeMap((value: T) => {
       l$.next(value);
       return EMPTY;
-    })
+    }),
   );
 }
 
@@ -41,7 +41,7 @@ export function mapInto<T>(l$: LiveData<T>) {
  */
 export function catchErrorInto<Error = any>(
   l$: LiveData<Error | null>,
-  cb?: (error: Error) => void
+  cb?: (error: Error) => void,
 ) {
   return pipe(
     onComplete(() => l$.next(null)),
@@ -49,7 +49,7 @@ export function catchErrorInto<Error = any>(
       l$.next(error);
       cb?.(error);
       return EMPTY;
-    })
+    }),
   );
 }
 
@@ -57,8 +57,8 @@ export function catchErrorInto<Error = any>(
  * An operator that calls the callback when the observable starts.
  */
 export function onStart<T>(cb: () => void): OperatorFunction<T, T> {
-  return observable$ =>
-    new Observable(subscribe => {
+  return (observable$) =>
+    new Observable((subscribe) => {
       cb();
       return observable$.subscribe(subscribe);
     });
@@ -68,8 +68,8 @@ export function onStart<T>(cb: () => void): OperatorFunction<T, T> {
  * An operator that calls the callback when the observable completes.
  */
 export function onComplete<T>(cb: () => void): OperatorFunction<T, T> {
-  return observable$ =>
-    new Observable(subscribe => {
+  return (observable$) =>
+    new Observable((subscribe) => {
       return observable$.subscribe({
         complete() {
           cb();
@@ -91,20 +91,20 @@ export function onComplete<T>(cb: () => void): OperatorFunction<T, T> {
  * like `from` but support `AbortSignal`.
  */
 export function fromPromise<T>(
-  promise: Promise<T> | ((signal: AbortSignal) => Promise<T>)
+  promise: Promise<T> | ((signal: AbortSignal) => Promise<T>),
 ): Observable<T> {
-  return new Observable(subscriber => {
+  return new Observable((subscriber) => {
     const abortController = new AbortController();
 
     const rawPromise =
       promise instanceof Function ? promise(abortController.signal) : promise;
 
     rawPromise
-      .then(value => {
+      .then((value) => {
         subscriber.next(value);
         subscriber.complete();
       })
-      .catch(error => {
+      .catch((error) => {
         subscriber.error(error);
       });
 
@@ -136,10 +136,10 @@ export function backoffRetry<T>({
           if (when && !when(err)) {
             return throwError(() => err);
           }
-          const d = Math.pow(2, retryIndex - 1) * delay;
+          const d = 2 ** (retryIndex - 1) * delay;
           return timer(Math.min(d, maxDelay));
         },
-      })
+      }),
     );
 }
 
@@ -158,21 +158,21 @@ export function backoffRetry<T>({
 export function exhaustMapSwitchUntilChanged<T, O extends ObservableInput<any>>(
   comparator: (previous: T, current: T) => boolean,
   project: (value: T, index: number) => O,
-  onSwitch?: (value: T) => void
+  onSwitch?: (value: T) => void,
 ): OperatorFunction<T, ObservedValueOf<O>> {
   return pipe(
-    connect(shared$ =>
+    connect((shared$) =>
       shared$.pipe(
         distinctUntilChanged(comparator),
-        switchMap(value => {
+        switchMap((value) => {
           onSwitch?.(value);
           return merge(of(value), shared$).pipe(
             exhaustMap((value, index) => {
               return project(value, index);
-            })
+            }),
           );
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 }

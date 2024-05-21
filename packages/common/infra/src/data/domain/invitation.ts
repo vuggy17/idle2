@@ -6,6 +6,7 @@ export class FriendRequestList {
 
   constructor(workspaceId: string) {
     // load requests
+    console.log('workspace', workspaceId);
   }
 
   get requests() {

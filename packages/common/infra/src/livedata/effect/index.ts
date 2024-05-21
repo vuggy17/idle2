@@ -44,25 +44,25 @@ export type Effect<T> = (T | undefined extends T // hack to detect if T is unkno
 export function effect<T, A>(op1: OperatorFunction<T, A>): Effect<T>;
 export function effect<T, A, B>(
   op1: OperatorFunction<T, A>,
-  op2: OperatorFunction<A, B>
+  op2: OperatorFunction<A, B>,
 ): Effect<T>;
 export function effect<T, A, B, C>(
   op1: OperatorFunction<T, A>,
   op2: OperatorFunction<A, B>,
-  op3: OperatorFunction<B, C>
+  op3: OperatorFunction<B, C>,
 ): Effect<T>;
 export function effect<T, A, B, C, D>(
   op1: OperatorFunction<T, A>,
   op2: OperatorFunction<A, B>,
   op3: OperatorFunction<B, C>,
-  op4: OperatorFunction<C, D>
+  op4: OperatorFunction<C, D>,
 ): Effect<T>;
 export function effect<T, A, B, C, D, E>(
   op1: OperatorFunction<T, A>,
   op2: OperatorFunction<A, B>,
   op3: OperatorFunction<B, C>,
   op4: OperatorFunction<C, D>,
-  op5: OperatorFunction<D, E>
+  op5: OperatorFunction<D, E>,
 ): Effect<T>;
 export function effect<T, A, B, C, D, E, F>(
   op1: OperatorFunction<T, A>,
@@ -70,7 +70,7 @@ export function effect<T, A, B, C, D, E, F>(
   op3: OperatorFunction<B, C>,
   op4: OperatorFunction<C, D>,
   op5: OperatorFunction<D, E>,
-  op6: OperatorFunction<E, F>
+  op6: OperatorFunction<E, F>,
 ): Effect<T>;
 export function effect(...args: any[]) {
   const subject$ = new Subject<any>();
@@ -84,7 +84,7 @@ export function effect(...args: any[]) {
       logger.error(`effect ${effectLocation} ${message}`, value);
       super(
         `effect ${effectLocation} ${message}` +
-          ` ${value ? (value instanceof Error ? value.stack ?? value.message : value + '') : ''}`
+          ` ${value ? (value instanceof Error ? value.stack ?? value.message : `${value}`) : ''}`,
       );
     }
   }
