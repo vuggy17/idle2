@@ -32,18 +32,23 @@ export class MemoryMemento implements Memento {
   get<T>(key: string): T | null {
     return this.getLiveData(key).value;
   }
+
   watch<T>(key: string): Observable<T | null> {
     return this.getLiveData(key).asObservable();
   }
+
   set<T>(key: string, value: T | null): void {
     this.getLiveData(key).next(value);
   }
+
   keys(): string[] {
     return Array.from(this.data.keys());
   }
+
   clear(): void {
     this.data.clear();
   }
+
   del(key: string): void {
     this.data.delete(key);
   }
@@ -63,11 +68,11 @@ export function wrapMemento(memento: Memento, prefix: string): Memento {
     keys(): string[] {
       return memento
         .keys()
-        .filter(k => k.startsWith(prefix))
-        .map(k => k.slice(prefix.length));
+        .filter((k) => k.startsWith(prefix))
+        .map((k) => k.slice(prefix.length));
     },
     clear() {
-      memento.keys().forEach(k => {
+      memento.keys().forEach((k) => {
         if (k.startsWith(prefix)) {
           memento.del(k);
         }

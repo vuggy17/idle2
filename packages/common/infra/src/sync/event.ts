@@ -1,7 +1,7 @@
 type SyncPayload = {
   collectionName: 'request';
   type: 'add' | 'delete' | 'update';
-  data: Uint8Array;
+  data: unknown;
 };
 
 export type SyncEvent =
@@ -33,5 +33,26 @@ export class EventBusInner implements EventBus {
 
   on(cb: (event: SyncEvent) => void) {
     return this.eventBusBehavior.on(cb);
+  }
+}
+
+export class MemoryDocEventBus implements EventBus {
+  listeners = new Set<(event: SyncEvent) => void>();
+
+  emit(event: SyncEvent): void {
+    for (const listener of this.listeners) {
+      try {
+        listener(event);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
+  on(cb: (event: SyncEvent) => void): () => void {
+    this.listeners.add(cb);
+    return () => {
+      this.listeners.delete(cb);
+    };
   }
 }

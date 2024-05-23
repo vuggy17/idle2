@@ -1,4 +1,4 @@
-import { idProp, Model, model, prop } from 'mobx-keystone';
+import { idProp, Model, model, modelAction, prop } from 'mobx-keystone';
 
 import { User } from './user';
 
@@ -9,5 +9,16 @@ export class FriendRequest extends Model({
   receiverId: prop<string>(),
   sender: prop<User | null>(null),
   receiver: prop<User | null>(null),
-  status: prop<string>(),
-}) {}
+  status: prop<string>().withSetter(),
+}) {
+  @modelAction
+  apply(data: FriendRequest) {
+    this.senderId = data.senderId;
+    this.receiverId = data.receiverId;
+    this.sender = data.sender;
+    this.receiver = data.receiver;
+    this.status = data.status;
+
+    return this;
+  }
+}

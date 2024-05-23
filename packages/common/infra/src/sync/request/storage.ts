@@ -1,6 +1,40 @@
-import { difference } from 'lodash-es';
+import type { SnapshotOutOf } from 'mobx-keystone';
+
 import type { FriendRequest } from '../../data/domain/friend-request';
-import type { Memento } from '../../storage/memento';
+import type { FriendRequestKV, KV, NumberKV } from '../../storage/kv';
+import {
+  type Memento,
+  MemoryMemento,
+  wrapMemento,
+} from '../../storage/memento';
+import { AsyncLock } from '../../utils/async-lock';
+import { type EventBus, MemoryDocEventBus } from '../event';
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+class Keys {
+  static SeqNum(docId: string) {
+    return `${docId}:seqNum`;
+  }
+
+  static SeqNumPushed(docId: string) {
+    return `${docId}:seqNumPushed`;
+  }
+
+  static ServerClockPulled(docId: string) {
+    return `${docId}:serverClockPulled`;
+  }
+
+  static UpdatedTime(docId: string) {
+    return `${docId}:updateTime`;
+  }
+}
+
+export interface FriendRequestStorage {
+  eventBus: EventBus;
+  doc: FriendRequestKV;
+  syncMetadata: KV<any>;
+  serverClock: NumberKV;
+}
 
 export interface RequestStorage {
   name: string;
@@ -11,121 +45,179 @@ export interface RequestStorage {
   list(): Promise<string[]>;
 }
 
-export class MemoryRequestStorage implements RequestStorage {
-  name = 'memory-storage';
-  readonly = false;
-  constructor(private readonly state: Memento) {}
+export class RequestStorageInner {
+  public readonly eventBus: EventBus;
 
-  get(key: string) {
-    return Promise.resolve(this.state.get<FriendRequest>(key) ?? null);
+  constructor(public readonly behavior: FriendRequestStorage) {
+    this.eventBus = this.behavior.eventBus;
   }
-  set(key: string, value: FriendRequest) {
-    this.state.set(key, value);
 
-    const list = this.state.get<Set<string>>('list') ?? new Set<string>();
-    list.add(key);
-    this.state.set('list', list);
-
-    return Promise.resolve(key);
+  loadRequestFromLocal(id: string, signal?: AbortSignal) {
+    signal?.throwIfAborted();
+    return this.behavior.doc.get(id);
   }
-  delete(key: string) {
-    this.state.set(key, null);
 
-    const list = this.state.get<Set<string>>('list') ?? new Set<string>();
-    list.delete(key);
-    this.state.set('list', list);
+  async commitDocAsClientUpdate(
+    docId: any,
+    update: SnapshotOutOf<FriendRequest>,
+    signal?: AbortSignal,
+  ) {
+    signal?.throwIfAborted();
 
-    return Promise.resolve();
+    await this.behavior.doc.set(docId, update);
+    return this.saveDocSeqNum(docId, 'auto');
   }
-  list() {
-    const list = this.state.get<Set<string>>('list');
-    return Promise.resolve(list ? Array.from(list) : []);
+
+  saveDocSeqNum(docId: any, seqNum: 'auto' | number, signal?: AbortSignal) {
+    signal?.throwIfAborted();
+    return this.behavior.syncMetadata.transaction(async (transaction) => {
+      const key = Keys.SeqNum(docId);
+      const old: number = await transaction.get(key);
+      if (seqNum === 'auto') {
+        await transaction.set(key, old + 1);
+        return old + 1;
+      }
+      if (old < seqNum) {
+        await transaction.set(key, seqNum);
+        return seqNum;
+      }
+      return old;
+    });
   }
 }
 
-const logger = console;
+export class MemoryFriendRequestStorage implements FriendRequestStorage {
+  private readonly memo: Memento = new MemoryMemento();
 
-export class RequestEngine {
-  private abort: AbortController | null = null;
+  eventBus = new MemoryDocEventBus();
 
-  constructor(
-    private readonly local: RequestStorage,
-    private readonly remotes: RequestStorage[] = [],
-  ) {}
+  readonly lock = new AsyncLock();
 
-  start() {
-    if (this.abort) {
-      return;
+  readonly docDb = wrapMemento(this.memo, 'doc:');
+
+  readonly syncMetadataDb = wrapMemento(this.memo, 'syncMetadata:');
+
+  readonly serverClockDb = wrapMemento(this.memo, 'serverClock:');
+
+  constructor(memo?: Memento) {
+    if (memo) {
+      this.memo = memo;
     }
-
-    this.abort = new AbortController();
-    const signal = this.abort.signal;
-    const sync = () => {
-      if (signal.aborted) return;
-
-      this.sync()
-        .catch((err) => console.log('sync friend request err', err))
-        .finally(() => {
-          setTimeout(sync, 60 * 1000);
-        });
-    };
   }
 
-  async sync() {
-    if (this.local.readonly) {
-      return;
-    }
-    console.debug('start syncing blob...');
-    for (const remote of this.remotes) {
-      let localList: string[] = [];
-      let remoteList: string[] = [];
+  readonly doc = {
+    transaction: async (cb) => {
+      // eslint-disable-next-line
+      using _lock = await this.lock.acquire();
 
-      if (!remote.readonly) {
-        try {
-          localList = await this.local.list();
-          remoteList = await remote.list();
-        } catch (err) {
-          console.error(`error when sync`, err);
-          continue;
-        }
+      return cb({
+        get: async (key) => this.docDb.get(key),
+        set: async (key, value) => {
+          this.docDb.set(key, value);
+        },
+        keys: async () => {
+          return Array.from(this.docDb.keys());
+        },
+        clear: () => {
+          this.docDb.clear();
+        },
+        del: (key) => {
+          this.docDb.del(key);
+        },
+      });
+    },
+    get(key) {
+      return this.transaction(async (tx) => tx.get(key));
+    },
+    set(key, value) {
+      return this.transaction(async (tx) => tx.set(key, value));
+    },
+    keys() {
+      return this.transaction(async (tx) => tx.keys());
+    },
+    clear() {
+      return this.transaction(async (tx) => tx.clear());
+    },
+    del(key) {
+      return this.transaction(async (tx) => tx.del(key));
+    },
+  } satisfies FriendRequestKV;
 
-        const needUpload = difference(localList, remoteList);
-        for (const key of needUpload) {
-          try {
-            const data = await this.local.get(key);
-            if (data) {
-              await remote.set(key, data);
-            }
-          } catch (err) {
-            logger.error(
-              `error when sync ${key} from [${this.local.name}] to [${remote.name}]`,
-              err,
-            );
-          }
-        }
-      }
+  readonly syncMetadata = {
+    transaction: async (cb) => {
+      // eslint-disable-next-line
+      using _lock = await this.lock.acquire();
+      return cb({
+        get: async (key) => {
+          return this.syncMetadataDb.get(key) ?? null;
+        },
+        set: async (key, value) => {
+          this.syncMetadataDb.set(key, value);
+        },
+        keys: async () => {
+          return Array.from(this.syncMetadataDb.keys());
+        },
+        clear: () => {
+          this.syncMetadataDb.clear();
+        },
+        del: (key) => {
+          this.syncMetadataDb.del(key);
+        },
+      });
+    },
+    get(key) {
+      return this.transaction(async (tx) => tx.get(key));
+    },
+    set(key, value) {
+      return this.transaction(async (tx) => tx.set(key, value));
+    },
+    keys() {
+      return this.transaction(async (tx) => tx.keys());
+    },
+    clear() {
+      return this.transaction(async (tx) => tx.clear());
+    },
+    del(key) {
+      return this.transaction(async (tx) => tx.del(key));
+    },
+  } satisfies KV<any>;
 
-      const needDownload = difference(remoteList, localList);
-
-      for (const key of needDownload) {
-        try {
-          const data = await remote.get(key);
-          if (data) {
-            await this.local.set(key, data);
-          }
-        } catch (err) {
-          logger.error(
-            `error when sync ${key} from [${remote.name}] to [${this.local.name}]`,
-            err,
-          );
-        }
-      }
-    }
-
-    logger.debug('finish syncing blob');
-  }
-  stop() {
-    this.abort?.abort();
-    this.abort = null;
-  }
+  readonly serverClock = {
+    transaction: async (cb) => {
+      // eslint-disable-next-line
+      using _lock = await this.lock.acquire();
+      return cb({
+        get: async (key) => {
+          return this.syncMetadataDb.get(key) ?? null;
+        },
+        set: async (key, value) => {
+          this.syncMetadataDb.set(key, value);
+        },
+        keys: async () => {
+          return Array.from(this.syncMetadataDb.keys());
+        },
+        clear: () => {
+          this.syncMetadataDb.clear();
+        },
+        del: (key) => {
+          this.syncMetadataDb.del(key);
+        },
+      });
+    },
+    get(key) {
+      return this.transaction(async (tx) => tx.get(key));
+    },
+    set(key, value) {
+      return this.transaction(async (tx) => tx.set(key, value));
+    },
+    keys() {
+      return this.transaction(async (tx) => tx.keys());
+    },
+    clear() {
+      return this.transaction(async (tx) => tx.clear());
+    },
+    del(key) {
+      return this.transaction(async (tx) => tx.del(key));
+    },
+  } satisfies NumberKV;
 }

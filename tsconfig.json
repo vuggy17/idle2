@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "verbatimModuleSyntax": true,
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": false,
@@ -49,7 +50,7 @@
         "./packages/frontend/component/src/components/*"
       ],
       "@idle/core/*": [
-        "./packages/frontend/core/*"
+        "./packages/frontend/core/src/*"
       ],
       "@idle/env": [
         "./packages/common/env/src"

@@ -14,7 +14,7 @@
   ],
   "references": [
     {
-      "path": "../../frontend/core"
+      "path": "../core"
     }
   ]
 }

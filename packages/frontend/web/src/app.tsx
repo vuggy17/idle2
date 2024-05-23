@@ -1,13 +1,13 @@
 import '@idle/component/theme/global.css';
 
 import { IdleContext } from '@idle/component/context';
-import { RealtimeEventProvider } from '@idle/core/src/components/realtime-events/event-provider';
-import { AuthSessionProvider } from '@idle/core/src/providers/auth-provider';
-import { router } from '@idle/core/src/router';
+import { RealtimeEventProvider } from '@idle/core/components/realtime-events/event-provider';
+import { AuthSessionProvider } from '@idle/core/providers/auth-provider';
+import { router } from '@idle/core/router';
 import { Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
 
-function Component() {
+export default function Component() {
   return (
     <Suspense>
       <IdleContext>
@@ -20,4 +20,3 @@ function Component() {
     </Suspense>
   );
 }
-export default Component;
