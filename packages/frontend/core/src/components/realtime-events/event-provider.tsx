@@ -12,7 +12,7 @@ const pusher = new Pusher(runtimeConfig.pusher.appKey, {
 });
 export const PusherContext = createContext(pusher);
 
-export function RealtimeEventProvider({ children }: PropsWithChildren) {
+export function NotificationProvider({ children }: PropsWithChildren) {
   const loginStatus = useCurrentLoginStatus();
 
   useEffect(() => {

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import * as Prisma from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 
-import { User } from '../users/models/user.model';
 import { assertExists } from '../utils/assert-exist';
 import {
   FriendRequest,
@@ -84,12 +83,10 @@ export class FriendRequestRepository {
     senderId: string,
     receiverId: string,
   ) {
-    const req = await this.prisma.friendRequest.findUnique({
+    const req = await this.prisma.friendRequest.findFirst({
       where: {
-        senderId_receiverId: {
-          senderId,
-          receiverId,
-        },
+        receiverId,
+        senderId,
       },
       include: {
         receiver: true,
@@ -106,5 +103,87 @@ export class FriendRequestRepository {
       receiver: req.receiver,
       status: this.parseRequestStatus(req),
     });
+  }
+
+  async findById(requestId: string) {
+    const doc = await this.prisma.friendRequest.findUniqueOrThrow({
+      where: {
+        id: requestId,
+      },
+      include: {
+        receiver: true,
+        sender: true,
+      },
+    });
+
+    assertExists(doc);
+    return new FriendRequestWithUsers({
+      id: doc.id,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+      receiverId: doc.receiverId,
+      senderId: doc.senderId,
+      sender: doc.sender,
+      receiver: doc.receiver,
+      status: this.parseRequestStatus(doc),
+    });
+  }
+
+  async accept(id: string) {
+    const doc = await this.prisma.friendRequest.update({
+      where: { id },
+      data: {
+        accepted: true,
+      },
+      include: {
+        receiver: true,
+        sender: true,
+      },
+    });
+
+    assertExists(doc);
+    return new FriendRequest({
+      id: doc.id,
+      createdAt: doc.createdAt,
+      receiverId: doc.receiverId,
+      senderId: doc.senderId,
+      sender: doc.sender,
+      receiver: doc.receiver,
+      status: this.parseRequestStatus(doc),
+    });
+  }
+
+  async decline(id: string) {
+    const doc = await this.prisma.friendRequest.update({
+      where: { id },
+      data: {
+        accepted: false,
+      },
+      include: {
+        receiver: true,
+        sender: true,
+      },
+    });
+
+    assertExists(doc);
+    return new FriendRequest({
+      id: doc.id,
+      createdAt: doc.createdAt,
+      receiverId: doc.receiverId,
+      senderId: doc.senderId,
+      sender: doc.sender,
+      receiver: doc.receiver,
+      status: this.parseRequestStatus(doc),
+    });
+  }
+
+  async cancel(id: string) {
+    await this.prisma.friendRequest.delete({
+      where: {
+        id,
+      },
+    });
+
+    return id;
   }
 }

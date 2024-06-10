@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { FriendRequest } from '../../../data/domain/friend-request';
-import { ID } from '../../../utils/id';
+import { ID } from '../../../../utils/id';
 import { RequestEngine } from '../engine';
 import { MemoryFriendRequestStorage } from '../storage';
 

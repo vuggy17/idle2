@@ -6,11 +6,10 @@ import {
   type Memento,
   MemoryMemento,
   wrapMemento,
-} from '../../storage/memento';
-import { AsyncLock } from '../../utils/async-lock';
+} from '../../../storage/memento';
+import { AsyncLock } from '../../../utils/async-lock';
 import { type EventBus, MemoryDocEventBus } from '../event';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 class Keys {
   static SeqNum(docId: string) {
     return `${docId}:seqNum`;

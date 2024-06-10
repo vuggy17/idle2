@@ -5,7 +5,7 @@
   "type": "module",
   "exports": {
     "./*": "./src/*",
-    "./router": "./src/router.tsx"
+    "./modules": "./src/modules/index.ts"
   },
   "scripts": {
     "dev": "vite",
@@ -14,30 +14,34 @@
     "lint": "eslint --ext .ts,.tsx ."
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.6",
+    "@ant-design/icons": "^5.3.7",
     "@emotion/react": "^11.11.4",
     "@idle/component": "workspace:*",
     "@idle/env": "workspace:*",
-    "@idle/infra": "workspace:*",
     "@idle/http": "workspace:*",
+    "@idle/infra": "workspace:*",
     "@idle/model": "workspace:*",
-    "@vanilla-extract/css": "^1.15.1",
-    "antd": "^5.16.5",
+    "@vanilla-extract/css": "^1.15.2",
+    "antd": "^5.18.1",
     "appwrite": "^14.0.1",
-    "axios": "^1.6.8",
-    "jotai": "^2.8.0",
+    "axios": "^1.7.2",
+    "inversify": "^6.0.2",
+    "inversify-react": "^1.1.1",
+    "jotai": "^2.8.3",
     "pusher-js": "8.4.0-rc2",
     "react": "^18.3.1",
     "react-cookie": "^7.1.4",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.23.0",
+    "react-router-dom": "^6.23.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
     "swr": "^2.2.5",
-    "zod": "^3.23.5"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/react": "^18.3.1",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "vite": "^5.2.10",
+    "vite": "^5.2.13",
     "vite-tsconfig-paths": "^4.3.2"
   }
 }

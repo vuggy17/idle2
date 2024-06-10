@@ -10,7 +10,6 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export const rootPath = join(fileURLToPath(import.meta.url), '..', '..');
 export const workspaceRoot = join(rootPath, '..', '..', '..');
-console.log('🚀 ~ workspaceRoot:', workspaceRoot);
 const webPublicPath = join(
   workspaceRoot,
   'packages',

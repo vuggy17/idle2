@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import type { FriendRequest } from '../../../data/domain/friend-request';
-import { AsyncLock } from '../../../utils/async-lock';
-import type { SyncServer } from '../server';
+import { AsyncLock } from '../../../../utils/async-lock';
+import type { RealtimeServer } from '../server';
 
 export class MiniSyncServer {
   lock = new AsyncLock();
@@ -18,7 +18,7 @@ export class MiniSyncServer {
   }
 }
 
-export class FriendRequestSyncServer implements SyncServer {
+export class FriendRequestSyncServer implements RealtimeServer {
   constructor(
     private readonly id: string,
     private readonly server: MiniSyncServer,

@@ -5,7 +5,7 @@
       "label": "Start dev client",
       "type": "npm",
       "script": "dev:web",
-      "detail": "nx dev @idle/core",
+      "detail": "nx dev @idle/cli",
       "problemMatcher": []
     },
     {

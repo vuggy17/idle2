@@ -1,13 +1,11 @@
-import { RequestEngine } from './sync/request/engine';
-import { MemoryFriendRequestStorage } from './sync/request/storage';
-import { ID } from './utils/id';
+import type { Container } from 'inversify';
+
+import { configureFriendRequestModule } from './modules/requests';
 
 export const INFRA = 'infra';
+export * from './di/tokens';
+export * from './modules/requests';
 
-const storage = new MemoryFriendRequestStorage();
-const engine = new RequestEngine(storage);
-engine.addRequest(ID.unique(), ID.unique());
-engine.start();
-await engine.waitForSynced();
-
-console.log('le', storage.docDb.keys());
+export function configureInfraModule(container: Container) {
+  configureFriendRequestModule(container);
+}

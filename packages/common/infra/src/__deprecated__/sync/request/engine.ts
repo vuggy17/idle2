@@ -2,8 +2,8 @@
 import { map } from 'rxjs';
 
 import type { FriendRequest } from '../../data/domain/friend-request';
-import { LiveData } from '../../livedata';
-import { LocalSyncEngine } from './local';
+import { LiveData } from '../../../livedata';
+import { FriendRequestLocalPeer } from './local';
 import type { FriendRequestStorage } from './storage';
 import { RequestStorageInner } from './storage';
 
@@ -12,7 +12,7 @@ const logger = console;
 export class RequestEngine {
   private storage: RequestStorageInner;
 
-  private local: LocalSyncEngine;
+  private local: FriendRequestLocalPeer;
 
   abort = new AbortController();
 
@@ -39,7 +39,7 @@ export class RequestEngine {
 
   constructor(storage: FriendRequestStorage) {
     this.storage = new RequestStorageInner(storage);
-    this.local = new LocalSyncEngine(this.storage);
+    this.local = new FriendRequestLocalPeer(this.storage);
   }
 
   start() {

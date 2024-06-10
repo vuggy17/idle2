@@ -20,6 +20,21 @@ class FriendCollection extends APICollection {
       return [];
     }
   }
+
+  async modifyRequest(
+    requestId: string,
+    action: 'decline' | 'accept' | 'cancel',
+  ) {
+    await this.client.post<FriendRequestDTO>(
+      `${this.getUrl('request')}/modify`,
+      {
+        id: requestId,
+        action,
+      },
+    );
+
+    return requestId;
+  }
 }
 
 const friendApis = new FriendCollection('friend');

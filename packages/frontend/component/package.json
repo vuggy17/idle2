@@ -9,17 +9,17 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
-    "@vanilla-extract/css": "^1.15.1",
-    "antd": "^5.16.5",
+    "@vanilla-extract/css": "^1.15.2",
+    "antd": "^5.18.1",
     "antd-style": "^3.6.2",
     "classnames": "^2.5.1",
-    "jotai": "^2.8.0",
+    "jotai": "^2.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "@types/react": "^18.3.1",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0"
   },
   "version": "0.0.0"

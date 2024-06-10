@@ -1,4 +1,5 @@
 import { List } from '@idle/component';
+import { fetcher } from '@idle/http';
 import {
   Avatar,
   Button,
@@ -65,37 +66,63 @@ function FriendRequestTitle({
   );
 }
 
-export function RequestButtons({
-  showAcceptButton,
+function RequestButtons({
+  showCancelButtonOnly,
   onAccept,
   onDecline,
+  onCancel,
 }: {
-  showAcceptButton: boolean;
+  showCancelButtonOnly: boolean;
   onAccept: () => void;
   onDecline: () => void;
+  onCancel: () => void;
 }) {
   return (
     <Space>
-      {showAcceptButton && (
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#218247',
-            },
-          }}
-        >
-          <Tooltip title="Accept">
-            <Button
-              shape="circle"
-              icon={<Check size={24} />}
-              onClick={onAccept}
-            />
-          </Tooltip>
-        </ConfigProvider>
+      {showCancelButtonOnly ? (
+        <Tooltip title="Cancel">
+          <Button
+            shape="circle"
+            icon={<XMark size={24} />}
+            onClick={onCancel}
+          />
+        </Tooltip>
+      ) : (
+        <Space>
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: '#218247',
+              },
+            }}
+          >
+            <Tooltip title="Accept">
+              <Button
+                shape="circle"
+                icon={<Check size={24} />}
+                onClick={onAccept}
+              />
+            </Tooltip>
+          </ConfigProvider>
+
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: '#ff4d4f',
+              },
+            }}
+          >
+            <Tooltip title="Decline">
+              <Button
+                danger
+                shape="circle"
+                icon={<XMark size={24} />}
+                onClick={onDecline}
+              />
+            </Tooltip>
+          </ConfigProvider>
+        </Space>
       )}
-      <Tooltip title="Decline">
-        <Button shape="circle" icon={<XMark size={24} />} onClick={onDecline} />
-      </Tooltip>
     </Space>
   );
 }
@@ -103,9 +130,11 @@ export function RequestButtons({
 function FriendRequestList({
   onRequestAccept,
   onRequestDecline,
+  onRequestCancel,
 }: {
   onRequestAccept: (reqId: string) => void;
   onRequestDecline: (reqId: string) => void;
+  onRequestCancel: (reqId: string) => void;
 }) {
   const { data, isLoading } = useFriendRequests();
 
@@ -120,7 +149,8 @@ function FriendRequestList({
         <List.Item
           extra={
             <RequestButtons
-              showAcceptButton={req.sentByMe === false}
+              showCancelButtonOnly={req.sentByMe}
+              onCancel={() => onRequestCancel(req.id)}
               onAccept={() => onRequestAccept(req.id)}
               onDecline={() => onRequestDecline(req.id)}
             />
@@ -148,21 +178,30 @@ function FriendRequestList({
 }
 
 export default function PendingRequestPanel() {
-  const { reload, total: pendingRequestCount } = useFriendRequests();
+  const {
+    total: pendingRequestCount,
+    accept,
+    cancel,
+    decline,
+  } = useFriendRequests();
 
   const onRequestAccept = useCallback(
     async (reqId: string) => {
-      // send api
-      await reload();
+      await accept(reqId);
     },
-    [reload],
+    [accept],
   );
   const onRequestDecline = useCallback(
     async (reqId: string) => {
-      // send api
-      await reload();
+      await decline(reqId);
     },
-    [reload],
+    [decline],
+  );
+  const onRequestCancel = useCallback(
+    async (reqId: string) => {
+      await cancel(reqId);
+    },
+    [cancel],
   );
 
   return (
@@ -181,6 +220,7 @@ export default function PendingRequestPanel() {
           </Typography.Text>
 
           <FriendRequestList
+            onRequestCancel={onRequestCancel}
             onRequestAccept={onRequestAccept}
             onRequestDecline={onRequestDecline}
           />

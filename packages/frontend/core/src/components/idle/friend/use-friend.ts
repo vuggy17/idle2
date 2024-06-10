@@ -1,6 +1,8 @@
 import { fetcher } from '@idle/http';
+import { FriendRequestService } from '@idle/infra';
+import { useLiveData } from '@idle/infra/livedata';
+import { useInjection } from 'inversify-react';
 import { useCallback } from 'react';
-import useSWR from 'swr';
 
 import { useCurrentUser } from '../../../hooks/use-session';
 
@@ -20,27 +22,38 @@ type DisplayFriendRequest = {
 
 export function useFriendRequests() {
   const currentUser = useCurrentUser();
-  const { data, isLoading, mutate } = useSWR('friend-request-list', () =>
-    fetcher.friend.getPendingFriendRequests(),
-  );
+  const service = useInjection(FriendRequestService);
+  const data = useLiveData(service.list.requests$);
+  const isLoading = useLiveData(service.revalidating$);
 
-  let requests: DisplayFriendRequest[] = [];
-  if (data) {
-    requests = data.map((req) => {
-      const sentByMe = req.senderId === currentUser.id;
-      return {
-        id: req.id,
-        sentByMe,
-        subject: sentByMe ? req.sender : req.receiver,
-        createdAt: req.createdAt,
-      };
-    });
-  }
+  const requests: DisplayFriendRequest[] = data.map((req) => {
+    const sentByMe = req.senderId === currentUser.id;
+    return {
+      id: req.id,
+      sentByMe,
+      subject: sentByMe ? req.receiver : req.sender,
+      createdAt: req.createdAt,
+    };
+  });
 
   return {
     total: requests.length,
     data: requests,
     isLoading,
-    reload: useCallback(() => mutate(), [mutate]),
+    decline: useCallback(async (requestId: string) => {
+      await fetcher.friend.modifyRequest(requestId, 'decline');
+    }, []),
+    accept: useCallback(
+      async (requestId: string) => {
+        await service.cancelRequest(requestId);
+      },
+      [service],
+    ),
+    cancel: useCallback(
+      async (requestId: string) => {
+        await service.cancelRequest(requestId);
+      },
+      [service],
+    ),
   };
 }

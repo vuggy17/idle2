@@ -1,4 +1,4 @@
-import { FriendRequestDTO } from '@idle/model';
+import { FriendRequestDTO, FriendRequestModifyDTO } from '@idle/model';
 import {
   BadRequestException,
   Body,
@@ -51,6 +51,34 @@ export class FriendController {
         updatedAt: req.updatedAt.getTime() / 1000,
       },
     }));
+  }
+
+  @Post('request/modify')
+  async modifyRequest(
+    @AuthUser() author: AuthUser,
+    @Body() body: { id: string; action: 'accept' | 'decline' | 'cancel' },
+  ): Promise<FriendRequestModifyDTO> {
+    const request = await this.friendService.modifyFriendRequest(
+      body.id,
+      author.id,
+      body.action,
+    );
+
+    return {
+      ...request,
+      createdAt: request.createdAt.getTime() / 1000,
+      updatedAt: request.updatedAt.getTime() / 1000,
+      sender: {
+        ...request.sender,
+        createdAt: request.createdAt.getTime() / 1000,
+        updatedAt: request.updatedAt.getTime() / 1000,
+      },
+      receiver: {
+        ...request.receiver,
+        createdAt: request.createdAt.getTime() / 1000,
+        updatedAt: request.updatedAt.getTime() / 1000,
+      },
+    };
   }
   // #endregion
 }

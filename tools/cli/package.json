@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "@idle/env": "workspace:*",
-    "esbuild": "^0.21.3",
     "dotenv": "^16.4.5",
-    "vite": "^5.2.10",
+    "esbuild": "^0.21.5",
+    "vite": "^5.2.13",
     "vite-plugin-html": "^3.2.2"
   },
   "devDependencies": {
-    "@types/node": "^20.12.8",
+    "@types/node": "^20.14.2",
     "ts-node": "10.9.2"
   }
 }

@@ -1,6 +1,6 @@
 import type { FriendRequest } from '../../data/domain/friend-request';
 
-export interface SyncServer {
+export interface RealtimeServer {
   pull(reqId: string): Promise<FriendRequest | null>;
 
   push(reqId: string, data: FriendRequest): Promise<string>;

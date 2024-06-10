@@ -1,0 +1,1396 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.2.3",
+  "deps": {
+    "axios": "^1.7.2",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.6.3",
+    "@idle/cli": "workspace:*",
+    "@idle/env": "workspace:*",
+    "@nx/js": "18.3.4",
+    "@testing-library/react": "^15.0.7",
+    "@types/eslint": "^8.56.10",
+    "@types/idle__env": "workspace:*",
+    "@typescript-eslint/eslint-plugin": "7.8.0",
+    "@typescript-eslint/parser": "7.8.0",
+    "@vanilla-extract/vite-plugin": "^4.0.9",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "fast-glob": "^3.3.2",
+    "happy-dom": "^14.11.0",
+    "nx": "18.3.4",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "pathMappings": {
+    "@idle/component": [
+      "./packages/frontend/component/src/index"
+    ],
+    "@idle/component/*": [
+      "./packages/frontend/component/src/components/*/index",
+      "./packages/frontend/component/src/components/*"
+    ],
+    "@idle/core/*": [
+      "./packages/frontend/core/src/*"
+    ],
+    "@idle/env": [
+      "./packages/common/env/src"
+    ],
+    "@idle/env/*": [
+      "./packages/common/env/src/*"
+    ],
+    "@idle/http": [
+      "./packages/frontend/http/src/index"
+    ],
+    "@idle/model": [
+      "./packages/common/model/src/index"
+    ],
+    "@idle/infra": [
+      "./packages/common/infra/src/index"
+    ],
+    "@idle/infra/*": [
+      "./packages/common/infra/src/*"
+    ],
+    "@idle/server/*": [
+      "./packages/backend/server/src/*"
+    ],
+    "@idle/cli/*": [
+      "./tools/cli/src/*"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": false
+    }
+  },
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".gitignore",
+        "hash": "4853781178728384295"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "hash": "2401587972596082210"
+      },
+      {
+        "file": "tsconfig.eslint.json",
+        "hash": "6330145778306701015"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "10645468810153923488"
+      },
+      {
+        "file": "vitest.config.ts",
+        "hash": "15082709738404997282"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "10581464447441298666"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "6152541586989103640"
+      },
+      {
+        "file": ".env.example",
+        "hash": "11805229567236852596"
+      },
+      {
+        "file": ".node-version",
+        "hash": "14959362050400936000"
+      },
+      {
+        "file": "pnpm-workspace.yaml",
+        "hash": "10197655730111162862"
+      },
+      {
+        "file": "nx.json",
+        "hash": "16274475163322882270"
+      },
+      {
+        "file": "README.md",
+        "hash": "160322014401293940"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": ".devcontainer/setup-user.sh",
+        "hash": "4950964258260141887"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "hash": "3741871996977371218"
+      },
+      {
+        "file": ".devcontainer/devcontainer.json",
+        "hash": "324396680386096284"
+      },
+      {
+        "file": "scripts/setup-global.ts",
+        "hash": "18295111530832641067"
+      },
+      {
+        "file": ".eslintrc.cjs",
+        "hash": "6928635717816458220"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "9076590426565627364"
+      },
+      {
+        "file": "vitest.workspace.ts",
+        "hash": "16396322914580031330"
+      },
+      {
+        "file": ".devcontainer/build.sh",
+        "hash": "1620863202877386839"
+      },
+      {
+        "file": "package.json",
+        "hash": "12982399114520865245"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "17055523320481239164"
+      },
+      {
+        "file": ".eslintcache",
+        "hash": "902130357843614793"
+      },
+      {
+        "file": "tsconfig.node.json",
+        "hash": "11771952050352795480"
+      },
+      {
+        "file": ".devcontainer/docker-compose.yml",
+        "hash": "29016475429732905"
+      },
+      {
+        "file": ".devcontainer/Dockerfile",
+        "hash": "10492034140594886824"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "17108035681327808679"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": ".vscode/tasks.json",
+        "hash": "2988290592382606132"
+      }
+    ],
+    "projectFileMap": {
+      "@idle/http": [
+        {
+          "file": "packages/frontend/http/package.json",
+          "hash": "4189759310788087586",
+          "deps": [
+            "npm:appwrite@14.0.1",
+            "@idle/env",
+            "@idle/model",
+            "npm:axios"
+          ]
+        },
+        {
+          "file": "packages/frontend/http/src/apis/auth.ts",
+          "hash": "17071721185609105976"
+        },
+        {
+          "file": "packages/frontend/http/src/apis/friend.ts",
+          "hash": "7638513036848671912"
+        },
+        {
+          "file": "packages/frontend/http/src/apis/upload.ts",
+          "hash": "4689004075268407688"
+        },
+        {
+          "file": "packages/frontend/http/src/apis/user.ts",
+          "hash": "7671492206472182418"
+        },
+        {
+          "file": "packages/frontend/http/src/config/axios.ts",
+          "hash": "16405447585967247610"
+        },
+        {
+          "file": "packages/frontend/http/src/index.ts",
+          "hash": "5282527541975230012"
+        },
+        {
+          "file": "packages/frontend/http/tsconfig.json",
+          "hash": "10893865386262731863"
+        }
+      ],
+      "@idle/web": [
+        {
+          "file": "packages/frontend/web/index.html",
+          "hash": "14450416222139684986"
+        },
+        {
+          "file": "packages/frontend/web/package.json",
+          "hash": "17962263653048373193",
+          "deps": [
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "@idle/component",
+            "@idle/core",
+            "@idle/env",
+            "npm:inversify",
+            "npm:inversify-react",
+            "npm:react",
+            "npm:react-dom",
+            "npm:react-router-dom",
+            "npm:reflect-metadata"
+          ]
+        },
+        {
+          "file": "packages/frontend/web/src/app.tsx",
+          "hash": "2588919567459009180"
+        },
+        {
+          "file": "packages/frontend/web/src/index.tsx",
+          "hash": "1202471233179926576"
+        },
+        {
+          "file": "packages/frontend/web/tsconfig.json",
+          "hash": "2672510396972771489"
+        }
+      ],
+      "@idle/functions": [
+        {
+          "file": "packages/backend/functions/.gitignore",
+          "hash": "3009140142791806673"
+        },
+        {
+          "file": "packages/backend/functions/README.md",
+          "hash": "12099049851431847548"
+        },
+        {
+          "file": "packages/backend/functions/env.example",
+          "hash": "18352721812583443705"
+        },
+        {
+          "file": "packages/backend/functions/package-lock.json",
+          "hash": "3734128035910748692"
+        },
+        {
+          "file": "packages/backend/functions/package.json",
+          "hash": "10295501033083386483",
+          "deps": [
+            "npm:@types/node",
+            "npm:prisma",
+            "npm:@prisma/client",
+            "npm:node-appwrite",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "packages/backend/functions/prisma/schema.prisma",
+          "hash": "9648954048954975721"
+        },
+        {
+          "file": "packages/backend/functions/src/main.ts",
+          "hash": "13000213320338357674"
+        },
+        {
+          "file": "packages/backend/functions/tsconfig.json",
+          "hash": "17400670939356780531"
+        }
+      ],
+      "@types/idle__env": [
+        {
+          "file": "tools/@types/env/__all.d.ts",
+          "hash": "7350171506997568894"
+        },
+        {
+          "file": "tools/@types/env/package.json",
+          "hash": "15220018140002293351",
+          "deps": [
+            "@idle/env"
+          ]
+        }
+      ],
+      "@idle/env": [
+        {
+          "file": "packages/common/env/package.json",
+          "hash": "11072661473091205380",
+          "deps": [
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "packages/common/env/src/constant.ts",
+          "hash": "3966054442886081083"
+        },
+        {
+          "file": "packages/common/env/src/global.ts",
+          "hash": "1345858267283816997"
+        },
+        {
+          "file": "packages/common/env/tsconfig.json",
+          "hash": "13571881673340609104"
+        }
+      ],
+      "@idle/model": [
+        {
+          "file": "packages/common/model/package.json",
+          "hash": "15223051591336127822"
+        },
+        {
+          "file": "packages/common/model/src/dtos/common.ts",
+          "hash": "15545928473137944848"
+        },
+        {
+          "file": "packages/common/model/src/dtos/friend-request.dto.ts",
+          "hash": "14529768714239687054"
+        },
+        {
+          "file": "packages/common/model/src/dtos/user-dto.ts",
+          "hash": "754217046760362590"
+        },
+        {
+          "file": "packages/common/model/src/index.ts",
+          "hash": "18212796577361446741"
+        },
+        {
+          "file": "packages/common/model/tsconfig.json",
+          "hash": "1306679194342417559"
+        }
+      ],
+      "@idle/core": [
+        {
+          "file": "packages/frontend/core/.gitignore",
+          "hash": "13046175384202504187"
+        },
+        {
+          "file": "packages/frontend/core/README.md",
+          "hash": "11460966644741158790"
+        },
+        {
+          "file": "packages/frontend/core/package.json",
+          "hash": "9520916014825445745",
+          "deps": [
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "npm:vite",
+            "npm:vite-tsconfig-paths",
+            "npm:@ant-design/icons",
+            "npm:@emotion/react",
+            "@idle/component",
+            "@idle/env",
+            "@idle/http",
+            "@idle/infra",
+            "@idle/model",
+            "npm:@vanilla-extract/css",
+            "npm:antd",
+            "npm:appwrite",
+            "npm:axios",
+            "npm:inversify",
+            "npm:inversify-react",
+            "npm:jotai",
+            "npm:pusher-js",
+            "npm:react",
+            "npm:react-cookie",
+            "npm:react-dom",
+            "npm:react-router-dom",
+            "npm:reflect-metadata",
+            "npm:rxjs",
+            "npm:swr",
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "packages/frontend/core/public/bg.jpg",
+          "hash": "643809964050148755"
+        },
+        {
+          "file": "packages/frontend/core/public/vite.svg",
+          "hash": "16046085400642193116"
+        },
+        {
+          "file": "packages/frontend/core/src/assets/logo.png",
+          "hash": "17081039253560175146"
+        },
+        {
+          "file": "packages/frontend/core/src/assets/react.svg",
+          "hash": "16069471864800376455"
+        },
+        {
+          "file": "packages/frontend/core/src/atoms/ui.ts",
+          "hash": "12918121549973878884"
+        },
+        {
+          "file": "packages/frontend/core/src/boostrap/first-app-data.ts",
+          "hash": "6786102372588563879"
+        },
+        {
+          "file": "packages/frontend/core/src/components/app-sidebar/index.css.ts",
+          "hash": "5474617212100949425"
+        },
+        {
+          "file": "packages/frontend/core/src/components/app-sidebar/index.tsx",
+          "hash": "14194657285120406893"
+        },
+        {
+          "file": "packages/frontend/core/src/components/app-sidebar/sidebar-header/icon.tsx",
+          "hash": "3095721700720936888"
+        },
+        {
+          "file": "packages/frontend/core/src/components/app-sidebar/sidebar-header/index.css.ts",
+          "hash": "15623782278089960954"
+        },
+        {
+          "file": "packages/frontend/core/src/components/app-sidebar/sidebar-header/index.tsx",
+          "hash": "11734081528472627743"
+        },
+        {
+          "file": "packages/frontend/core/src/components/containers/index.css.ts",
+          "hash": "14192230149563255409"
+        },
+        {
+          "file": "packages/frontend/core/src/components/containers/index.tsx",
+          "hash": "14152554535076972751"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/auth-atom.tsx",
+          "hash": "10177393009836383304"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/auth-gateway.tsx",
+          "hash": "2764185695430547423"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/auth-helper.ts",
+          "hash": "11665365719766230024"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/auth-modal.tsx",
+          "hash": "480211458362319765"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/panels/after-sign-in-email.tsx",
+          "hash": "7590636073279295030"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/panels/change-emaiil.tsx",
+          "hash": "1978484652736948556"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/panels/components/panel.tsx",
+          "hash": "1975541112414796188"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/panels/create-password.tsx",
+          "hash": "9017241676679561301"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/panels/reset-password.tsx",
+          "hash": "8072865141773346921"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/panels/sign-in-with-email.tsx",
+          "hash": "9844889936542018718"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/panels/sign-in.tsx",
+          "hash": "6089167245296990877"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/panels/style.css.ts",
+          "hash": "16595974878880972255"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/auth/use-auth.ts",
+          "hash": "4410117016984948137"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/icons.tsx",
+          "hash": "7762341805813424894"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/index.tsx",
+          "hash": "3727845253040906964"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/panel-layout.tsx",
+          "hash": "15239002321447163395"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/panels/add-friend-panel.tsx",
+          "hash": "17199109335787629159"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/panels/pending-request.tsx",
+          "hash": "13260441649239853574"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/panels/style.css.ts",
+          "hash": "6536400425300573954"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/style.css.ts",
+          "hash": "17753797876512554150"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/types.ts",
+          "hash": "17743324008412966830"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/friend/use-friend.ts",
+          "hash": "17224681984793893662"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/setting/account-setting/index.tsx",
+          "hash": "13298588119506760911"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/setting/icons.tsx",
+          "hash": "11740657125169424601"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/setting/index.tsx",
+          "hash": "11113862255310945405"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/setting/sidebar.tsx",
+          "hash": "7710682767456230045"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/setting/style.css.ts",
+          "hash": "4158275683193447692"
+        },
+        {
+          "file": "packages/frontend/core/src/components/idle/setting/types.ts",
+          "hash": "17743324008412966830"
+        },
+        {
+          "file": "packages/frontend/core/src/components/realtime-events/event-provider.tsx",
+          "hash": "9436484774515381667"
+        },
+        {
+          "file": "packages/frontend/core/src/components/realtime-events/use-event.ts",
+          "hash": "14686965502715490274"
+        },
+        {
+          "file": "packages/frontend/core/src/components/room-list/index.tsx",
+          "hash": "8335614482277959899"
+        },
+        {
+          "file": "packages/frontend/core/src/components/room-list/room.css.ts",
+          "hash": "508401786624685362"
+        },
+        {
+          "file": "packages/frontend/core/src/components/room-list/room.tsx",
+          "hash": "1230205685309932422"
+        },
+        {
+          "file": "packages/frontend/core/src/components/root-app-sidebar/index.tsx",
+          "hash": "1125824032377748102"
+        },
+        {
+          "file": "packages/frontend/core/src/hooks/use-current-login-status.ts",
+          "hash": "13206886051192499200"
+        },
+        {
+          "file": "packages/frontend/core/src/hooks/use-navigate-helper.ts",
+          "hash": "11172579449971848809"
+        },
+        {
+          "file": "packages/frontend/core/src/hooks/use-session.ts",
+          "hash": "7340603056252202361"
+        },
+        {
+          "file": "packages/frontend/core/src/layouts/workspace-layout.tsx",
+          "hash": "12487073497566904980"
+        },
+        {
+          "file": "packages/frontend/core/src/modules/index.ts",
+          "hash": "9818299455338276150"
+        },
+        {
+          "file": "packages/frontend/core/src/modules/requests/impl/cloud-datasource.ts",
+          "hash": "7851718657393440737"
+        },
+        {
+          "file": "packages/frontend/core/src/modules/requests/impl/index.ts",
+          "hash": "7411231729730191197"
+        },
+        {
+          "file": "packages/frontend/core/src/pages/404.css.ts",
+          "hash": "13144260764866853752"
+        },
+        {
+          "file": "packages/frontend/core/src/pages/404.tsx",
+          "hash": "13147627814989300122"
+        },
+        {
+          "file": "packages/frontend/core/src/pages/auth.tsx",
+          "hash": "1157717145597182132"
+        },
+        {
+          "file": "packages/frontend/core/src/pages/index.tsx",
+          "hash": "4258092314265876864"
+        },
+        {
+          "file": "packages/frontend/core/src/pages/sign-in.tsx",
+          "hash": "9918563049887424401"
+        },
+        {
+          "file": "packages/frontend/core/src/providers/appwrite-client.ts",
+          "hash": "5787350053735985570"
+        },
+        {
+          "file": "packages/frontend/core/src/providers/auth-provider.tsx",
+          "hash": "5798191090089578126"
+        },
+        {
+          "file": "packages/frontend/core/src/providers/modal-provider.tsx",
+          "hash": "6435122740559441959"
+        },
+        {
+          "file": "packages/frontend/core/src/router.tsx",
+          "hash": "598216984300538686"
+        },
+        {
+          "file": "packages/frontend/core/src/vite-env.d.ts",
+          "hash": "12946363841406869089"
+        },
+        {
+          "file": "packages/frontend/core/tsconfig.json",
+          "hash": "5396830515037265192"
+        }
+      ],
+      "@idle/cli": [
+        {
+          "file": "tools/cli/package.json",
+          "hash": "11724565215048577523",
+          "deps": [
+            "npm:@types/node",
+            "npm:ts-node",
+            "@idle/env",
+            "npm:dotenv",
+            "npm:esbuild@0.21.5",
+            "npm:vite",
+            "npm:vite-plugin-html"
+          ]
+        },
+        {
+          "file": "tools/cli/src/bin/build.ts",
+          "hash": "6922299271770242373"
+        },
+        {
+          "file": "tools/cli/src/bin/dev.ts",
+          "hash": "12975586062063237964"
+        },
+        {
+          "file": "tools/cli/src/bin/preview-web.ts",
+          "hash": "1386537981737185320"
+        },
+        {
+          "file": "tools/cli/src/config/index.ts",
+          "hash": "10598089825743169357"
+        },
+        {
+          "file": "tools/cli/src/vite/config.ts",
+          "hash": "10082928706187839965"
+        },
+        {
+          "file": "tools/cli/src/vite/create-vite-config.ts",
+          "hash": "3876221870218662116"
+        },
+        {
+          "file": "tools/cli/src/vite/runtime.ts",
+          "hash": "11800262725509634900"
+        },
+        {
+          "file": "tools/cli/ts-loader.js",
+          "hash": "12060275296944069665"
+        },
+        {
+          "file": "tools/cli/tsconfig.json",
+          "hash": "11435223834546307654"
+        }
+      ],
+      "@idle/infra": [
+        {
+          "file": "packages/common/infra/package.json",
+          "hash": "284614020865354560",
+          "deps": [
+            "npm:@types/lodash-es",
+            "npm:@datastructures-js/binary-search-tree",
+            "@idle/env",
+            "npm:@paralleldrive/cuid2",
+            "npm:foxact",
+            "npm:inversify",
+            "npm:lodash-es",
+            "npm:mobx",
+            "npm:mobx-keystone",
+            "npm:reflect-metadata",
+            "npm:rxjs",
+            "npm:socket.io-client",
+            "npm:vitest"
+          ]
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/data/domain/friend-request.ts",
+          "hash": "5305115341361628661"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/data/domain/user.ts",
+          "hash": "6553621571594308557"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/storage/kv.ts",
+          "hash": "13767494264877125179"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/async-priority-queue.ts",
+          "hash": "3169125397448497485"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/event.ts",
+          "hash": "16100188980655965854"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/priority-queue.ts",
+          "hash": "2506202433620939183"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/request/__test__/engine.spec.ts",
+          "hash": "1112248569737217102"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/request/__test__/server.ts",
+          "hash": "14608379878373076539"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/request/engine.ts",
+          "hash": "16343601983272645596"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/request/local.ts",
+          "hash": "6588900577857977267"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/request/remote.ts",
+          "hash": "18049172390368103873"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/request/server.ts",
+          "hash": "17409030674443608391"
+        },
+        {
+          "file": "packages/common/infra/src/__deprecated__/sync/request/storage.ts",
+          "hash": "4685144811050098083"
+        },
+        {
+          "file": "packages/common/infra/src/di/tokens.ts",
+          "hash": "5660654014504440829"
+        },
+        {
+          "file": "packages/common/infra/src/index.ts",
+          "hash": "9097201295999151043"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/README.md",
+          "hash": "6471585476148858536"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/__tests__/livedata.spec.ts",
+          "hash": "3616343979493986097"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/__tests__/react.spec.tsx",
+          "hash": "17370879157395074940"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/effect/__tests__/effect.spec.ts",
+          "hash": "5179320405806330297"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/effect/index.ts",
+          "hash": "465459257541171711"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/index.ts",
+          "hash": "12593906593997222817"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/livedata.ts",
+          "hash": "16502896036345073106"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/ops.ts",
+          "hash": "17485844035131145862"
+        },
+        {
+          "file": "packages/common/infra/src/livedata/react.ts",
+          "hash": "6576552817849366008"
+        },
+        {
+          "file": "packages/common/infra/src/modules/requests/entites/requests.ts",
+          "hash": "16810222034624702087"
+        },
+        {
+          "file": "packages/common/infra/src/modules/requests/index.ts",
+          "hash": "13992584937677697694"
+        },
+        {
+          "file": "packages/common/infra/src/modules/requests/providers/datasource.ts",
+          "hash": "2150612397588121869"
+        },
+        {
+          "file": "packages/common/infra/src/modules/requests/services/request.ts",
+          "hash": "16172228325261479291"
+        },
+        {
+          "file": "packages/common/infra/src/modules/requests/stores/request.ts",
+          "hash": "17221715190730404295"
+        },
+        {
+          "file": "packages/common/infra/src/storage/memento.ts",
+          "hash": "5359257829713370280"
+        },
+        {
+          "file": "packages/common/infra/src/utils/async-lock.ts",
+          "hash": "8128791948155880774"
+        },
+        {
+          "file": "packages/common/infra/src/utils/id.ts",
+          "hash": "17998198062099717813"
+        },
+        {
+          "file": "packages/common/infra/src/utils/index.ts",
+          "hash": "18418086873408196069"
+        },
+        {
+          "file": "packages/common/infra/tsconfig.json",
+          "hash": "16117242708906338011"
+        }
+      ],
+      "@idle/component": [
+        {
+          "file": "packages/frontend/component/package.json",
+          "hash": "14168837838489029696",
+          "deps": [
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "npm:@emotion/react",
+            "npm:@vanilla-extract/css",
+            "npm:antd",
+            "npm:antd-style",
+            "npm:classnames",
+            "npm:jotai",
+            "npm:react",
+            "npm:react-dom",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/auth-panel-content.tsx",
+          "hash": "2026564920058533429"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/auth-panel-header.tsx",
+          "hash": "8356111939096269277"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/auth-panel.css.ts",
+          "hash": "13025275866980445716"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/avatar-upload.css.ts",
+          "hash": "4213073877213451555"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/avatar-upload.tsx",
+          "hash": "13026649662006613781"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/email-verified.tsx",
+          "hash": "17989699095932978587"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/index.tsx",
+          "hash": "9436163437141780461"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/modal.css.ts",
+          "hash": "7011343580071784972"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/modal.tsx",
+          "hash": "1124104747945966335"
+        },
+        {
+          "file": "packages/frontend/component/src/components/auth-components/reset-password.tsx",
+          "hash": "5480308029471098729"
+        },
+        {
+          "file": "packages/frontend/component/src/components/background/app-background.css",
+          "hash": "7080325330321183915"
+        },
+        {
+          "file": "packages/frontend/component/src/components/background/app-background.tsx",
+          "hash": "18097296159986951979"
+        },
+        {
+          "file": "packages/frontend/component/src/components/background/index.tsx",
+          "hash": "17857177322569072110"
+        },
+        {
+          "file": "packages/frontend/component/src/components/constants/prefix.ts",
+          "hash": "12502112116645893612"
+        },
+        {
+          "file": "packages/frontend/component/src/components/context/index.tsx",
+          "hash": "11698568467517339188"
+        },
+        {
+          "file": "packages/frontend/component/src/components/context/style.css.ts",
+          "hash": "868290838389876071"
+        },
+        {
+          "file": "packages/frontend/component/src/components/context/theme-context.tsx",
+          "hash": "1790497070842247930"
+        },
+        {
+          "file": "packages/frontend/component/src/components/provider-composer/index.tsx",
+          "hash": "8401058057011305054"
+        },
+        {
+          "file": "packages/frontend/component/src/components/root/glass-panel.css.ts",
+          "hash": "4803497915229801365"
+        },
+        {
+          "file": "packages/frontend/component/src/components/root/glass-panel.tsx",
+          "hash": "15318723003257017810"
+        },
+        {
+          "file": "packages/frontend/component/src/components/root/index.tsx",
+          "hash": "15605308190510863083"
+        },
+        {
+          "file": "packages/frontend/component/src/components/root/sidebar.tsx",
+          "hash": "5317513724740697275"
+        },
+        {
+          "file": "packages/frontend/component/src/index.ts",
+          "hash": "10027743872117223103"
+        },
+        {
+          "file": "packages/frontend/component/src/theme/global.css",
+          "hash": "13344843650773229301"
+        },
+        {
+          "file": "packages/frontend/component/src/ui/button/style.tsx",
+          "hash": "4893658411328933157"
+        },
+        {
+          "file": "packages/frontend/component/src/ui/list/index.tsx",
+          "hash": "13947352790195424644"
+        },
+        {
+          "file": "packages/frontend/component/src/ui/list/style.tsx",
+          "hash": "9212770226877115991"
+        },
+        {
+          "file": "packages/frontend/component/src/utils/glassy-util.ts",
+          "hash": "2903470258342076750"
+        },
+        {
+          "file": "packages/frontend/component/tsconfig.json",
+          "hash": "7009558685686347544"
+        }
+      ],
+      "@idle/server": [
+        {
+          "file": "packages/backend/server/.dockerignore",
+          "hash": "1237103453319307407"
+        },
+        {
+          "file": "packages/backend/server/.env.example",
+          "hash": "15086987212159472521"
+        },
+        {
+          "file": "packages/backend/server/.env.local",
+          "hash": "10593267705006762987"
+        },
+        {
+          "file": "packages/backend/server/Dockerfile",
+          "hash": "10886644518778032226"
+        },
+        {
+          "file": "packages/backend/server/Dockerfile.alpine",
+          "hash": "12182471761975994261"
+        },
+        {
+          "file": "packages/backend/server/README.md",
+          "hash": "15914771054742795113"
+        },
+        {
+          "file": "packages/backend/server/docker-compose.db.yml",
+          "hash": "3757275652140543875"
+        },
+        {
+          "file": "packages/backend/server/docker-compose.migrate.yml",
+          "hash": "3360057388198913545"
+        },
+        {
+          "file": "packages/backend/server/docker-compose.yml",
+          "hash": "17592311920875180532"
+        },
+        {
+          "file": "packages/backend/server/nest-cli.json",
+          "hash": "15740355341053244634"
+        },
+        {
+          "file": "packages/backend/server/package.json",
+          "hash": "5381418617514215909",
+          "deps": [
+            "npm:@nestjs/cli",
+            "npm:@nestjs/schematics",
+            "npm:@nestjs/testing",
+            "npm:@swc/cli",
+            "npm:@swc/core",
+            "npm:@types/bcrypt",
+            "npm:@types/chance",
+            "npm:@types/cookie-parser",
+            "npm:@types/express",
+            "npm:@types/jest",
+            "npm:@types/node",
+            "npm:@types/supertest",
+            "npm:@typescript-eslint/eslint-plugin",
+            "npm:@typescript-eslint/parser",
+            "npm:chance",
+            "npm:eslint",
+            "npm:jest",
+            "npm:prettier",
+            "npm:prisma",
+            "npm:prisma-dbml-generator",
+            "npm:supertest",
+            "npm:ts-jest",
+            "npm:ts-loader",
+            "npm:ts-node",
+            "npm:tsconfig-paths",
+            "npm:tsx",
+            "npm:typescript",
+            "npm:@devoxa/prisma-relay-cursor-connection",
+            "@idle/model",
+            "npm:@nestjs/bull",
+            "npm:@nestjs/common",
+            "npm:@nestjs/config",
+            "npm:@nestjs/core",
+            "npm:@nestjs/jwt",
+            "npm:@nestjs/passport",
+            "npm:@nestjs/platform-express",
+            "npm:@nestjs/swagger",
+            "npm:@prisma/client",
+            "npm:bcrypt",
+            "npm:bull",
+            "npm:class-transformer",
+            "npm:class-validator",
+            "npm:cloudinary",
+            "npm:cookie-parser",
+            "npm:express",
+            "npm:nestjs-prisma",
+            "npm:node-appwrite",
+            "npm:passport",
+            "npm:passport-jwt",
+            "npm:pusher",
+            "npm:reflect-metadata",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "packages/backend/server/prisma/dbml/schema.dbml",
+          "hash": "1830600277289617557"
+        },
+        {
+          "file": "packages/backend/server/prisma/schema.prisma",
+          "hash": "11899429443397937675"
+        },
+        {
+          "file": "packages/backend/server/prisma/seed.ts",
+          "hash": "16049376680623628655"
+        },
+        {
+          "file": "packages/backend/server/run.sh",
+          "hash": "5222122781260936684"
+        },
+        {
+          "file": "packages/backend/server/src/app.controller.spec.ts",
+          "hash": "14961790739218425811"
+        },
+        {
+          "file": "packages/backend/server/src/app.controller.ts",
+          "hash": "17943650535522326437"
+        },
+        {
+          "file": "packages/backend/server/src/app.module.ts",
+          "hash": "979786150969245283"
+        },
+        {
+          "file": "packages/backend/server/src/app.service.ts",
+          "hash": "18274012680921005061"
+        },
+        {
+          "file": "packages/backend/server/src/auth/auth.controller.ts",
+          "hash": "3042860080777907634"
+        },
+        {
+          "file": "packages/backend/server/src/auth/auth.module.ts",
+          "hash": "8958411130970788811"
+        },
+        {
+          "file": "packages/backend/server/src/auth/auth.repository.ts",
+          "hash": "13901249082809598632"
+        },
+        {
+          "file": "packages/backend/server/src/auth/auth.service.ts",
+          "hash": "4745675076228906089"
+        },
+        {
+          "file": "packages/backend/server/src/auth/dto/authenticate.input.ts",
+          "hash": "5910992674158962982"
+        },
+        {
+          "file": "packages/backend/server/src/auth/dto/jwt.dto.ts",
+          "hash": "17348174670390033281"
+        },
+        {
+          "file": "packages/backend/server/src/auth/dto/login.input.ts",
+          "hash": "6392748347281634607"
+        },
+        {
+          "file": "packages/backend/server/src/auth/dto/refresh-token.input.ts",
+          "hash": "9725725831484919328"
+        },
+        {
+          "file": "packages/backend/server/src/auth/dto/signup.input.ts",
+          "hash": "6169942153096562406"
+        },
+        {
+          "file": "packages/backend/server/src/auth/jwt-auth-guard.ts",
+          "hash": "15668105788105075541"
+        },
+        {
+          "file": "packages/backend/server/src/auth/jwt.strategy.ts",
+          "hash": "3093117977278367106"
+        },
+        {
+          "file": "packages/backend/server/src/auth/models/appwrite-factory.ts",
+          "hash": "14898201367618909326"
+        },
+        {
+          "file": "packages/backend/server/src/auth/models/auth.model.ts",
+          "hash": "13310681219988108678"
+        },
+        {
+          "file": "packages/backend/server/src/auth/models/token.model.ts",
+          "hash": "5906109151988950879"
+        },
+        {
+          "file": "packages/backend/server/src/auth/password.service.spec.ts",
+          "hash": "12395601865340131149"
+        },
+        {
+          "file": "packages/backend/server/src/auth/password.service.ts",
+          "hash": "7631934469811058429"
+        },
+        {
+          "file": "packages/backend/server/src/auth/sso.service.ts",
+          "hash": "18411525064692026417"
+        },
+        {
+          "file": "packages/backend/server/src/auth/token.service.ts",
+          "hash": "17934835904418480321"
+        },
+        {
+          "file": "packages/backend/server/src/common/configs/config.interface.ts",
+          "hash": "8899793767391591906"
+        },
+        {
+          "file": "packages/backend/server/src/common/configs/config.ts",
+          "hash": "1028454316203052409"
+        },
+        {
+          "file": "packages/backend/server/src/common/configs/injection-token.ts",
+          "hash": "1977815486736811675"
+        },
+        {
+          "file": "packages/backend/server/src/common/decorators/cookie-decorator.ts",
+          "hash": "4161399642207983"
+        },
+        {
+          "file": "packages/backend/server/src/common/decorators/public-route.decorator.ts",
+          "hash": "17960535925631508594"
+        },
+        {
+          "file": "packages/backend/server/src/common/decorators/user.decorator.ts",
+          "hash": "8636449445139925311"
+        },
+        {
+          "file": "packages/backend/server/src/common/models/base.model.ts",
+          "hash": "10826286175582381998"
+        },
+        {
+          "file": "packages/backend/server/src/common/order/order-direction.ts",
+          "hash": "2603837899851250200"
+        },
+        {
+          "file": "packages/backend/server/src/common/order/order.ts",
+          "hash": "8056223168565934258"
+        },
+        {
+          "file": "packages/backend/server/src/common/pagination/page-info.model.ts",
+          "hash": "5105850516870110899"
+        },
+        {
+          "file": "packages/backend/server/src/common/pagination/pagination.args.ts",
+          "hash": "12057730269042142158"
+        },
+        {
+          "file": "packages/backend/server/src/common/pagination/pagination.ts",
+          "hash": "17693563249800297018"
+        },
+        {
+          "file": "packages/backend/server/src/friend/dto/send-friend-request.input.ts",
+          "hash": "14189898216891209660"
+        },
+        {
+          "file": "packages/backend/server/src/friend/friend-request.repository.ts",
+          "hash": "17164718858607690471"
+        },
+        {
+          "file": "packages/backend/server/src/friend/friend.controller.ts",
+          "hash": "12903367579403565557"
+        },
+        {
+          "file": "packages/backend/server/src/friend/friend.module.ts",
+          "hash": "4125774638599124248"
+        },
+        {
+          "file": "packages/backend/server/src/friend/friend.processor.ts",
+          "hash": "9650170521159304564"
+        },
+        {
+          "file": "packages/backend/server/src/friend/friend.service.ts",
+          "hash": "10134801207492644866"
+        },
+        {
+          "file": "packages/backend/server/src/friend/model/friend-request.model.ts",
+          "hash": "11450016223841886781"
+        },
+        {
+          "file": "packages/backend/server/src/main.ts",
+          "hash": "18291107931052145090"
+        },
+        {
+          "file": "packages/backend/server/src/metadata.ts",
+          "hash": "17325015589914186544"
+        },
+        {
+          "file": "packages/backend/server/src/rt-message/event.ts",
+          "hash": "5357728222728065637"
+        },
+        {
+          "file": "packages/backend/server/src/rt-message/realtime-message.module.ts",
+          "hash": "11603544786344393358"
+        },
+        {
+          "file": "packages/backend/server/src/rt-message/realtime-message.service.ts",
+          "hash": "11666745550569605691"
+        },
+        {
+          "file": "packages/backend/server/src/rt-message/realtime.controller.ts",
+          "hash": "10078996966409690173"
+        },
+        {
+          "file": "packages/backend/server/src/upload/dto/upload.input.ts",
+          "hash": "10192273468141815303"
+        },
+        {
+          "file": "packages/backend/server/src/upload/upload.controller.ts",
+          "hash": "760684997895215069"
+        },
+        {
+          "file": "packages/backend/server/src/upload/upload.module.ts",
+          "hash": "6082798506112875838"
+        },
+        {
+          "file": "packages/backend/server/src/upload/upload.service.ts",
+          "hash": "16911519565533800200"
+        },
+        {
+          "file": "packages/backend/server/src/users/dto/change-password.input.ts",
+          "hash": "14452807957070208115"
+        },
+        {
+          "file": "packages/backend/server/src/users/dto/update-user.input.ts",
+          "hash": "18415417210707338886"
+        },
+        {
+          "file": "packages/backend/server/src/users/models/user.model.ts",
+          "hash": "8728384727626749203"
+        },
+        {
+          "file": "packages/backend/server/src/users/user.repository.ts",
+          "hash": "2923386160011648793"
+        },
+        {
+          "file": "packages/backend/server/src/users/users.controller.ts",
+          "hash": "8780925387279369553"
+        },
+        {
+          "file": "packages/backend/server/src/users/users.module.ts",
+          "hash": "9139925138015166491"
+        },
+        {
+          "file": "packages/backend/server/src/users/users.service.ts",
+          "hash": "2912504111192965266"
+        },
+        {
+          "file": "packages/backend/server/src/utils/assert-exist.ts",
+          "hash": "11322997891755404130"
+        },
+        {
+          "file": "packages/backend/server/test/app.e2e-spec.ts",
+          "hash": "14584995518151476513"
+        },
+        {
+          "file": "packages/backend/server/test/app.resolver.e2e-spec.ts",
+          "hash": "6078952959266956305"
+        },
+        {
+          "file": "packages/backend/server/test/jest-e2e.json",
+          "hash": "7570273541430074424"
+        },
+        {
+          "file": "packages/backend/server/tsconfig.build.json",
+          "hash": "14616499979645823952"
+        },
+        {
+          "file": "packages/backend/server/tsconfig.json",
+          "hash": "18156381099330586305"
+        }
+      ]
+    }
+  }
+}

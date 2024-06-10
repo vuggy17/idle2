@@ -1,0 +1,30 @@
+[NX Daemon Server] - 2024-06-12T09:10:27.772Z - Started listening on: /tmp/522ce326b988ed2558ab/d.sock
+[NX Daemon Server] - 2024-06-12T09:10:27.775Z - [WATCHER]: Subscribed to changes within: /home/vuggy17/workspace/idle2 (native)
+[NX Daemon Server] - 2024-06-12T09:10:27.776Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-06-12T09:10:27.777Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-06-12T09:10:27.778Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-06-12T09:10:27.783Z - [REQUEST]: Responding to the client. handleGlob
+[NX Daemon Server] - 2024-06-12T09:10:27.783Z - Done responding to the client handleGlob
+[NX Daemon Server] - 2024-06-12T09:10:27.784Z - Handled GLOB. Handling time: 4. Response time: 1.
+[NX Daemon Server] - 2024-06-12T09:10:27.903Z - [REQUEST]: Responding to the client. handleNxWorkspaceFiles
+[NX Daemon Server] - 2024-06-12T09:10:27.904Z - Done responding to the client handleNxWorkspaceFiles
+[NX Daemon Server] - 2024-06-12T09:10:27.904Z - Handled GET_NX_WORKSPACE_FILES. Handling time: 4. Response time: 1.
+[NX Daemon Server] - 2024-06-12T09:10:28.837Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-06-12T09:10:33.189Z - [WATCHER]: packages/backend/server/prisma/dbml/schema.dbml was modified
+[NX Daemon Server] - 2024-06-12T09:10:33.189Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-06-12T09:10:33.298Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-06-12T09:10:33.298Z - [REQUEST]: packages/backend/server/prisma/dbml/schema.dbml
+[NX Daemon Server] - 2024-06-12T09:10:33.298Z - [REQUEST]: 
+[NX Daemon Server] - 2024-06-12T09:10:33.607Z - Time taken for 'Load Nx Plugin: /home/vuggy17/workspace/idle2/node_modules/nx/src/plugins/project-json/build-nodes/package-json-next-to-project-json' 6.391660000000229ms
+[NX Daemon Server] - 2024-06-12T09:10:33.699Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-06-12T09:10:33.700Z - [WATCHER]: 14 file(s) created or restored, 0 file(s) modified, 6 file(s) deleted
+[NX Daemon Server] - 2024-06-12T09:10:33.803Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-06-12T09:10:33.803Z - [REQUEST]: tools/cli/package.json,packages/frontend/web/package.json,packages/frontend/component/package.json,packages/backend/functions/package.json,package.json,packages/common/infra/package.json,packages/frontend/http/package.json,packages/backend/server/package.json,packages/common/env/package.json,packages/frontend/core/package.json
+[NX Daemon Server] - 2024-06-12T09:10:33.803Z - [REQUEST]: packages/common/infra/package.json.963424353,packages/backend/server/package.json.3685903815,package.json.3011305431,packages/backend/functions/package.json.668044824,packages/frontend/web/package.json.6616149,packages/frontend/component/package.json.1212764493
+[NX Daemon Server] - 2024-06-12T09:10:33.876Z - Time taken for 'hash changed files from watcher' 1.313987000000452ms
+[NX Daemon Server] - 2024-06-12T10:49:12.926Z - [WATCHER]: packages/common/infra/src/di/tokens.ts was modified
+[NX Daemon Server] - 2024-06-12T10:49:12.931Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-06-12T10:49:13.135Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-06-12T10:49:13.135Z - [REQUEST]: packages/common/infra/src/di/tokens.ts
+[NX Daemon Server] - 2024-06-12T10:49:13.135Z - [REQUEST]: 
+[NX Daemon Server] - 2024-06-12T10:49:13.264Z - Time taken for 'hash changed files from watcher' 2.4248699992895126ms

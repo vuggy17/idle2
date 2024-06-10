@@ -6,8 +6,8 @@ import { applySnapshot, clone, fromSnapshot, getSnapshot } from 'mobx-keystone';
 import { Observable, Subject } from 'rxjs';
 
 import { FriendRequest } from '../../data/domain/friend-request';
-import { LiveData } from '../../livedata';
-import { ID } from '../../utils/id';
+import { LiveData } from '../../../livedata';
+import { ID } from '../../../utils/id';
 import { AsyncPriorityQueue } from '../async-priority-queue';
 import { RequestStorageInner } from './storage';
 
@@ -33,7 +33,7 @@ type Job =
       isInitialize: boolean;
     };
 
-export class LocalSyncEngine {
+export class FriendRequestLocalPeer {
   private readonly prioritySettings = new Map<string, number>();
 
   private statusUpdated$ = new Subject<string>();
