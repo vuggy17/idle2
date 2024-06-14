@@ -28,3 +28,6 @@
 [NX Daemon Server] - 2024-06-12T10:49:13.135Z - [REQUEST]: packages/common/infra/src/di/tokens.ts
 [NX Daemon Server] - 2024-06-12T10:49:13.135Z - [REQUEST]: 
 [NX Daemon Server] - 2024-06-12T10:49:13.264Z - Time taken for 'hash changed files from watcher' 2.4248699992895126ms
+[NX Daemon Server] - 2024-06-12T13:49:12.841Z - [WATCHER]: Stopping the watcher for /home/vuggy17/workspace/idle2 (sources)
+[NX Daemon Server] - 2024-06-12T13:49:12.843Z - [WATCHER]: Stopping the watcher for /home/vuggy17/workspace/idle2 (outputs)
+[NX Daemon Server] - 2024-06-12T13:49:12.844Z - Server stopped because: "10800000ms of inactivity"

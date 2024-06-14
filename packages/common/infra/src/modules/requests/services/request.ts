@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { inject, injectable, named } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { Observable } from 'rxjs';
 
 import { DI } from '../../../di/tokens';
@@ -14,9 +14,9 @@ import type { FriendRequestStore } from '../stores/request';
 export class FriendRequestService {
   list: FriendRequestList;
 
-  onRequestReceived$: LiveData;
+  onRequestReceived$: LiveData<string | null>;
 
-  revalidating$ = new LiveData(true);
+  isLoading$ = new LiveData(true);
 
   constructor(
     @inject(DI.TOKENS.FriendRequestDataSource)
@@ -27,7 +27,10 @@ export class FriendRequestService {
     this.list = new FriendRequestList(store);
     this.onRequestReceived$ = LiveData.from(
       new Observable((subscriber) => {
-        const off = this.dataSource.on('added', () => subscriber.next());
+        const off = this.dataSource.on('added', async (id) => {
+          await this.revalidate();
+          subscriber.next(id);
+        });
 
         return off;
       }),
@@ -48,7 +51,7 @@ export class FriendRequestService {
   async revalidate() {
     const requests = await this.dataSource.list();
     this.store.setRequests(requests);
-    this.revalidating$.next(false);
+    this.isLoading$.next(false);
   }
 
   sendRequest() {}

@@ -14,7 +14,7 @@ import { Content } from 'antd/es/layout/layout';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 
-import { friendAtom } from '../../../atoms/ui';
+import { friendAtom } from '../../atoms/ui';
 import { Group } from './icons';
 import { FriendPanelLayout } from './panel-layout';
 import AddFriendPanel from './panels/add-friend-panel';

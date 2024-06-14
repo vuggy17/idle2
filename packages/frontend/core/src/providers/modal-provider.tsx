@@ -11,7 +11,7 @@ const Auth = lazy(() =>
 );
 
 const FriendModal = lazy(() =>
-  import('../components/idle/friend').then((module) => ({
+  import('../components/friend').then((module) => ({
     default: module.FriendModal,
   })),
 );

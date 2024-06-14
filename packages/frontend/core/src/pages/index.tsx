@@ -1,9 +1,11 @@
 import { Button } from 'antd';
+import { useInjection } from 'inversify-react';
 import { useSetAtom } from 'jotai';
 
 import { authAtom } from '../components/idle/auth/auth-atom';
 import { useSession } from '../hooks/use-session';
 import { WorkspaceLayout } from '../layouts/workspace-layout';
+import { SocketService } from '../modules/socket/socket';
 
 export function Component() {
   const session = useSession();

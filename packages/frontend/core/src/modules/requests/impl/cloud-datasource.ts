@@ -1,9 +1,25 @@
 import { fetcher } from '@idle/http';
-import type { FriendRequest, FriendRequestDataSource } from '@idle/infra';
-import { injectable } from 'inversify';
+import {
+  DI,
+  type FriendRequest,
+  type FriendRequestDataSource,
+} from '@idle/infra';
+import { inject, injectable } from 'inversify';
+import type { Socket } from 'socket.io-client';
+
+import type { SocketService } from '../../socket/socket';
 
 @injectable()
 export class CloudFriendRequestDataSource implements FriendRequestDataSource {
+  private readonly socket: Socket;
+
+  constructor(
+    @inject(DI.TOKENS.SocketService)
+    private readonly socketService: SocketService,
+  ) {
+    this.socket = this.socketService.newSocket();
+  }
+
   async list(): Promise<FriendRequest[]> {
     const result = await fetcher.friend.getPendingFriendRequests();
     return result;
@@ -30,6 +46,7 @@ export class CloudFriendRequestDataSource implements FriendRequestDataSource {
   }
 
   async waitForConnected(signal: AbortSignal): Promise<void> {
+    console.log('connected ?', this.socket.connected);
     console.log('connected');
   }
 

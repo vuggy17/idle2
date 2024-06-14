@@ -4,7 +4,7 @@ import { useLiveData } from '@idle/infra/livedata';
 import { useInjection } from 'inversify-react';
 import { useCallback } from 'react';
 
-import { useCurrentUser } from '../../../hooks/use-session';
+import { useCurrentUser } from '../../hooks/use-session';
 
 type DisplayFriendRequest = {
   id: string;
@@ -24,7 +24,7 @@ export function useFriendRequests() {
   const currentUser = useCurrentUser();
   const service = useInjection(FriendRequestService);
   const data = useLiveData(service.list.requests$);
-  const isLoading = useLiveData(service.revalidating$);
+  const isLoading = useLiveData(service.isLoading$);
 
   const requests: DisplayFriendRequest[] = data.map((req) => {
     const sentByMe = req.senderId === currentUser.id;
