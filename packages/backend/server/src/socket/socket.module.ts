@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Pusher from 'pusher';
 
-import { RealtimeController } from './realtime.controller';
-import { RealtimeMessageService } from './realtime-message.service';
+import { SocketController } from './socket.controller';
+import { SocketService } from './socket.service';
 
 @Module({
-  controllers: [RealtimeController],
-  exports: [RealtimeMessageService],
+  controllers: [SocketController],
+  exports: [SocketService],
   providers: [
-    RealtimeMessageService,
+    SocketService,
     {
       provide: Pusher,
       useFactory: async () => {
@@ -27,4 +27,4 @@ import { RealtimeMessageService } from './realtime-message.service';
     },
   ],
 })
-export class RealtimeMessageModule {}
+export class SocketModule {}

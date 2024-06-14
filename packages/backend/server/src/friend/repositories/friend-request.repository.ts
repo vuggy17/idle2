@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import * as Prisma from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 
-import { assertExists } from '../utils/assert-exist';
+import { assertExists } from '../../utils/assert-exist';
 import {
   FriendRequest,
   FriendRequestStatus,
   FriendRequestWithUsers,
-} from './model/friend-request.model';
+} from '../model/friend-request.model';
 
 @Injectable()
 export class FriendRequestRepository {
@@ -25,7 +25,7 @@ export class FriendRequestRepository {
       },
     });
 
-    return new FriendRequest({
+    return new FriendRequestWithUsers({
       id: doc.id,
       createdAt: doc.createdAt,
       receiverId: doc.receiverId,

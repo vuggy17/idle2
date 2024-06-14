@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import config from './common/configs/config';
 import { RedisConfig } from './common/configs/config.interface';
 import { FriendModule } from './friend/friend.module';
-import { RealtimeMessageModule } from './rt-message/realtime-message.module';
+import { SocketModule } from './socket/socket.module';
 import { UploadModule } from './upload/upload.module';
 import { UsersModule } from './users/users.module';
 import { assertExists } from './utils/assert-exist';
@@ -49,7 +49,7 @@ import { assertExists } from './utils/assert-exist';
     UsersModule,
     UploadModule,
     FriendModule,
-    RealtimeMessageModule,
+    SocketModule,
   ],
   controllers: [AppController],
   providers: [AppService],

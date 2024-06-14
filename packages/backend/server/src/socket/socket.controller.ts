@@ -3,12 +3,12 @@ import { Response } from 'express';
 
 import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { AuthUser } from '../common/decorators/user.decorator';
-import { RealtimeMessageService } from './realtime-message.service';
+import { SocketService } from './socket.service';
 
 @Controller('ws')
 @UseGuards(JwtAuthGuard)
-export class RealtimeController {
-  constructor(private service: RealtimeMessageService) {}
+export class SocketController {
+  constructor(private service: SocketService) {}
 
   @Post()
   async handlePusherUserLogin(

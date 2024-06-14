@@ -1,42 +1,32 @@
-import { InjectQueue } from '@nestjs/bull';
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { Queue } from 'bull';
 
-import { UsersService } from '../users/users.service';
-import { FriendRequestRepository } from './friend-request.repository';
+import { UsersService } from '../../users/users.service';
+import { FriendRequestRepository } from '../repositories/friend-request.repository';
+import { FriendRequestQueueService } from './request-queue.service';
 
 @Injectable()
-export class FriendService {
+export class FriendRequestService {
   constructor(
+    private readonly friendRequestQueue: FriendRequestQueueService,
     private readonly friendRequestRepository: FriendRequestRepository,
     private readonly userService: UsersService,
-    @InjectQueue('friend') private jq: Queue,
   ) {}
 
-  async sendFriendRequest(fromUserId: string, toUsername: string) {
-    const user = await this.userService.findUserByUsername(toUsername);
-    try {
-      const req = await this.friendRequestRepository.create(
-        fromUserId,
-        user.id,
-      );
-
-      this.jq.add('new_req', req);
-
-      return req;
-    } catch (error) {
-      return this.friendRequestRepository.findFriendRequestBySenderAndReceiver(
-        fromUserId,
-        user.id,
-      );
-    }
+  async sendRequest(fromUserId: string, toUsername: string) {
+    const target = await this.userService.findUserByUsername(toUsername);
+    const req = await this.friendRequestRepository.create(
+      fromUserId,
+      target.id,
+    );
+    this.friendRequestQueue.schedule({ type: 'incoming', payload: req });
+    return req;
   }
 
-  getPendingFriendRequest(userId: string) {
+  getPendingRequest(userId: string) {
     return this.friendRequestRepository.getPendingReqsOfUser(userId);
   }
 
-  async modifyFriendRequest(
+  async modifyRequest(
     requestId: string,
     authorId: string,
     action: 'accept' | 'decline' | 'cancel',
