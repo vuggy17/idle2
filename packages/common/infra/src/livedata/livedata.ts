@@ -1,5 +1,4 @@
 /* eslint-disable max-classes-per-file */
-import { DebugLogger } from '@affine/debug';
 import type {
   InteropObservable,
   Observer,
@@ -24,7 +23,7 @@ import {
   throttleTime,
 } from 'rxjs';
 
-const logger = new DebugLogger('livedata');
+const logger = console;
 
 /**
  * LiveData is a reactive data type.
@@ -263,7 +262,7 @@ export class LiveData<T = unknown>
   }
 
   getValue = (): T => {
-    if (this.isPoisoned) {
+    if (this.isPoisoned && this.poisonedError) {
       throw this.poisonedError;
     }
     this.ops$.next('get');
@@ -271,7 +270,7 @@ export class LiveData<T = unknown>
   };
 
   setValue = (v: T) => {
-    if (this.isPoisoned) {
+    if (this.isPoisoned && this.poisonedError) {
       throw this.poisonedError;
     }
     this.raw$.next(v);
@@ -287,7 +286,7 @@ export class LiveData<T = unknown>
   }
 
   next = (v: T) => {
-    if (this.isPoisoned) {
+    if (this.isPoisoned && this.poisonedError) {
       throw this.poisonedError;
     }
     return this.setValue(v);
@@ -353,7 +352,6 @@ export class LiveData<T = unknown>
     );
   }
 
-  // eslint-disable-next-line rxjs/finnish
   asObservable(): Observable<T> {
     return new Observable<T>((subscriber) => {
       return this.subscribe(subscriber);
@@ -435,11 +433,11 @@ export class LiveData<T = unknown>
               return of([]);
             }
             return combineLatest(
-              v.map((v) => {
-                if (v instanceof LiveData) {
-                  return v.flat();
+              v.map((d) => {
+                if (d instanceof LiveData) {
+                  return d.flat();
                 }
-                return of(v);
+                return of(d);
               }),
             );
           }
@@ -455,7 +453,7 @@ export class LiveData<T = unknown>
       const subscription = this.subscribe((v) => {
         if (predicate(v)) {
           resolve(v as any);
-          setImmediate(() => {
+          setTimeout(() => {
             subscription.unsubscribe();
           });
         }
@@ -475,7 +473,7 @@ export class LiveData<T = unknown>
   }
 
   reactSubscribe = (cb: () => void) => {
-    if (this.isPoisoned) {
+    if (this.isPoisoned && this.poisonedError) {
       throw this.poisonedError;
     }
     this.ops$.next('watch');
@@ -489,11 +487,11 @@ export class LiveData<T = unknown>
   };
 
   reactGetSnapshot = () => {
-    if (this.isPoisoned) {
+    if (this.isPoisoned && this.poisonedError) {
       throw this.poisonedError;
     }
     this.ops$.next('watch');
-    setImmediate(() => {
+    setTimeout(() => {
       this.ops$.next('unwatch');
     });
     return this.raw$.value;

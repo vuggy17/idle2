@@ -1,22 +1,31 @@
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 
-import { RealtimeMessageModule } from '../rt-message/realtime-message.module';
+import { SocketModule } from '../socket/socket.module';
 import { UsersModule } from '../users/users.module';
 import { FriendController } from './friend.controller';
-import { FriendConsumer } from './friend.processor';
-import { FriendService } from './friend.service';
-import { FriendRequestRepository } from './friend-request.repository';
+import { FriendRequestRepository } from './repositories/friend-request.repository';
+import { FriendRequestService } from './services/friend-request.service';
+import {
+  FRIEND_REQUEST_QUEUE_NAME,
+  FriendRequestQueueConsumer,
+  FriendRequestQueueService,
+} from './services/request-queue.service';
 
 @Module({
   imports: [
-    RealtimeMessageModule,
+    SocketModule,
     UsersModule,
     BullModule.registerQueue({
-      name: 'friend',
+      name: FRIEND_REQUEST_QUEUE_NAME,
     }),
   ],
-  providers: [FriendService, FriendRequestRepository, FriendConsumer],
+  providers: [
+    FriendRequestRepository,
+    FriendRequestQueueConsumer,
+    FriendRequestQueueService,
+    FriendRequestService,
+  ],
   controllers: [FriendController],
 })
 export class FriendModule {}

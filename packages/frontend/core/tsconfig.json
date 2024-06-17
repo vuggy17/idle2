@@ -23,10 +23,16 @@
       "path": "../../frontend/http"
     },
     {
+      "path": "../../frontend/web"
+    },
+    {
       "path": "../../common/model"
     },
     {
       "path": "../../common/env"
+    },
+    {
+      "path": "../../common/infra"
     },
   ]
 }

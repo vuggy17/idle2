@@ -7,8 +7,6 @@ import { createServer } from 'vite';
 import { projectRoot } from '../config';
 import { createViteConfig } from '../vite/create-vite-config';
 
-// register('ts-node/esm', pathToFileURL('./'));
-
 const files = ['.env'];
 
 for (const file of files) {

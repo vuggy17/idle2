@@ -25,3 +25,30 @@ export type FriendRequestDTO = {
   };
   status: number;
 };
+
+export type FriendRequestModifyDTO = {
+  id: string;
+  createdAt: UnixDateTime;
+  updatedAt: UnixDateTime;
+  receiverId: string;
+  senderId: string;
+  sender?: {
+    id: string;
+    username: string;
+    email: string;
+    displayName: string;
+    password: string | null;
+    createdAt: UnixDateTime;
+    updatedAt: UnixDateTime;
+  };
+  receiver?: {
+    id: string;
+    username: string;
+    email: string;
+    displayName: string;
+    password: string | null;
+    createdAt: UnixDateTime;
+    updatedAt: UnixDateTime;
+  };
+  status: number;
+};

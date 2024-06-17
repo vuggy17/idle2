@@ -1,8 +1,7 @@
-import { DebugLogger } from '@affine/debug';
-import { Unreachable } from '@affine/env/constant';
+import { Unreachable } from '@idle/env/constant';
 import { type OperatorFunction, Subject } from 'rxjs';
 
-const logger = new DebugLogger('effect');
+const logger = console;
 
 export type Effect<T> = (T | undefined extends T // hack to detect if T is unknown
   ? () => void
@@ -75,7 +74,7 @@ export function effect<T, A, B, C, D, E, F>(
 export function effect(...args: any[]) {
   const subject$ = new Subject<any>();
 
-  const effectLocation = environment.isDebug
+  const effectLocation = true
     ? `(${new Error().stack?.split('\n')[2].trim()})`
     : '';
 
@@ -93,19 +92,19 @@ export function effect(...args: any[]) {
   const subscription = subject$.pipe.apply(subject$, args as any).subscribe({
     next(value) {
       const error = new EffectError('should not emit value', value);
-      setImmediate(() => {
+      setTimeout(() => {
         throw error;
       });
     },
     complete() {
       const error = new EffectError('effect unexpected complete');
-      setImmediate(() => {
+      setTimeout(() => {
         throw error;
       });
     },
     error(error) {
       const effectError = new EffectError('effect uncaught error', error);
-      setImmediate(() => {
+      setTimeout(() => {
         throw effectError;
       });
     },

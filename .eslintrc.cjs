@@ -1,4 +1,5 @@
 const { resolve } = require('node:path');
+const { escapeLeadingUnderscores } = require('typescript');
 
 const createPattern = (packageName) => [
   {
@@ -58,10 +59,22 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'max-classes-per-file': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'import/prefer-default-export': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        args: 'all',
+        argsIgnorePattern: '^_',
+        caughtErrors: 'all',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
+    ],
     'react/require-default-props': 'warn',
     'react/require-default-props': 'off',
     'react/jsx-props-no-spreading': [
@@ -108,6 +121,12 @@ module.exports = {
       },
     ],
     'no-plusplus': 'off',
+    '@typescript-eslint/no-use-before-define': [
+      'error',
+      {
+        classes: false,
+      },
+    ],
   },
   overrides: [
     ...allPackages.map((pkg) => ({

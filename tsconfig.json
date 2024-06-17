@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "verbatimModuleSyntax": true,
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": false,
@@ -17,7 +18,8 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "types": [
-      "idle__env"
+      "idle__env",
+      "reflect-metadata"
     ],
     "declaration": true,
     "declarationMap": true,
@@ -49,7 +51,7 @@
         "./packages/frontend/component/src/components/*"
       ],
       "@idle/core/*": [
-        "./packages/frontend/core/*"
+        "./packages/frontend/core/src/*"
       ],
       "@idle/env": [
         "./packages/common/env/src"
@@ -62,6 +64,12 @@
       ],
       "@idle/model": [
         "./packages/common/model/src/index"
+      ],
+      "@idle/infra": [
+        "./packages/common/infra/src/index"
+      ],
+      "@idle/infra/*": [
+        "./packages/common/infra/src/*",
       ],
       "@idle/server/*": [
         "./packages/backend/server/src/*"

@@ -1,4 +1,4 @@
-import { FriendRequestDTO } from '@idle/model';
+import { FriendRequestDTO, FriendRequestModifyDTO } from '@idle/model';
 import {
   BadRequestException,
   Body,
@@ -11,12 +11,12 @@ import {
 import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { AuthUser } from '../common/decorators/user.decorator';
 import { SendFriendRequestInput } from './dto/send-friend-request.input';
-import { FriendService } from './friend.service';
+import { FriendRequestService } from './services/friend-request.service';
 
 @Controller('friend')
 @UseGuards(JwtAuthGuard)
 export class FriendController {
-  constructor(private readonly friendService: FriendService) {}
+  constructor(private readonly friendRequestService: FriendRequestService) {}
 
   // #region Friend request
   @Post('request')
@@ -28,14 +28,14 @@ export class FriendController {
       throw new BadRequestException(
         'Cannot send friend request to self, try use another username instead',
       );
-    return this.friendService.sendFriendRequest(sender.id, body.toUsername);
+    return this.friendRequestService.sendRequest(sender.id, body.toUsername);
   }
 
   @Get('request')
   async getMyPendingFriendRequest(
     @AuthUser() user: AuthUser,
   ): Promise<FriendRequestDTO[]> {
-    const requests = await this.friendService.getPendingFriendRequest(user.id);
+    const requests = await this.friendRequestService.getPendingRequest(user.id);
     return requests.map((req) => ({
       ...req,
       createdAt: req.createdAt.getTime() / 1000,
@@ -51,6 +51,34 @@ export class FriendController {
         updatedAt: req.updatedAt.getTime() / 1000,
       },
     }));
+  }
+
+  @Post('request/modify')
+  async modifyRequest(
+    @AuthUser() author: AuthUser,
+    @Body() body: { id: string; action: 'accept' | 'decline' | 'cancel' },
+  ): Promise<FriendRequestModifyDTO> {
+    const request = await this.friendRequestService.modifyRequest(
+      body.id,
+      author.id,
+      body.action,
+    );
+
+    return {
+      ...request,
+      createdAt: request.createdAt.getTime() / 1000,
+      updatedAt: request.updatedAt.getTime() / 1000,
+      sender: {
+        ...request.sender,
+        createdAt: request.createdAt.getTime() / 1000,
+        updatedAt: request.updatedAt.getTime() / 1000,
+      },
+      receiver: {
+        ...request.receiver,
+        createdAt: request.createdAt.getTime() / 1000,
+        updatedAt: request.updatedAt.getTime() / 1000,
+      },
+    };
   }
   // #endregion
 }

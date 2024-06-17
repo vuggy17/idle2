@@ -3,4 +3,3 @@ import { setupGlobal } from '@idle/env/global';
 
 globalThis.runtimeConfig = getRuntimeConfig();
 setupGlobal();
-console.log(globalThis);

@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable consistent-return */
 import type { RuntimeConfig } from '@idle/env/global';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
@@ -40,8 +41,16 @@ export function createConfiguration(
 ): vite.UserConfig {
   return vite.defineConfig({
     plugins: [
-      react(),
-      tsconfigPaths(),
+      react({
+        parserConfig: (id) => {
+          if (id.endsWith('.ts'))
+            return { syntax: 'typescript', tsx: false, decorators: true };
+          if (id.endsWith('.tsx')) return { syntax: 'typescript', tsx: true };
+        },
+      }),
+      tsconfigPaths({
+        root: resolve(workspaceRoot),
+      }),
       vanillaExtractPlugin(),
       watchNodeModules(['@idle/component', '@idle/http']),
     ],

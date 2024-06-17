@@ -1,4 +1,3 @@
-// import "@idle/component/theme/global.css"
 import { setupGlobal } from '@idle/env/global';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -12,14 +11,5 @@ function mountApp() {
     </React.StrictMode>,
   );
 }
-
-function main() {
-  setupGlobal();
-  mountApp();
-}
-
-try {
-  main();
-} catch (err) {
-  console.error('Failed to bootstrap app', err);
-}
+setupGlobal();
+mountApp();

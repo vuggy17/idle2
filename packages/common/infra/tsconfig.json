@@ -1,11 +1,17 @@
 {
   "extends": "../../../tsconfig.json",
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ],
   "compilerOptions": {
     "composite": true,
     "noEmit": false,
     "outDir": "lib"
   },
+  "references": [
+    {
+      "path": "../env"
+    },
+  ]
 }
